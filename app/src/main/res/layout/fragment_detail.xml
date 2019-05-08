@@ -38,7 +38,7 @@
                 android:text="@string/text_alarm_sound_title"
                 app:layout_constraintTop_toBottomOf="@id/editAlarmName"
                 app:layout_constraintLeft_toLeftOf="parent"
-                style="@style/SettingAlarmText"/>
+                style="@style/TextSettingAlarm"/>
 
         <TextView
                 android:id="@+id/textAlarmSoundDetail"
@@ -47,14 +47,13 @@
                 android:text="@string/text_alarm_sound_content"
                 app:layout_constraintTop_toBottomOf="@id/textAlarmSound"
                 app:layout_constraintLeft_toLeftOf="parent"
-                style="@style/SettingAlarmTextDetail"/>
-
+                style="@style/TextSettingAlarmDetail"/>
         <View
                 android:id="@+id/viewLineSound"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_1"
                 app:layout_constraintTop_toBottomOf="@id/textAlarmSoundDetail"
-                style="@style/HorizontalLine"/>
+                style="@style/ViewHorizontalLine"/>
 
         <TextView
                 android:id="@+id/textVibrateTitle"
@@ -63,7 +62,7 @@
                 android:text="@string/text_vibration_title"
                 app:layout_constraintTop_toBottomOf="@id/viewLineSound"
                 app:layout_constraintLeft_toLeftOf="parent"
-                style="@style/SettingAlarmText"/>
+                style="@style/TextSettingAlarm"/>
 
         <Switch
                 android:id="@+id/switchVibration"
@@ -80,14 +79,14 @@
                 android:text="@string/text_vibration_content"
                 app:layout_constraintTop_toBottomOf="@id/textVibrateTitle"
                 app:layout_constraintLeft_toLeftOf="parent"
-                style="@style/SettingAlarmTextDetail"/>
+                style="@style/TextSettingAlarmDetail"/>
 
         <View
                 android:id="@+id/viewLineVibration"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_1"
                 app:layout_constraintTop_toBottomOf="@id/textVibrateContent"
-                style="@style/HorizontalLine"/>
+                style="@style/ViewHorizontalLine"/>
 
         <TextView
                 android:id="@+id/textMethodTitle"
@@ -96,7 +95,7 @@
                 android:text="@string/text_alarm_off_method_title"
                 app:layout_constraintTop_toBottomOf="@id/viewLineVibration"
                 app:layout_constraintLeft_toLeftOf="parent"
-                style="@style/SettingAlarmText"/>
+                style="@style/TextSettingAlarm"/>
 
         <TextView
                 android:id="@+id/textMethodContent"
@@ -105,7 +104,7 @@
                 android:text="@string/text_vibration_content"
                 app:layout_constraintTop_toBottomOf="@id/textMethodTitle"
                 app:layout_constraintLeft_toLeftOf="parent"
-                style="@style/SettingAlarmTextDetail"/>
+                style="@style/TextSettingAlarmDetail"/>
 
         <TextView
                 android:id="@+id/levelEasy"
@@ -114,7 +113,7 @@
                 android:text="@string/text_level_easy"
                 app:layout_constraintTop_toBottomOf="@id/textMethodContent"
                 app:layout_constraintLeft_toLeftOf="parent"
-                style="@style/SettingAlarmTextDetail"/>
+                style="@style/TextSettingAlarmDetail"/>
 
         <TextView
                 android:id="@+id/levelHard"
@@ -123,7 +122,7 @@
                 android:text="@string/text_level_hard"
                 app:layout_constraintTop_toBottomOf="@id/textMethodContent"
                 app:layout_constraintRight_toRightOf="parent"
-                style="@style/SettingAlarmTextDetail"/>
+                style="@style/TextSettingAlarmDetail"/>
 
         <SeekBar
                 android:id="@+id/seekBar"
@@ -141,7 +140,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_1"
                 app:layout_constraintTop_toBottomOf="@id/levelEasy"
-                style="@style/HorizontalLine"/>
+                style="@style/ViewHorizontalLine"/>
 
         <TextView
                 android:id="@+id/textSnoozeTitle"
@@ -150,7 +149,7 @@
                 android:text="@string/text_snooze_title"
                 app:layout_constraintTop_toBottomOf="@id/viewLineMethod"
                 app:layout_constraintLeft_toLeftOf="parent"
-                style="@style/SettingAlarmText"/>
+                style="@style/TextSettingAlarm"/>
 
         <TextView
                 android:id="@+id/textSnoozeContent"
@@ -160,7 +159,7 @@
                 android:paddingBottom="@dimen/dp_16"
                 app:layout_constraintTop_toBottomOf="@id/textSnoozeTitle"
                 app:layout_constraintLeft_toLeftOf="parent"
-                style="@style/SettingAlarmTextDetail"/>
+                style="@style/TextSettingAlarmDetail"/>
 
     </android.support.constraint.ConstraintLayout>
 </ScrollView>

@@ -1,9 +1,9 @@
-package com.asterisk.tuandao.alarmstudy.ui.home
+package com.asterisk.tuandao.alarmstudy.ui.detail
 
 import com.asterisk.tuandao.alarmstudy.base.BasePresenter
 import com.asterisk.tuandao.alarmstudy.base.BaseView
 
-interface HomeContract {
+interface DetailActivityContract {
 
     interface View : BaseView<Presenter> {
 
