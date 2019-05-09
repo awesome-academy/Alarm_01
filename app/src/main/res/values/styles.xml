@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
@@ -17,7 +15,6 @@
         <item name="android:layout_marginRight">@dimen/dp_8</item>
     </style>
 
-
     <style name="TextSettingAlarmDetail" parent="@android:style/Widget.TextView">
         <item name="android:textColor">@color/color_blue_text</item>
         <item name="android:textSize">@dimen/sp_16</item>
@@ -25,9 +22,8 @@
         <item name="android:layout_marginRight">@dimen/dp_8</item>
     </style>
 
-
     <style name="ViewHorizontalLine" >
-       <item name="android:background">@color/color_silver</item>
+        <item name="android:background">@color/color_silver</item>
         <item name="android:layout_marginTop">@dimen/dp_8</item>
         <item name="android:layout_marginLeft">@dimen/dp_8</item>
         <item name="android:layout_marginRight">@dimen/dp_8</item>

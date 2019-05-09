@@ -7,14 +7,14 @@ import com.asterisk.tuandao.alarmstudy.di.module.ApplicationModule
 
 class MainApplication : Application() {
 
-    lateinit var mApplicationComponent: ApplicationComponent
+    private lateinit var applicationComponent: ApplicationComponent
     override fun onCreate() {
         super.onCreate()
 
-        mApplicationComponent = DaggerApplicationComponent.builder()
+        applicationComponent = DaggerApplicationComponent.builder()
             .applicationModule(ApplicationModule(this))
             .build()
     }
 
-    fun getComponent() = mApplicationComponent
+    fun getComponent() = applicationComponent
 }

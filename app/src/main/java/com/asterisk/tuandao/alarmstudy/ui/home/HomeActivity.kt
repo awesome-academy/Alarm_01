@@ -7,6 +7,7 @@ import com.asterisk.tuandao.alarmstudy.R
 import com.asterisk.tuandao.alarmstudy.data.model.Alarm
 import kotlinx.android.synthetic.main.activity_home.*
 
+
 class HomeActivity : AppCompatActivity() {
 
     private val alarms: MutableList<Alarm> = ArrayList()

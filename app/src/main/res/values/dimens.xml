@@ -13,5 +13,7 @@
     <dimen name="dp_36">36dp</dimen>
     <dimen name="dp_48">48dp</dimen>
     <dimen name="sp_16">16sp</dimen>
+    <dimen name="dp_0">0dp</dimen>
     <dimen name="sp_60">60sp</dimen>
+    <dimen name="dp_15">15dp</dimen>
 </resources>
