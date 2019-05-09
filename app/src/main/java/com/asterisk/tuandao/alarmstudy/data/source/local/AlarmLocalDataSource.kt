@@ -9,4 +9,6 @@ import javax.inject.Singleton
 class AlarmLocalDataSource @Inject constructor(
     val appDatabase: AppDatabase,
     val executor: AppExecutors
-) : AlarmDataSource.Local
+) : AlarmDataSource.Local {
+
+}

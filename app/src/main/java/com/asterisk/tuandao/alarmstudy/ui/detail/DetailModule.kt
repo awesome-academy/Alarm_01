@@ -14,7 +14,7 @@ class DetailModule(val context: DetailContract.View) {
     fun provideContext() = context as DetailActivity
 
     @Provides
-    fun provideDetailView(): DetailContract.View{
+    fun provideDetailView(): DetailContract.View {
         return context
     }
 
@@ -26,7 +26,7 @@ class DetailModule(val context: DetailContract.View) {
 
     @Provides
     @DetailActivityScope
-    fun provideTimePickerDialog(): AlarmTimePickerDialog{
+    fun provideTimePickerDialog(): AlarmTimePickerDialog {
         return AlarmTimePickerDialog()
     }
 }

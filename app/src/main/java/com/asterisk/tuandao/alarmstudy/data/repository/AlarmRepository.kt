@@ -6,5 +6,5 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class AlarmRepository @Inject constructor(@Local val alarmLocalDataSource: AlarmDataSource.Local)
-    : AlarmDataSource.Local
+class AlarmRepository @Inject constructor(@Local val alarmLocalDataSource: AlarmDataSource.Local) :
+    AlarmDataSource.Local, AlarmDataSource.Storage

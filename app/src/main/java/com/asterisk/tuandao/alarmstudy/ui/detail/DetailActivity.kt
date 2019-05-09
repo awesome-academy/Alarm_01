@@ -4,22 +4,26 @@ import android.app.TimePickerDialog
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
+import android.util.Log
 import android.widget.TimePicker
 import com.asterisk.tuandao.alarmstudy.R
 import com.asterisk.tuandao.alarmstudy.base.MainApplication
-import com.asterisk.tuandao.alarmstudy.di.component.DaggerDetailActivityComponent
 import com.asterisk.tuandao.alarmstudy.di.component.DetailActivityComponent
+import com.asterisk.tuandao.alarmstudy.ui.dialog.AlarmSoundPickerDialog
 import com.asterisk.tuandao.alarmstudy.ui.dialog.AlarmTimePickerDialog
 import kotlinx.android.synthetic.main.activity_detail.*
 import kotlinx.android.synthetic.main.setting_feature_alarm.view.*
 import javax.inject.Inject
 
-class DetailActivity : AppCompatActivity(), DetailContract.View, TimePickerDialog.OnTimeSetListener{
+class DetailActivity : AppCompatActivity(), DetailContract.View, TimePickerDialog.OnTimeSetListener {
 
     @Inject
     override lateinit var presenter: DetailContract.Presenter
     @Inject
     lateinit var mTimePickerDialog: AlarmTimePickerDialog
+    @Inject
+    lateinit var mAlarmSoundPickerDialog: AlarmSoundPickerDialog
+    private val TAG = this::class.java.simpleName
     private lateinit var mDetailActivityComponent: DetailActivityComponent
     private lateinit var mAdapter: DayDetailAdapter
 
@@ -49,7 +53,7 @@ class DetailActivity : AppCompatActivity(), DetailContract.View, TimePickerDialo
 
     private fun handleTimePicker() {
         constraintAlarmTime.setOnClickListener {
-            presenter.openTimePicker()
+            presenter.getTimePicker()
         }
     }
 
@@ -57,10 +61,15 @@ class DetailActivity : AppCompatActivity(), DetailContract.View, TimePickerDialo
         mTimePickerDialog.show(supportFragmentManager, TIME_PICKER_DIALOG_TAG)
     }
 
+    override fun showAlarmSound() {
+        mAlarmSoundPickerDialog.show(supportFragmentManager, SOUND_PICKER_DIALOG_TAG)
+    }
+
     override fun onTimeSet(view: TimePicker?, hourOfDay: Int, minute: Int) {
     }
 
     companion object {
         const val TIME_PICKER_DIALOG_TAG = "time_picker"
+        const val SOUND_PICKER_DIALOG_TAG = "time_picker"
     }
 }
