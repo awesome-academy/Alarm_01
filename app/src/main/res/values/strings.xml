@@ -1,6 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">AlarmStudy</string>
     <string name="fake_text_next_alarm">All alarms are off</string>
     <string name="fake_day_of_week">A</string>
     <string name="fake_time">6:00</string>
+    <string name="text_hint_alarm_setting">Alarm Name</string>
+    <string name="text_alarm_sound_title">Alarm sound</string>
+    <string name="text_alarm_sound_content">Morning Glory</string>
+    <string name="text_vibration_title">Vibration</string>
+    <string name="text_vibration_content">Basic call</string>
+    <string name="text_alarm_off_method_title">Alarm off method</string>
+    <string name="text_level_hard">Hard</string>
+    <string name="text_level_easy">Easy</string>
+    <string name="text_snooze_title">Snooze</string>
+    <string name="text_snooze_content">5 minutes</string>
+    <string name="action_save">save</string>
+    <string name="action_cancel">cancel</string>
+    <string name="fake_hour">6</string>
+    <string name="fake_colon">:</string>
+    <string name="fake_minute">00</string>
 </resources>

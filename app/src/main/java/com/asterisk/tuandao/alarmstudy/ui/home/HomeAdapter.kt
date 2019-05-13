@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import com.asterisk.tuandao.alarmstudy.R
 import com.asterisk.tuandao.alarmstudy.data.model.Alarm
 import kotlinx.android.synthetic.main.item_home_alarm.view.*
+import kotlinx.android.synthetic.main.setting_feature_alarm.view.*
 
 class HomeAdapter(
     private val context: Context,
