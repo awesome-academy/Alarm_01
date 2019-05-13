@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
 
     <!-- Base application theme. -->
@@ -6,6 +7,33 @@
         <item name="colorPrimary">@color/color_primary</item>
         <item name="colorPrimaryDark">@color/color_primary_dark</item>
         <item name="colorAccent">@color/color_accent</item>
+    </style>
+
+    <style name="SettingAlarmText" parent="@android:style/Widget.TextView">
+        <item name="android:textColor">@color/color_white</item>
+        <item name="android:textSize">@dimen/sp_24</item>
+        <item name="android:layout_marginTop">@dimen/dp_8</item>
+        <item name="android:layout_marginLeft">@dimen/dp_8</item>
+        <item name="android:layout_marginRight">@dimen/dp_8</item>
+    </style>
+
+    <style name="SettingAlarmTextDetail" parent="@android:style/Widget.TextView">
+        <item name="android:textColor">@color/color_blue_text</item>
+        <item name="android:textSize">@dimen/sp_16</item>
+        <item name="android:layout_marginLeft">@dimen/dp_8</item>
+        <item name="android:layout_marginRight">@dimen/dp_8</item>
+    </style>
+
+    <style name="HorizontalLine" >
+       <item name="android:background">@color/color_silver</item>
+        <item name="android:layout_marginTop">@dimen/dp_8</item>
+        <item name="android:layout_marginLeft">@dimen/dp_8</item>
+        <item name="android:layout_marginRight">@dimen/dp_8</item>
+    </style>
+
+    <style name="ButtonSettingStyle">
+        <item name="android:background">@color/color_black</item>
+        <item name="android:textColor">@color/color_blue_text</item>
     </style>
 
 </resources>

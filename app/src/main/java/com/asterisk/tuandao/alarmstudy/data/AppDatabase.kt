@@ -26,7 +26,7 @@ class AppDatabase(
 
     override fun getAlarms(): List<Alarm> {
         val db = this.readableDatabase
-        val cursor = db.rawQuery(SELETECT_ALL_AlARMS_QUERY, null)
+        val cursor = db.rawQuery(SELECT_ALL_AlARMS_QUERY, null)
         return AlarmDatabaseUtils.toList(cursor)
     }
 
@@ -44,6 +44,6 @@ class AppDatabase(
                 + AlarmEntry.COLUMN_METHOD + " INTEGER DEFAULT " + DEFAULT_VALUE + ","
                 + AlarmEntry.COLUMN_LEVEL + " INTEGER DEFAULT " + DEFAULT_VALUE + ")")
         private const val DROP_ALARM_TABLE = "DROP TABLE IF EXISTS " + AlarmEntry.TABLE_NAME
-        private const val SELETECT_ALL_AlARMS_QUERY = "SELECT * FROM " + AlarmEntry.TABLE_NAME
+        private const val SELECT_ALL_AlARMS_QUERY = "SELECT * FROM " + AlarmEntry.TABLE_NAME
     }
 }
