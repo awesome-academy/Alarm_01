@@ -14,7 +14,11 @@ class DetailPresenter @Inject constructor(
     override fun start() {
     }
 
-    override fun openTimePicker() {
+    override fun getTimePicker() {
         detailView.showTimePicker()
+    }
+
+    override fun getAlarmSound() {
+        detailView.showAlarmSound()
     }
 }
