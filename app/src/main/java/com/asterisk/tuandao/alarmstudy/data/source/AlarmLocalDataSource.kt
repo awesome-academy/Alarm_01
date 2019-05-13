@@ -1,7 +1,6 @@
-package com.asterisk.tuandao.alarmstudy.data.source.local
+package com.asterisk.tuandao.alarmstudy.data.source
 
 import com.asterisk.tuandao.alarmstudy.data.AlarmDataSource
-import com.asterisk.tuandao.alarmstudy.data.source.AppDatabase
 import com.asterisk.tuandao.alarmstudy.util.AppExecutors
 import javax.inject.Inject
 import javax.inject.Singleton

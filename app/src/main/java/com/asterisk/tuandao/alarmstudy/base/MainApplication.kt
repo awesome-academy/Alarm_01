@@ -7,7 +7,7 @@ import com.asterisk.tuandao.alarmstudy.di.module.ApplicationModule
 
 class MainApplication : Application() {
 
-    lateinit var mApplicationComponent: ApplicationComponent
+    private lateinit var mApplicationComponent: ApplicationComponent
     override fun onCreate() {
         super.onCreate()
 

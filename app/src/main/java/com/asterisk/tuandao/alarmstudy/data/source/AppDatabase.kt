@@ -1,15 +1,18 @@
-package com.asterisk.tuandao.alarmstudy.data
+package com.asterisk.tuandao.alarmstudy.data.source
 
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import com.asterisk.tuandao.alarmstudy.data.model.Alarm
+import com.asterisk.tuandao.alarmstudy.util.AlarmDatabaseUtils
+import javax.inject.Singleton
 
+@Singleton
 class AppDatabase(
     context: Context,
-    factory: SQLiteDatabase.CursorFactory?,
     DATABASE_NAME: String,
     DATABASE_VERSION: Int
-) : SQLiteOpenHelper(context, DATABASE_NAME, factory, DATABASE_VERSION) {
+) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION){
 
     override fun onCreate(db: SQLiteDatabase?) {
         db?.execSQL(CREATE_TABLE_ALARM)
@@ -20,9 +23,10 @@ class AppDatabase(
         onCreate(db)
     }
 
-    override fun getAlarms(): List<Alarm> {
+    fun getAlarms(): List<Alarm> {
         val db = this.readableDatabase
-        val cursor = db.rawQuery(SELETECT_ALL_AlARMS_QUERY, null)
+        val cursor = db.rawQuery(SELECT_ALL_AlARMS_QUERY, null)
+        cursor.close()
         return AlarmDatabaseUtils.toList(cursor)
     }
 
@@ -40,5 +44,6 @@ class AppDatabase(
                 + AlarmEntry.COLUMN_METHOD + " INTEGER DEFAULT " + DEFAULT_VALUE + ","
                 + AlarmEntry.COLUMN_LEVEL + " INTEGER DEFAULT " + DEFAULT_VALUE + ")")
         private const val DROP_ALARM_TABLE = "DROP TABLE IF EXISTS " + AlarmEntry.TABLE_NAME
+        private const val SELECT_ALL_AlARMS_QUERY = "SELECT * FROM " + AlarmEntry.TABLE_NAME
     }
 }
