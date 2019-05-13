@@ -31,6 +31,7 @@ class HomeAdapter(private val context: Context,
         fun onBind(alarm: Alarm) {
             with(itemView) {
                 recyclerDays.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+                textAlarmTime.text = alarm.time
             }
         }
     }
