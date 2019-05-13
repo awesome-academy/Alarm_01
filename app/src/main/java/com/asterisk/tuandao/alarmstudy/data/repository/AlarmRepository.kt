@@ -5,6 +5,7 @@ import com.asterisk.tuandao.alarmstudy.di.Local
 import javax.inject.Inject
 import javax.inject.Singleton
 
+
 @Singleton
 class AlarmRepository @Inject constructor(@Local val alarmLocalDataSource: AlarmDataSource.Local)
-    : AlarmDataSource
+    : AlarmDataSource.Repository

@@ -1,4 +1,4 @@
-package com.asterisk.tuandao.alarmstudy.data.source.local
+package com.asterisk.tuandao.alarmstudy.data.source
 
 object AlarmEntry {
     const val TABLE_NAME = "Alarm"
