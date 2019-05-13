@@ -9,9 +9,12 @@
         <item>S</item>
         <item>S</item>
     </string-array>
+<<<<<<< 790db7c238b11d15bf54aaa72ba3063b7694c92f
     
     <string-array name="sounds">
         <item>Basic Call</item>
         <item>Heartbeat</item>
     </string-array>
+=======
+>>>>>>> handle setting alarm
 </resources>

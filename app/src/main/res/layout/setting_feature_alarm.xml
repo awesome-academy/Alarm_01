@@ -55,6 +55,7 @@
                 app:layout_constraintTop_toBottomOf="@id/textAlarmSoundDetail"
                 style="@style/ViewHorizontalLine"/>
 
+<<<<<<< 790db7c238b11d15bf54aaa72ba3063b7694c92f
         <View
                 android:id="@+id/viewTransparentSound"
                 android:layout_width="0dp"
@@ -64,6 +65,8 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"/>
 
+=======
+>>>>>>> handle setting alarm
         <TextView
                 android:id="@+id/textVibrateTitle"
                 android:layout_width="wrap_content"
@@ -97,6 +100,7 @@
                 app:layout_constraintTop_toBottomOf="@id/textVibrateContent"
                 style="@style/ViewHorizontalLine"/>
 
+<<<<<<< 790db7c238b11d15bf54aaa72ba3063b7694c92f
         <View
                 android:id="@+id/viewTransparentVibration"
                 android:layout_width="0dp"
@@ -106,6 +110,8 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"/>
 
+=======
+>>>>>>> handle setting alarm
         <TextView
                 android:id="@+id/textMethodTitle"
                 android:layout_width="wrap_content"
@@ -124,6 +130,7 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 style="@style/TextSettingAlarmDetail"/>
 
+<<<<<<< 790db7c238b11d15bf54aaa72ba3063b7694c92f
         <View
                 android:id="@+id/viewTransparentMethod"
                 android:layout_width="0dp"
@@ -133,6 +140,8 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"/>
 
+=======
+>>>>>>> handle setting alarm
         <TextView
                 android:id="@+id/levelEasy"
                 android:layout_width="wrap_content"
@@ -158,7 +167,13 @@
                 android:thumbTint="@color/color_silver"
                 app:layout_constraintLeft_toRightOf="@id/levelEasy"
                 app:layout_constraintRight_toLeftOf="@id/levelHard"
+<<<<<<< 790db7c238b11d15bf54aaa72ba3063b7694c92f
                 app:layout_constraintBottom_toTopOf="@+id/viewLineMethod"/>
+=======
+                app:layout_constraintBottom_toTopOf="@+id/viewLineMethod"
+                app:layout_constraintTop_toBottomOf="@+id/textMethodContent"
+                app:layout_constraintVertical_bias="0.42000002"/>
+>>>>>>> handle setting alarm
 
         <View
                 android:id="@+id/viewLineMethod"
@@ -186,6 +201,7 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 style="@style/TextSettingAlarmDetail"/>
 
+<<<<<<< 790db7c238b11d15bf54aaa72ba3063b7694c92f
         <View
                 android:id="@+id/viewTransparentSnooze"
                 android:layout_width="0dp"
@@ -195,5 +211,7 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"/>
 
+=======
+>>>>>>> handle setting alarm
     </android.support.constraint.ConstraintLayout>
 </ScrollView>
