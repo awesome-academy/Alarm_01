@@ -1,10 +1,13 @@
 package com.asterisk.tuandao.alarmstudy.util
 
 import android.database.Cursor
-import com.asterisk.tuandao.alarmstudy.data.entry.AlarmEntry
+import com.asterisk.tuandao.alarmstudy.data.source.AlarmEntry
 import com.asterisk.tuandao.alarmstudy.data.model.Alarm
 
 object AlarmDatabaseUtils {
+
+    const val DATABASE_NAME = "alarm.db"
+    const val DATABASE_VERSION = 1
 
     fun toList(cursor: Cursor): List<Alarm> {
         val alarms: MutableList<Alarm> = ArrayList()
