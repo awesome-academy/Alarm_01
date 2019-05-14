@@ -1,6 +1,6 @@
 package com.asterisk.tuandao.alarmstudy.util
 
 class AppExecutors(
-    diskIO: DiskIOThreadExecutor = DiskIOThreadExecutor(),
-    mainThread: MainThreadExecutor = MainThreadExecutor()
+    val diskIO: DiskIOThreadExecutor = DiskIOThreadExecutor(),
+    val mainThread: MainThreadExecutor = MainThreadExecutor()
 )

@@ -8,6 +8,7 @@ import android.util.Log
 import android.widget.TimePicker
 import com.asterisk.tuandao.alarmstudy.R
 import com.asterisk.tuandao.alarmstudy.base.MainApplication
+import com.asterisk.tuandao.alarmstudy.data.model.AlarmSound
 import com.asterisk.tuandao.alarmstudy.di.component.DaggerDetailActivityComponent
 import com.asterisk.tuandao.alarmstudy.di.component.DetailActivityComponent
 import com.asterisk.tuandao.alarmstudy.ui.dialog.AlarmSnoozeDialog
@@ -73,9 +74,6 @@ class DetailActivity : AppCompatActivity(), DetailContract.View, TimePickerDialo
     }
 
     private fun handleAlarmSound() {
-        mAlarmSoundPickerDialog = AlarmSoundPickerDialog.newInstance {
-            Log.d(TAG,"handleAlarmSound $it")
-        }
         viewTransparentSound.setOnClickListener {
             presenter.getAlarmSound()
         }
@@ -106,7 +104,10 @@ class DetailActivity : AppCompatActivity(), DetailContract.View, TimePickerDialo
         mTimePickerDialog.show(supportFragmentManager, TIME_PICKER_DIALOG_TAG)
     }
 
-    override fun showAlarmSound() {
+    override fun showAlarmSound(alarms: ArrayList<AlarmSound>) {
+        mAlarmSoundPickerDialog = AlarmSoundPickerDialog.newInstance(alarms) {
+            Log.d(TAG,"handleAlarmSound $it")
+        }
         mAlarmSoundPickerDialog.show(supportFragmentManager, SOUND_PICKER_DIALOG_TAG)
     }
 

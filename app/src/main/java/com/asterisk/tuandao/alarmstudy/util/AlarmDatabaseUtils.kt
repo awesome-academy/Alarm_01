@@ -1,7 +1,7 @@
 package com.asterisk.tuandao.alarmstudy.util
 
 import android.database.Cursor
-import com.asterisk.tuandao.alarmstudy.data.source.AlarmEntry
+import com.asterisk.tuandao.alarmstudy.data.source.local.AlarmEntry
 import com.asterisk.tuandao.alarmstudy.data.model.Alarm
 
 object AlarmDatabaseUtils {

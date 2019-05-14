@@ -1,4 +1,4 @@
-package com.asterisk.tuandao.alarmstudy.data.source
+package com.asterisk.tuandao.alarmstudy.data.source.local
 
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase

@@ -1,7 +1,8 @@
 package com.asterisk.tuandao.alarmstudy.ui.detail
 
+import com.asterisk.tuandao.alarmstudy.data.AlarmDataSource
+import com.asterisk.tuandao.alarmstudy.data.model.AlarmSound
 import com.asterisk.tuandao.alarmstudy.data.repository.AlarmRepository
-import com.asterisk.tuandao.alarmstudy.di.DetailActivityContext
 import com.asterisk.tuandao.alarmstudy.di.DetailActivityScope
 import javax.inject.Inject
 
@@ -20,11 +21,18 @@ class DetailPresenter @Inject constructor(
     }
 
     override fun getAlarmSound() {
-        detailView.showAlarmSound()
+        alarmRepository.loadAlarmSounds(object : AlarmDataSource.loadSoundsCallback{
+            override fun onSuccess(sounds: ArrayList<AlarmSound>) {
+                detailView.showAlarmSound(sounds)
+            }
+
+            override fun onFailure() {
+            }
+
+        })
     }
 
     override fun getAlarmSnooze() {
-        detailView.showAlarmSound()
     }
 
     override fun getAlarmVibration() {
