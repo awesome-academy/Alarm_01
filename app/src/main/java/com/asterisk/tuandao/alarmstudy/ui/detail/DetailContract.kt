@@ -7,9 +7,15 @@ interface DetailContract {
 
     interface View : BaseView<Presenter> {
         fun showTimePicker()
+        fun showAlarmSound()
+        fun showAlarmSnooze()
+        fun showAlarmVibration()
     }
 
     interface Presenter : BasePresenter {
-        fun openTimePicker()
+        fun getTimePicker()
+        fun getAlarmSound()
+        fun getAlarmSnooze()
+        fun getAlarmVibration()
     }
 }

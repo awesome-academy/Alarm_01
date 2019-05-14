@@ -11,10 +11,22 @@ class DetailPresenter @Inject constructor(
     val detailView: DetailContract.View
 ) : DetailContract.Presenter {
 
+
     override fun start() {
     }
 
-    override fun openTimePicker() {
+    override fun getTimePicker() {
         detailView.showTimePicker()
+    }
+
+    override fun getAlarmSound() {
+        detailView.showAlarmSound()
+    }
+
+    override fun getAlarmSnooze() {
+        detailView.showAlarmSound()
+    }
+
+    override fun getAlarmVibration() {
     }
 }

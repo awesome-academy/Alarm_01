@@ -18,7 +18,7 @@ class DataModule {
     @Provides
     @Singleton
     @Repository
-    fun provideRepository(alarmRepository: AlarmRepository): AlarmDataSource.Repository {
+    fun provideRepository(alarmRepository: AlarmRepository): AlarmDataSource {
         return alarmRepository
     }
 

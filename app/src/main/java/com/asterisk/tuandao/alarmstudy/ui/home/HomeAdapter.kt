@@ -31,7 +31,7 @@ class HomeAdapter(
     class HomeHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun onBind(alarm: Alarm) {
             with(itemView) {
-                recyclerDays.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL,
+                recyclerDayHome.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL,
                     false)
                 textAlarmTime.text = alarm.time
             }

@@ -23,7 +23,7 @@
             tools:text="@string/fake_time"/>
 
     <android.support.v7.widget.RecyclerView
-            android:id="@+id/recyclerDays"
+            android:id="@+id/recyclerDayHome"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/dp_24"

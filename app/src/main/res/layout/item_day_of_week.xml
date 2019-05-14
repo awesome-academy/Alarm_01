@@ -1,20 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<TextView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/constraintDay"
-    android:layout_width="@dimen/dp_20"
-    android:layout_height="@dimen/dp_20">
+    android:id="@+id/textDayOfWeek"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    tools:text="@string/fake_day_of_week" />
 
-    <TextView
-        android:id="@+id/textDayOfWeek"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/color_blue_text"
-        app:layout_constraintBottom_toBottomOf="@id/constraintDay"
-        app:layout_constraintLeft_toLeftOf="@id/constraintDay"
-        app:layout_constraintRight_toRightOf="@id/constraintDay"
-        app:layout_constraintTop_toTopOf="@id/constraintDay"
-        tools:text="@string/fake_day_of_week" />
-
-</android.support.constraint.ConstraintLayout>
