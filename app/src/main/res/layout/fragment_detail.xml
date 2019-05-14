@@ -127,7 +127,7 @@
         <SeekBar
                 android:id="@+id/seekBar"
                 android:layout_width="0dp"
-                android:layout_height="15dp"
+                android:layout_height="0dp"
                 android:thumbTint="@color/color_silver"
                 app:layout_constraintLeft_toRightOf="@id/levelEasy"
                 app:layout_constraintRight_toLeftOf="@id/levelHard"
