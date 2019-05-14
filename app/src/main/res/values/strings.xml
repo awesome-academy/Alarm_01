@@ -16,4 +16,7 @@
     <string name="text_snooze_content">5 minutes</string>
     <string name="action_save">save</string>
     <string name="action_cancel">cancel</string>
+    <string name="fake_hour">6</string>
+    <string name="fake_colon">:</string>
+    <string name="fake_minute">00</string>
 </resources>

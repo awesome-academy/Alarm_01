@@ -11,15 +11,15 @@ import com.asterisk.tuandao.alarmstudy.data.model.Alarm
 import kotlinx.android.synthetic.main.fragment_detail.view.*
 import kotlinx.android.synthetic.main.item_home_alarm.view.*
 
-class HomeAdapter(private val context: Context,
-                  private val alarms: List<Alarm>)
-    : RecyclerView.Adapter<HomeAdapter.HomeHolder>() {
+class HomeAdapter(
+    private val context: Context,
+    private val alarms: List<Alarm>
+) : RecyclerView.Adapter<HomeAdapter.HomeHolder>() {
 
     private val mLayoutInflater = LayoutInflater.from(context)
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int) =
-            HomeHolder(mLayoutInflater
-                    .inflate(R.layout.item_home_alarm, viewGroup, false))
+        HomeHolder(mLayoutInflater.inflate(R.layout.item_home_alarm, viewGroup, false))
 
     override fun getItemCount() = alarms.size
 
@@ -31,11 +31,10 @@ class HomeAdapter(private val context: Context,
     class HomeHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun onBind(alarm: Alarm) {
             with(itemView) {
-                recyclerDays.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
                 textAlarmTime.text = alarm.time
-                recyclerDay.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL,false)
-                val adapter = DayAdapter(context, alarm.days)
-                recyclerDay.adapter = adapter
+                recyclerDay.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL,
+                    false)
+                recyclerDay.adapter = DayAdapter(context, alarm.days)
             }
         }
     }

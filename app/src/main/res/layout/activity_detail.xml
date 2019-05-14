@@ -35,7 +35,6 @@
             android:layout_marginLeft="@dimen/dp_8"
             android:layout_marginStart="@dimen/dp_8"
             app:layout_constraintWidth_percent="0.5"
-            app:layout_constraintEnd_toStartOf="@+id/buttonSave"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintTop_toBottomOf="@+id/fragSettingAlarm"
@@ -56,5 +55,50 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/fragSettingAlarm"
             style="@style/ButtonSettingStyle"/>
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textAlarmHour"
+            app:layout_constraintEnd_toStartOf="@+id/guideHourHorizontal"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/guideHorizontal"
+            tools:text="@string/fake_hour"
+            style="@style/TextTimePicker"/>
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textColon"
+            tools:text="@string/fake_colon"
+            style="@style/TextTimePicker"
+            app:layout_constraintStart_toEndOf="@+id/textAlarmHour"
+            app:layout_constraintEnd_toStartOf="@+id/guideMinuteHorizontal"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/guideHorizontal"/>
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textAlarmMinute"
+            tools:text="@string/fake_minute"
+            style="@style/TextTimePicker"
+            app:layout_constraintStart_toStartOf="@+id/guideMinuteHorizontal"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/guideHorizontal"/>
+
+    <android.support.constraint.Guideline
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/guideHourHorizontal"
+            app:layout_constraintGuide_percent="0.4"/>
+
+    <android.support.constraint.Guideline
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/guideMinuteHorizontal"
+            app:layout_constraintGuide_percent="0.6"/>
 
 </android.support.constraint.ConstraintLayout>
