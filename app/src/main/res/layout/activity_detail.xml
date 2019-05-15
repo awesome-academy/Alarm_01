@@ -8,16 +8,14 @@
         android:background="@color/color_black"
         tools:context=".ui.detail.DetailActivity">
 
-    <fragment
-            android:id="@+id/fragSettingAlarm"
-            android:layout_width="0dp"
+    <include
+            android:id="@+id/layoutSettingAlarm"
+            android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:name="com.asterisk.tuandao.alarmstudy.ui.detail.DetailFragment"
             app:layout_constraintWidth_default="percent"
             app:layout_constraintHeight_percent="0.5"
-            app:layout_constraintTop_toTopOf="@+id/guideHorizontal"
-            app:layout_constraintBottom_toTopOf="@id/buttonSave"
-            app:layout_constraintRight_toRightOf="parent"/>
+            app:layout_constraintTop_toTopOf="@id/guideHorizontal"
+            layout="@layout/setting_feature_alarm"/>
 
     <android.support.constraint.Guideline
             android:id="@+id/guideHorizontal"
@@ -35,9 +33,10 @@
             android:layout_marginLeft="@dimen/dp_8"
             android:layout_marginStart="@dimen/dp_8"
             app:layout_constraintWidth_percent="0.5"
+            app:layout_constraintEnd_toStartOf="@+id/buttonSave"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintTop_toBottomOf="@+id/fragSettingAlarm"
+            app:layout_constraintTop_toBottomOf="@id/layoutSettingAlarm"
             app:layout_constraintHorizontal_chainStyle="packed"
             style="@style/ButtonSettingStyle"/>
 
@@ -53,52 +52,60 @@
             app:layout_constraintStart_toEndOf="@id/buttonCancel"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/fragSettingAlarm"
+            app:layout_constraintTop_toBottomOf="@id/layoutSettingAlarm"
             style="@style/ButtonSettingStyle"/>
 
-    <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/textAlarmHour"
-            app:layout_constraintEnd_toStartOf="@+id/guideHourHorizontal"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/guideHorizontal"
-            tools:text="@string/fake_hour"
-            style="@style/TextTimePicker"/>
+    <android.support.constraint.ConstraintLayout
+            android:id="@+id/constraintAlarmTime"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintHeight_percent="0.4"
+            app:layout_constraintBottom_toTopOf="@id/layoutSettingAlarm">
 
-    <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/textColon"
-            tools:text="@string/fake_colon"
-            style="@style/TextTimePicker"
-            app:layout_constraintStart_toEndOf="@+id/textAlarmHour"
-            app:layout_constraintEnd_toStartOf="@+id/guideMinuteHorizontal"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/guideHorizontal"/>
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textAlarmHour"
+                app:layout_constraintEnd_toStartOf="@+id/guideHourHorizontal"
+                app:layout_constraintTop_toTopOf="parent"
+                android:text="@string/fake_hour"
+                style="@style/TextTimePicker"
+                app:layout_constraintBottom_toBottomOf="parent"/>
 
-    <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/textAlarmMinute"
-            tools:text="@string/fake_minute"
-            style="@style/TextTimePicker"
-            app:layout_constraintStart_toStartOf="@+id/guideMinuteHorizontal"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/guideHorizontal"/>
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textColon"
+                android:text="@string/fake_colon"
+                style="@style/TextTimePicker"
+                app:layout_constraintStart_toEndOf="@+id/textAlarmHour"
+                app:layout_constraintEnd_toStartOf="@+id/guideMinuteHorizontal"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
 
-    <android.support.constraint.Guideline
-            android:orientation="vertical"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/guideHourHorizontal"
-            app:layout_constraintGuide_percent="0.4"/>
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textAlarmMinute"
+                android:text="@string/fake_minute"
+                style="@style/TextTimePicker"
+                app:layout_constraintStart_toStartOf="@+id/guideMinuteHorizontal"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
 
-    <android.support.constraint.Guideline
-            android:orientation="vertical"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/guideMinuteHorizontal"
-            app:layout_constraintGuide_percent="0.6"/>
+        <android.support.constraint.Guideline
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/guideHourHorizontal"
+                app:layout_constraintGuide_percent="0.4"/>
+
+        <android.support.constraint.Guideline
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/guideMinuteHorizontal"
+                app:layout_constraintGuide_percent="0.6"/>
+    </android.support.constraint.ConstraintLayout>
 
 </android.support.constraint.ConstraintLayout>

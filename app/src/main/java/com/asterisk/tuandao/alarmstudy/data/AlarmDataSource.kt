@@ -9,4 +9,7 @@ interface AlarmDataSource {
 
     }
 
+    interface Repository {
+
+    }
 }

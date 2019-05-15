@@ -8,8 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import com.asterisk.tuandao.alarmstudy.R
 import com.asterisk.tuandao.alarmstudy.data.model.Alarm
-import kotlinx.android.synthetic.main.fragment_detail.view.*
 import kotlinx.android.synthetic.main.item_home_alarm.view.*
+import kotlinx.android.synthetic.main.setting_feature_alarm.view.*
 
 class HomeAdapter(
     private val context: Context,
@@ -31,10 +31,9 @@ class HomeAdapter(
     class HomeHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun onBind(alarm: Alarm) {
             with(itemView) {
-                textAlarmTime.text = alarm.time
-                recyclerDay.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL,
+                recyclerDays.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL,
                     false)
-                recyclerDay.adapter = DayAdapter(context, alarm.days)
+                textAlarmTime.text = alarm.time
             }
         }
     }

@@ -1,4 +1,4 @@
-package com.asterisk.tuandao.alarmstudy.data.source.local
+package com.asterisk.tuandao.alarmstudy.data.source
 
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
@@ -9,9 +9,9 @@ import javax.inject.Singleton
 
 @Singleton
 class AppDatabase(
-        context: Context,
-        DATABASE_NAME: String,
-        DATABASE_VERSION: Int
+    context: Context,
+    DATABASE_NAME: String,
+    DATABASE_VERSION: Int
 ) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION){
 
     override fun onCreate(db: SQLiteDatabase?) {
