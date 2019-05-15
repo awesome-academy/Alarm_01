@@ -6,7 +6,9 @@ import android.content.Context
 import android.media.RingtoneManager
 import com.asterisk.tuandao.alarmstudy.data.model.AlarmSound
 
-fun Context.getAlarmSounds(type: Int): List<AlarmSound> {
+fun Context.TAG() :String= this::class.java.simpleName
+
+fun Context.getAlarmSounds(type: Int): ArrayList<AlarmSound> {
     val alarms = ArrayList<AlarmSound>()
     val ringtonManager = RingtoneManager(this)
     ringtonManager.setType(if (type == ALARM_SOUND_TYPE_NOTIFICATION) RingtoneManager.TYPE_NOTIFICATION
@@ -27,3 +29,4 @@ fun Context.getAlarmSounds(type: Int): List<AlarmSound> {
     }
     return alarms
 }
+

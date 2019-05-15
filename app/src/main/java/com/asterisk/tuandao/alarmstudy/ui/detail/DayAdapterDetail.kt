@@ -1,9 +1,9 @@
 package com.asterisk.tuandao.alarmstudy.ui.detail
 
-import android.annotation.SuppressLint
 import android.content.Context
-import android.support.constraint.ConstraintLayout
+import android.graphics.Color
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,7 +12,9 @@ import com.asterisk.tuandao.alarmstudy.R
 import kotlinx.android.synthetic.main.item_day_of_week.view.*
 
 
-class DayAdapterDetail(private val context: Context, private val days: Array<String>) :
+class DayAdapterDetail(private val context: Context,
+                       private val days: Array<String>,
+                       val clickedDay: (Int) -> Unit) :
     RecyclerView.Adapter<DayAdapterDetail.DayDetailViewHolder>() {
 
     private val mLayoutInflater = LayoutInflater.from(context)
@@ -26,23 +28,33 @@ class DayAdapterDetail(private val context: Context, private val days: Array<Str
 
     override fun onBindViewHolder(holder: DayAdapterDetail.DayDetailViewHolder, position: Int) {
         val day = days[position]
-        holder.onBind(day)
+        holder.onBind(day, position, clickedDay)
+
     }
 
     class DayDetailViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        @SuppressLint("NewApi")
-        fun onBind(sDay: String) {
-            val layoutParams = ConstraintLayout.LayoutParams(
-                LinearLayout.LayoutParams.WRAP_CONTENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
-            )
-            layoutParams.rightMargin = 12
-            itemView.layoutParams = layoutParams
+        var stateDay = false
+        fun onBind(sDay: String, position: Int, clickedDay: (Int) -> Unit) {
             with(itemView) {
-                textDayOfWeek.text = sDay
-                val drawableId = com.asterisk.tuandao.alarmstudy.R.drawable.circle_background_stroke
-                textDayOfWeek.background = itemView.context.resources.getDrawable(drawableId)
+                textDayOfWeek.apply {
+                    text = sDay
+                    setOnClickListener {
+                       if (!stateDay) {
+                           stateDay = true
+                           textDayOfWeek.setTextColor(resources.getColor(R.color.color_blue_text))
+                       } else {
+                           stateDay = false
+                           textDayOfWeek.setTextColor(resources.getColor(R.color.color_white))
+                       }
+                        clickedDay(position)
+                    }
+                }
             }
         }
+    }
+
+    companion object {
+        const val RIGHT_MARGIN = 78
+        const val TEXT_SIZE = 20
     }
 }

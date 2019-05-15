@@ -1,7 +1,9 @@
 package com.asterisk.tuandao.alarmstudy.ui.detail
 
+import com.asterisk.tuandao.alarmstudy.data.AlarmDataSource
+import com.asterisk.tuandao.alarmstudy.data.model.Alarm
+import com.asterisk.tuandao.alarmstudy.data.model.AlarmSound
 import com.asterisk.tuandao.alarmstudy.data.repository.AlarmRepository
-import com.asterisk.tuandao.alarmstudy.di.DetailActivityContext
 import com.asterisk.tuandao.alarmstudy.di.DetailActivityScope
 import javax.inject.Inject
 
@@ -11,20 +13,47 @@ class DetailPresenter @Inject constructor(
     val detailView: DetailContract.View
 ) : DetailContract.Presenter {
 
+
     override fun start() {
     }
 
-<<<<<<< 790db7c238b11d15bf54aaa72ba3063b7694c92f
     override fun getTimePicker() {
         detailView.showTimePicker()
     }
 
     override fun getAlarmSound() {
-        detailView.showAlarmSound()
+        alarmRepository.loadAlarmSounds(object : AlarmDataSource.loadSoundsCallback{
+            override fun onSuccess(sounds: ArrayList<AlarmSound>) {
+                detailView.showAlarmSound(sounds)
+            }
+
+            override fun onFailure() {
+            }
+
+        })
     }
-=======
-    override fun openTimePicker() {
-        detailView.showTimePicker()
+
+    override fun getAlarmSnooze() {
+        detailView.showAlarmSnooze()
     }
->>>>>>> handle setting alarm
+
+    override fun getAlarmVibration() {
+        alarmRepository.loadAlarmVibration(object : AlarmDataSource.loadSoundsCallback{
+            override fun onSuccess(sounds: ArrayList<AlarmSound>) {
+                detailView.showAlarmVibration(sounds)
+            }
+
+            override fun onFailure() {
+            }
+
+        })
+    }
+
+    override fun getAlarmMethod() {
+        detailView.showAlarmMethod()
+    }
+
+    override fun addNewAlarm(alarm: Alarm) {
+        alarmRepository.saveAlarm(alarm)
+    }
 }

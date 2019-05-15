@@ -15,4 +15,7 @@
     <dimen name="sp_16">16sp</dimen>
     <dimen name="dp_0">0dp</dimen>
     <dimen name="sp_60">60sp</dimen>
+    <dimen name="dp_32">32dp</dimen>
+    <dimen name="sp_20">20sp</dimen>
+    <dimen name="sp_30">30sp</dimen>
 </resources>

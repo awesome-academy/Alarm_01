@@ -4,24 +4,17 @@ import android.app.TimePickerDialog
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
-<<<<<<< 790db7c238b11d15bf54aaa72ba3063b7694c92f
 import android.util.Log
-=======
->>>>>>> handle setting alarm
 import android.widget.TimePicker
 import com.asterisk.tuandao.alarmstudy.R
 import com.asterisk.tuandao.alarmstudy.base.MainApplication
+import com.asterisk.tuandao.alarmstudy.data.model.Alarm
+import com.asterisk.tuandao.alarmstudy.data.model.AlarmSound
 import com.asterisk.tuandao.alarmstudy.di.component.DaggerDetailActivityComponent
 import com.asterisk.tuandao.alarmstudy.di.component.DetailActivityComponent
-<<<<<<< 790db7c238b11d15bf54aaa72ba3063b7694c92f
-import com.asterisk.tuandao.alarmstudy.ui.dialog.AlarmSoundPickerDialog
-import com.asterisk.tuandao.alarmstudy.ui.dialog.AlarmTimePickerDialog
+import com.asterisk.tuandao.alarmstudy.ui.dialog.*
 import kotlinx.android.synthetic.main.activity_detail.*
 import kotlinx.android.synthetic.main.setting_feature_alarm.*
-=======
-import com.asterisk.tuandao.alarmstudy.ui.dialog.AlarmTimePickerDialog
-import kotlinx.android.synthetic.main.activity_detail.*
->>>>>>> handle setting alarm
 import kotlinx.android.synthetic.main.setting_feature_alarm.view.*
 import javax.inject.Inject
 
@@ -31,14 +24,15 @@ class DetailActivity : AppCompatActivity(), DetailContract.View, TimePickerDialo
     override lateinit var presenter: DetailContract.Presenter
     @Inject
     lateinit var mTimePickerDialog: AlarmTimePickerDialog
-<<<<<<< 790db7c238b11d15bf54aaa72ba3063b7694c92f
-    @Inject
-    lateinit var mAlarmSoundPickerDialog: AlarmSoundPickerDialog
+    private lateinit var mAlarmSoundPickerDialog: AlarmSoundPickerDialog
+    private lateinit var mAlarmSnoozeDialog: AlarmSnoozeDialog
+    private lateinit var mAlarmVibrationDialog: AlarmVibrationPickerDialog
+    private lateinit var mAlarmMethodDialog: AlarmMethodDialog
     private val TAG = this::class.java.simpleName
-=======
->>>>>>> handle setting alarm
     private lateinit var mDetailActivityComponent: DetailActivityComponent
     private lateinit var mAdapter: DayAdapterDetail
+    private var cacheAlarm = Alarm()
+    private  var cacheSelectedDay: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,13 +40,7 @@ class DetailActivity : AppCompatActivity(), DetailContract.View, TimePickerDialo
 
         initComponent()
         initAdapter()
-<<<<<<< 790db7c238b11d15bf54aaa72ba3063b7694c92f
-        initListener()
-        handleTimePicker()
-        handleAlarmSound()
-=======
-        handleTimePicker()
->>>>>>> handle setting alarm
+        handleEvent()
     }
 
     private fun initComponent() {
@@ -64,33 +52,61 @@ class DetailActivity : AppCompatActivity(), DetailContract.View, TimePickerDialo
     }
 
     private fun initAdapter() {
-        mAdapter = DayAdapterDetail(this, resources.getStringArray(R.array.days))
+        mAdapter = DayAdapterDetail(this, resources.getStringArray(R.array.days), ::onListenerClickedDay)
         layoutSettingAlarm.recyclerDay.layoutManager =
             LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         layoutSettingAlarm.recyclerDay.adapter = mAdapter
     }
 
-<<<<<<< 790db7c238b11d15bf54aaa72ba3063b7694c92f
-    fun initListener() {
-        mAlarmSoundPickerDialog.setL
-    }
+//    fun initListener() {
+//        mAlarmSoundPickerDialog = AlarmSoundPickerDialog.newInstance {
+//            Log.d(TAG," $it")
+//        }
+//    }
 
-    private fun handleTimePicker() {
-        constraintAlarmTime.setOnClickListener {
-            presenter.getTimePicker()
-        }
-    }
+    private fun handleEvent() {
+        //time picker
+//        constraintAlarmTime.setOnClickListener {
+//            presenter.getTimePicker()
+//        }
 
-    private fun handleAlarmSound() {
-        mAlarmSoundPickerDialog = AlarmSoundPickerDialog()
-
+        //alarm sound
         viewTransparentSound.setOnClickListener {
             presenter.getAlarmSound()
-=======
-    private fun handleTimePicker() {
-        constraintAlarmTime.setOnClickListener {
-            presenter.openTimePicker()
->>>>>>> handle setting alarm
+        }
+        //alarm method
+        viewTransparentMethod.setOnClickListener {
+            presenter.getAlarmMethod()
+        }
+        //snooze
+        viewTransparentSnooze.setOnClickListener {
+            presenter.getAlarmSnooze()
+        }
+        //vibration
+        viewTransparentVibration.setOnClickListener {
+            presenter.getAlarmVibration()
+        }
+
+        //time picker
+        timePicker.setIs24HourView(true)
+        timePicker.setOnTimeChangedListener { view, hourOfDay, minute ->
+            Log.d(TAG,"hourOfDay $hourOfDay, minute  $minute")
+            cacheAlarm.hour = hourOfDay
+            cacheAlarm.minute = minute
+        }
+
+        //switch
+        switchVibration.setOnCheckedChangeListener { buttonView, isChecked ->
+            Log.d(TAG,"switchVibration ${isChecked}" )
+            if (isChecked) cacheAlarm.isEnable = SWITCH_IS_CHECKED_STATE
+            else cacheAlarm.isEnable = SWITCH_IS_NOT_CHECKED_STATE
+        }
+
+        //button save
+        buttonSave.setOnClickListener {
+            val label = editAlarmName.text.toString()
+            if (label!=null) cacheAlarm.label = label
+            presenter.addNewAlarm(cacheAlarm)
         }
     }
 
@@ -98,27 +114,58 @@ class DetailActivity : AppCompatActivity(), DetailContract.View, TimePickerDialo
         mTimePickerDialog.show(supportFragmentManager, TIME_PICKER_DIALOG_TAG)
     }
 
-<<<<<<< 790db7c238b11d15bf54aaa72ba3063b7694c92f
-    override fun showAlarmSound() {
+    override fun showAlarmSound(alarms: ArrayList<AlarmSound>) {
+        mAlarmSoundPickerDialog = AlarmSoundPickerDialog.newInstance(alarms) {
+            cacheAlarm.soundUri = it.uri
+            cacheAlarm.selectedAlarmSound = it.id
+            Log.d(TAG,"showAlarmSound $it")
+        }
         mAlarmSoundPickerDialog.show(supportFragmentManager, SOUND_PICKER_DIALOG_TAG)
     }
 
-    override fun onTimeSet(view: TimePicker?, hourOfDay: Int, minute: Int) {
-        Log.d(TAG,"hourOfDay $hourOfDay, minute $minute")
+    override fun showAlarmSnooze() {
+        mAlarmSnoozeDialog = AlarmSnoozeDialog.newInstance {
+            Log.d(TAG,"showAlarmSnooze $it")
+            cacheAlarm.selectedSnooze = it
+        }
+        mAlarmSnoozeDialog.show(supportFragmentManager, SNOOZE_PICKER_DIALOG_TAG)
     }
 
+    override fun showAlarmVibration(alarms: ArrayList<AlarmSound>) {
+        mAlarmVibrationDialog = AlarmVibrationPickerDialog.newInstance(alarms) {
+            Log.d(TAG,"showAlarmVibration $it")
+            cacheAlarm.selectedVibration = it.id
+            cacheAlarm.vibrationUri = it.uri
+        }
+        mAlarmVibrationDialog.show(supportFragmentManager, VIBRATION_PICKER_DIALOG)
+    }
 
+    override fun showAlarmMethod() {
+        mAlarmMethodDialog = AlarmMethodDialog.newInstance{
+            Log.d(TAG,"showAlarmMethod $it")
+            cacheAlarm.method = it
+        }
+        mAlarmMethodDialog.show(supportFragmentManager,METHOD_PICKER_DIALOG)
+    }
 
+    override fun onTimeSet(view: TimePicker?, hourOfDay: Int, minute: Int) {
+        Log.d(TAG,"onTimeSet")
+        cacheAlarm.hour = hourOfDay
+        cacheAlarm.minute = minute
+    }
+
+    fun onListenerClickedDay(day: Int) {
+        Log.d(TAG,"day $day")
+        cacheSelectedDay += day.toString()
+    }
 
     companion object {
         const val TIME_PICKER_DIALOG_TAG = "time_picker"
-        const val SOUND_PICKER_DIALOG_TAG = "time_picker"
-=======
-    override fun onTimeSet(view: TimePicker?, hourOfDay: Int, minute: Int) {
-    }
-
-    companion object {
-        const val TIME_PICKER_DIALOG_TAG = "time_picker"
->>>>>>> handle setting alarm
+        const val SOUND_PICKER_DIALOG_TAG = "sound_picker"
+        const val SNOOZE_PICKER_DIALOG_TAG = "snooze_picker"
+        const val VIBRATION_PICKER_DIALOG = "vibration_picker"
+        const val METHOD_PICKER_DIALOG = "method_picker"
+        const val SWITCH_IS_NOT_CHECKED_STATE = 0
+        const val SWITCH_IS_CHECKED_STATE = 1
     }
 }

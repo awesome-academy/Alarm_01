@@ -13,7 +13,7 @@
                 android:id="@+id/recyclerDay"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_16"
+                android:layout_marginTop="@dimen/dp_48"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent"/>
@@ -55,7 +55,6 @@
                 app:layout_constraintTop_toBottomOf="@id/textAlarmSoundDetail"
                 style="@style/ViewHorizontalLine"/>
 
-<<<<<<< 790db7c238b11d15bf54aaa72ba3063b7694c92f
         <View
                 android:id="@+id/viewTransparentSound"
                 android:layout_width="0dp"
@@ -65,8 +64,6 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"/>
 
-=======
->>>>>>> handle setting alarm
         <TextView
                 android:id="@+id/textVibrateTitle"
                 android:layout_width="wrap_content"
@@ -78,11 +75,13 @@
 
         <Switch
                 android:id="@+id/switchVibration"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                app:layout_constraintWidth_percent="0.2"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="@id/textVibrateTitle"
-                app:layout_constraintBottom_toBottomOf="@id/textVibrateTitle"/>
+                app:layout_constraintBottom_toBottomOf="@id/textVibrateTitle"
+                android:paddingRight="@dimen/dp_16"/>
 
         <TextView
                 android:id="@+id/textVibrateContent"
@@ -100,18 +99,15 @@
                 app:layout_constraintTop_toBottomOf="@id/textVibrateContent"
                 style="@style/ViewHorizontalLine"/>
 
-<<<<<<< 790db7c238b11d15bf54aaa72ba3063b7694c92f
         <View
                 android:id="@+id/viewTransparentVibration"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 app:layout_constraintTop_toBottomOf="@id/viewLineSound"
                 app:layout_constraintBottom_toTopOf="@id/viewLineVibration"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"/>
+                app:layout_constraintRight_toLeftOf="@id/switchVibration"
+                app:layout_constraintLeft_toLeftOf="parent"/>
 
-=======
->>>>>>> handle setting alarm
         <TextView
                 android:id="@+id/textMethodTitle"
                 android:layout_width="wrap_content"
@@ -130,7 +126,6 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 style="@style/TextSettingAlarmDetail"/>
 
-<<<<<<< 790db7c238b11d15bf54aaa72ba3063b7694c92f
         <View
                 android:id="@+id/viewTransparentMethod"
                 android:layout_width="0dp"
@@ -140,8 +135,6 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"/>
 
-=======
->>>>>>> handle setting alarm
         <TextView
                 android:id="@+id/levelEasy"
                 android:layout_width="wrap_content"
@@ -163,17 +156,14 @@
         <SeekBar
                 android:id="@+id/seekBar"
                 android:layout_width="0dp"
-                android:layout_height="15dp"
+                android:layout_height="0dp"
                 android:thumbTint="@color/color_silver"
                 app:layout_constraintLeft_toRightOf="@id/levelEasy"
                 app:layout_constraintRight_toLeftOf="@id/levelHard"
-<<<<<<< 790db7c238b11d15bf54aaa72ba3063b7694c92f
-                app:layout_constraintBottom_toTopOf="@+id/viewLineMethod"/>
-=======
                 app:layout_constraintBottom_toTopOf="@+id/viewLineMethod"
                 app:layout_constraintTop_toBottomOf="@+id/textMethodContent"
                 app:layout_constraintVertical_bias="0.42000002"/>
->>>>>>> handle setting alarm
+        app:layout_constraintBottom_toTopOf="@+id/viewLineMethod"/>
 
         <View
                 android:id="@+id/viewLineMethod"
@@ -201,7 +191,6 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 style="@style/TextSettingAlarmDetail"/>
 
-<<<<<<< 790db7c238b11d15bf54aaa72ba3063b7694c92f
         <View
                 android:id="@+id/viewTransparentSnooze"
                 android:layout_width="0dp"
@@ -211,7 +200,5 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"/>
 
-=======
->>>>>>> handle setting alarm
     </android.support.constraint.ConstraintLayout>
 </ScrollView>

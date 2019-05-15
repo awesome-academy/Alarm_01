@@ -15,8 +15,4 @@ class AlarmTimePickerDialog : DialogFragment() {
         return TimePickerDialog(activity, activity as TimePickerDialog.OnTimeSetListener,
             hour, minute, true)
     }
-<<<<<<< 790db7c238b11d15bf54aaa72ba3063b7694c92f
-
-=======
->>>>>>> handle setting alarm
 }

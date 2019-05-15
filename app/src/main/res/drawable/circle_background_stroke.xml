@@ -11,6 +11,6 @@
             android:color="@android:color/transparent"/>
 
     <size
-            android:width="@dimen/dp_48"
-            android:height="@dimen/dp_48"/>
+            android:width="@dimen/dp_16"
+            android:height="@dimen/dp_16"/>
 </shape>

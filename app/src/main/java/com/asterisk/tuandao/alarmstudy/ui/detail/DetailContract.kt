@@ -1,24 +1,27 @@
 package com.asterisk.tuandao.alarmstudy.ui.detail
 
-import com.asterisk.tuandao.alarmstudy.ui.BasePresenter
-import com.asterisk.tuandao.alarmstudy.ui.BaseView
+import com.asterisk.tuandao.alarmstudy.base.BasePresenter
+import com.asterisk.tuandao.alarmstudy.base.BaseView
+import com.asterisk.tuandao.alarmstudy.data.model.Alarm
+import com.asterisk.tuandao.alarmstudy.data.model.AlarmSound
+
 
 interface DetailContract {
 
     interface View : BaseView<Presenter> {
         fun showTimePicker()
-<<<<<<< 790db7c238b11d15bf54aaa72ba3063b7694c92f
-        fun showAlarmSound()
+        fun showAlarmSound(alarms: ArrayList<AlarmSound>)
+        fun showAlarmSnooze()
+        fun showAlarmVibration(alarms: ArrayList<AlarmSound>)
+        fun showAlarmMethod()
     }
 
     interface Presenter : BasePresenter {
         fun getTimePicker()
         fun getAlarmSound()
-=======
-    }
-
-    interface Presenter : BasePresenter {
-        fun openTimePicker()
->>>>>>> handle setting alarm
+        fun getAlarmSnooze()
+        fun getAlarmVibration()
+        fun getAlarmMethod()
+        fun addNewAlarm(alarm: Alarm)
     }
 }

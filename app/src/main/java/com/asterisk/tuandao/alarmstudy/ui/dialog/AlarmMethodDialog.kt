@@ -8,48 +8,46 @@ import android.app.Dialog
 import android.os.Bundle
 import android.support.v4.app.DialogFragment
 import android.util.Log
+import com.asterisk.tuandao.alarmstudy.R
 import com.asterisk.tuandao.alarmstudy.data.model.AlarmSound
 import com.asterisk.tuandao.alarmstudy.util.toArrayString
 
-class AlarmSoundPickerDialog : DialogFragment() {
-
-    private lateinit var mAlarmSoundPickerDialog: AlertDialog.Builder
+class AlarmMethodDialog : DialogFragment(){
+    private lateinit var mAlarmMethodDialog: AlertDialog.Builder
     private val TAG = this::class.java.simpleName
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return builderSingleChoiceDialog().create()
     }
 
-    private fun builderSingleChoiceDialog() :AlertDialog.Builder{
+    private fun builderSingleChoiceDialog() : AlertDialog.Builder{
         var selectedItem = DEFAULT_SOUND_INDEX
-        mAlarmSoundPickerDialog = AlertDialog.Builder(activity)
-        mAlarmSoundPickerDialog.setSingleChoiceItems(
-            alarmSounds.toArrayString(),
+        mAlarmMethodDialog = AlertDialog.Builder(activity)
+        mAlarmMethodDialog.setSingleChoiceItems(
+            resources.getStringArray(R.array.methods),
             DEFAULT_SOUND_INDEX
         ) { dialog, which ->
             //user checked itemt
             selectedItem = which
             Log.d(TAG, "which $which")
         }
-        mAlarmSoundPickerDialog.setPositiveButton(POSITIVE_BUTTON) { dialog, which ->
+        mAlarmMethodDialog.setPositiveButton(POSITIVE_BUTTON) { dialog, which ->
             // user clicked ok
-            callback(alarmSounds[selectedItem])
+            callback(selectedItem)
         }
-        mAlarmSoundPickerDialog.setNegativeButton(NEGATIVE_BUTTON) { dialog, which ->
+        mAlarmMethodDialog.setNegativeButton(NEGATIVE_BUTTON) { dialog, which ->
 
         }
 
-        return mAlarmSoundPickerDialog
+        return mAlarmMethodDialog
     }
 
     companion object {
-        private lateinit var callback: (AlarmSound) -> Unit
-        private lateinit var alarmSounds : ArrayList<AlarmSound>
+        private lateinit var callback: (Int) -> Unit
 
-        fun newInstance(sounds: ArrayList<AlarmSound>, listener: (AlarmSound) -> Unit): AlarmSoundPickerDialog {
+        fun newInstance(listener: (Int) -> Unit): AlarmMethodDialog {
             callback = listener
-            alarmSounds = sounds
-            return AlarmSoundPickerDialog()
+            return AlarmMethodDialog()
         }
     }
 }
