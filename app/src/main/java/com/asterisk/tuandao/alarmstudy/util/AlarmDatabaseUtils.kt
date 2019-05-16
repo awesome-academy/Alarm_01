@@ -10,37 +10,37 @@ object AlarmDatabaseUtils {
     const val DATABASE_NAME = "alarm.db"
     const val DATABASE_VERSION = 1
 
-//    fun toList(cursor: Cursor): List<Alarm> {
-//        val alarms: MutableList<Alarm> = ArrayList()
-//        cursor.moveToFirst()
-//        while (!cursor.isAfterLast) {
-//            val columnId = cursor.getColumnIndex(AlarmEntry.COLUMN_ID)
-//            val columnTime = cursor.getColumnIndex(AlarmEntry.COLUMN_TIME)
-//            val columnDay = cursor.getColumnIndex(AlarmEntry.COLUMN_DAY)
-//            val columnActive = cursor.getColumnIndex(AlarmEntry.COLUMN_ACTIVE)
-//            val columnLabel = cursor.getColumnIndex(AlarmEntry.COLUMN_LABEL)
-//            val columnVibrate = cursor.getColumnIndex(AlarmEntry.COLUMN_VIBRATE)
-//            val columnSoundTitle = cursor.getColumnIndex(AlarmEntry.COLUMN_SOUND_TITLE)
-//            val columnSoundUri = cursor.getColumnIndex(AlarmEntry.COLUMN_SOUND_URI)
-//            val columnMethod = cursor.getColumnIndex(AlarmEntry.COLUMN_METHOD)
-//            val columnLevel = cursor.getColumnIndex(AlarmEntry.COLUMN_LEVEL)
-//
-//            val id = cursor.getInt(columnId)
-//            val time = cursor.getString(columnTime)
-//            val day = cursor.getString(columnDay)
-//            val isEnabled = cursor.getInt(columnActive)
-//            val label = cursor.getString(columnLabel)
-//            val vibrate = cursor.getInt(columnVibrate)
-//            val soundTitle = cursor.getString(columnSoundTitle)
-//            val soundUri = cursor.getString(columnSoundUri)
-//            val method = cursor.getInt(columnMethod)
-//
-//            alarms.add(Alarm(id, time, day, isEnabled,
-//                    vibrate, soundTitle, null, label, null, null))
-//        }
-//        cursor.close()
-//        return alarms
-//    }
+    fun toList(cursor: Cursor): List<Alarm> {
+        val alarms: MutableList<Alarm> = ArrayList()
+        cursor.moveToFirst()
+        while (!cursor.isAfterLast) {
+            val columnId = cursor.getColumnIndex(AlarmEntry.COLUMN_ID)
+            val columnHour = cursor.getColumnIndex(AlarmEntry.COLUMN_HOUR)
+            val columnMinute = cursor.getColumnIndex(AlarmEntry.COLUMN_MINUTE)
+            val columnDay = cursor.getColumnIndex(AlarmEntry.COLUMN_DAY)
+            val columnActive = cursor.getColumnIndex(AlarmEntry.COLUMN_ACTIVE)
+            val columnLabel = cursor.getColumnIndex(AlarmEntry.COLUMN_LABEL)
+
+            val id = cursor.getInt(columnId)
+            val hour = cursor.getInt(columnHour)
+            val minute = cursor.getInt(columnMinute)
+            val day = cursor.getString(columnDay)
+            val isEnabled = cursor.getInt(columnActive)
+            val label = cursor.getString(columnLabel)
+
+            val alarm = Alarm()
+            alarm.id = id
+            alarm.hour = hour
+            alarm.minute = minute
+            alarm.days = day
+            alarm.isEnable = isEnabled
+            alarm.label = label
+
+            alarms.add(alarm)
+        }
+        cursor.close()
+        return alarms
+    }
 
     fun getAlarmValues(alarm: Alarm) :ContentValues{
         val values = ContentValues()
@@ -60,19 +60,3 @@ object AlarmDatabaseUtils {
         return values
     }
 }
-const val TABLE_NAME = "Alarm"
-const val COLUMN_ID = "id"
-const val COLUMN_HOUR = "hour"
-const val COLUMN_MINUTE = "minute"
-const val COLUMN_DAY = "days"
-const val COLUMN_ACTIVE = "active"
-const val COLUMN_VIBRATE = "vibrate"
-const val COLUMN_VIBRATE_URI = "vibrate_uri"
-const val COLUMN_SELECTED_VIBRATE = "selected_vibrate"
-const val COLUMN_SELECTED_SOUND = "sound_title"
-const val COLUMN_SOUND_URI = "sound_uri"
-const val COLUMN_SNOOZE_TIME = "snooze_time"
-const val COLUMN_SELECTED_SNOOZE = "selected_snooze"
-const val COLUMN_LABEL = "label"
-const val COLUMN_METHOD = "method"
-const val COLUMN_LEVEL = "level"

@@ -8,31 +8,45 @@ import android.view.View
 import android.view.ViewGroup
 import com.asterisk.tuandao.alarmstudy.R
 import com.asterisk.tuandao.alarmstudy.data.model.Alarm
+import com.asterisk.tuandao.alarmstudy.util.AlarmTimeUtils
 import kotlinx.android.synthetic.main.item_home_alarm.view.*
 import kotlinx.android.synthetic.main.setting_feature_alarm.view.*
 
 class HomeAdapter(
     private val context: Context,
-    private val alarms: List<Alarm>
+    private var alarms: List<Alarm>,
+    private val listener: (Int) -> Unit
 ) : RecyclerView.Adapter<HomeAdapter.HomeHolder>() {
 
     private val mLayoutInflater = LayoutInflater.from(context)
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int) =
-        HomeHolder(mLayoutInflater.inflate(R.layout.item_home_alarm, viewGroup, false))
+        HomeHolder(mLayoutInflater.inflate(R.layout.item_home_alarm,
+            viewGroup, false))
 
     override fun getItemCount() = alarms.size
 
     override fun onBindViewHolder(holder: HomeHolder, position: Int) {
         val alarm = alarms[position]
-        holder.onBind(alarm)
+        holder.onBind(alarm, position, listener)
+    }
+
+    fun swapAlarms(newAlarms: List<Alarm>) {
+        alarms = newAlarms
+        notifyDataSetChanged()
     }
 
     class HomeHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun onBind(alarm: Alarm) {
+        fun onBind(alarm: Alarm,position: Int, listener: (Int) -> Unit) {
             with(itemView) {
+                setOnClickListener {
+                    listener(position)
+                }
+                textAlarmTime.text = AlarmTimeUtils.getTimeString(alarm.hour, alarm.minute)
+                switchAlarm.isEnabled = alarm.isEnable == 1
                 recyclerDayHome.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL,
                     false)
+                recyclerDayHome.adapter = DayAdapter(context, AlarmTimeUtils.toDaysList(alarm.days))
             }
         }
     }

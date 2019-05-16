@@ -1,5 +1,6 @@
 package com.asterisk.tuandao.alarmstudy.ui.detail
 
+import EXTRA_ALARM_ID
 import android.app.TimePickerDialog
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
@@ -32,12 +33,14 @@ class DetailActivity : AppCompatActivity(), DetailContract.View, TimePickerDialo
     private lateinit var mDetailActivityComponent: DetailActivityComponent
     private lateinit var mAdapter: DayAdapterDetail
     private var cacheAlarm = Alarm()
-    private  var cacheSelectedDay: String? = null
+    private var cacheSelectedDay: String? = null
+    private var alarmId: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail)
 
+        alarmId = intent.getIntExtra(EXTRA_ALARM_ID,0)
         initComponent()
         initAdapter()
         handleEvent()
@@ -57,12 +60,6 @@ class DetailActivity : AppCompatActivity(), DetailContract.View, TimePickerDialo
             LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         layoutSettingAlarm.recyclerDay.adapter = mAdapter
     }
-
-//    fun initListener() {
-//        mAlarmSoundPickerDialog = AlarmSoundPickerDialog.newInstance {
-//            Log.d(TAG," $it")
-//        }
-//    }
 
     private fun handleEvent() {
         //time picker
@@ -148,6 +145,10 @@ class DetailActivity : AppCompatActivity(), DetailContract.View, TimePickerDialo
         mAlarmMethodDialog.show(supportFragmentManager,METHOD_PICKER_DIALOG)
     }
 
+    override fun showAlarmSetting() {
+
+    }
+
     override fun onTimeSet(view: TimePicker?, hourOfDay: Int, minute: Int) {
         Log.d(TAG,"onTimeSet")
         cacheAlarm.hour = hourOfDay
@@ -157,6 +158,11 @@ class DetailActivity : AppCompatActivity(), DetailContract.View, TimePickerDialo
     fun onListenerClickedDay(day: Int) {
         Log.d(TAG,"day $day")
         cacheSelectedDay += day.toString()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (alarmId!=0) presenter.getAlarmSetting(alarmId)
     }
 
     companion object {

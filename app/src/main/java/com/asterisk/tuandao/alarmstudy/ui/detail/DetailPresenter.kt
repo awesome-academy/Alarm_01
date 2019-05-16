@@ -15,6 +15,7 @@ class DetailPresenter @Inject constructor(
 
 
     override fun start() {
+
     }
 
     override fun getTimePicker() {
@@ -22,7 +23,7 @@ class DetailPresenter @Inject constructor(
     }
 
     override fun getAlarmSound() {
-        alarmRepository.loadAlarmSounds(object : AlarmDataSource.loadSoundsCallback{
+        alarmRepository.loadAlarmSounds(object : AlarmDataSource.LoadSoundCallback{
             override fun onSuccess(sounds: ArrayList<AlarmSound>) {
                 detailView.showAlarmSound(sounds)
             }
@@ -38,7 +39,7 @@ class DetailPresenter @Inject constructor(
     }
 
     override fun getAlarmVibration() {
-        alarmRepository.loadAlarmVibration(object : AlarmDataSource.loadSoundsCallback{
+        alarmRepository.loadAlarmVibration(object : AlarmDataSource.LoadSoundCallback{
             override fun onSuccess(sounds: ArrayList<AlarmSound>) {
                 detailView.showAlarmVibration(sounds)
             }
@@ -55,5 +56,9 @@ class DetailPresenter @Inject constructor(
 
     override fun addNewAlarm(alarm: Alarm) {
         alarmRepository.saveAlarm(alarm)
+    }
+
+    override fun getAlarmSetting(alarmId: Int) {
+
     }
 }

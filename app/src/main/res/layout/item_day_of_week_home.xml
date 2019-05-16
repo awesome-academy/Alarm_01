@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/textDay"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:gravity="center"
+        android:textColor="@color/color_silver"
+        android:textSize="@dimen/sp_16"
+        android:layout_marginRight="@dimen/dp_8"
+        tools:text="@string/fake_day_of_week"/>

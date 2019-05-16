@@ -5,21 +5,29 @@ import com.asterisk.tuandao.alarmstudy.data.model.AlarmSound
 
 interface AlarmDataSource {
 
-    interface loadSoundsCallback {
+    interface LoadSoundCallback {
 
-        fun onSuccess(sounds: ArrayList<AlarmSound>)
+        fun onSuccess (sounds: ArrayList<AlarmSound>)
+
+        fun onFailure()
+    }
+
+    interface LoadAlarmCallback {
+
+        fun onSuccess (sounds: ArrayList<Alarm>)
 
         fun onFailure()
     }
 
     interface Local {
         fun saveAlarm(alarm: Alarm)
+        fun getAlarms(callback: LoadAlarmCallback)
     }
 
     interface Storage {
 
-        fun loadAlarmSounds(callback: loadSoundsCallback)
+        fun loadAlarmSounds(callback: LoadSoundCallback)
 
-        fun loadAlarmVibration(callback: loadSoundsCallback)
+        fun loadAlarmVibration(callback: LoadSoundCallback)
     }
 }

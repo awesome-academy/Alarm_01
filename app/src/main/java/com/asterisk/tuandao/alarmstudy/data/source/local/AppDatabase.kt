@@ -26,13 +26,11 @@ class AppDatabase(
         onCreate(db)
     }
 
-//    fun getAlarms(): List<Alarm> {
-//        val db = this.readableDatabase
-//        val cursor = db.rawQuery(SELECT_ALL_AlARMS_QUERY, null)
-//        cursor.close()
-//        db.close()
-//        return AlarmDatabaseUtils.toList(cursor)
-//    }
+    fun getAlarms(): List<Alarm> {
+        val db = this.readableDatabase
+        val cursor = db.rawQuery(SELECT_ALL_AlARMS_QUERY, null)
+        return AlarmDatabaseUtils.toList(cursor)
+    }
 
     fun saveAlarm(alarm: Alarm) {
         val db = this.writableDatabase

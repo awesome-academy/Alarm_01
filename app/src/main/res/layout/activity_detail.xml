@@ -67,5 +67,4 @@
             app:layout_constraintBottom_toTopOf="@id/layoutSettingAlarm"
             android:theme="@style/MyBase.TimePicker"/>
 
-
 </android.support.constraint.ConstraintLayout>

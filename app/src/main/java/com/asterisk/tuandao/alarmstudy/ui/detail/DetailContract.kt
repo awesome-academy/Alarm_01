@@ -14,6 +14,7 @@ interface DetailContract {
         fun showAlarmSnooze()
         fun showAlarmVibration(alarms: ArrayList<AlarmSound>)
         fun showAlarmMethod()
+        fun showAlarmSetting()
     }
 
     interface Presenter : BasePresenter {
@@ -23,5 +24,6 @@ interface DetailContract {
         fun getAlarmVibration()
         fun getAlarmMethod()
         fun addNewAlarm(alarm: Alarm)
+        fun getAlarmSetting(alarmId: Int)
     }
 }

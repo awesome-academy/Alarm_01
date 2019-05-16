@@ -16,7 +16,7 @@ class AlarmStorageDataSource @Inject constructor(
     private val executor: AppExecutors
 ) : AlarmDataSource.Storage {
 
-    override fun loadAlarmSounds(callback: AlarmDataSource.loadSoundsCallback) {
+    override fun loadAlarmSounds(callback: AlarmDataSource.LoadSoundCallback) {
         executor.diskIO.execute {
             val alarms = context.getAlarmSounds(ALARM_SOUND_TYPE_ALARM)
             executor.mainThread.execute {
@@ -26,7 +26,7 @@ class AlarmStorageDataSource @Inject constructor(
         }
     }
 
-    override fun loadAlarmVibration(callback: AlarmDataSource.loadSoundsCallback) {
+    override fun loadAlarmVibration(callback: AlarmDataSource.LoadSoundCallback) {
         executor.diskIO.execute {
             val alarms = context.getAlarmSounds(ALARM_SOUND_TYPE_NOTIFICATION)
             executor.mainThread.execute {
