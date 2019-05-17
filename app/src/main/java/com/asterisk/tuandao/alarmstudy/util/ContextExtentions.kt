@@ -1,18 +1,21 @@
 package com.asterisk.tuandao.alarmstudy.util
 
 import ALARM_SOUND_TYPE_NOTIFICATION
-import android.app.Activity
 import android.content.Context
 import android.media.RingtoneManager
+import android.net.Uri
 import com.asterisk.tuandao.alarmstudy.data.model.AlarmSound
 
-fun Context.TAG() :String= this::class.java.simpleName
+
+fun Context.TAG(): String = this::class.java.simpleName
 
 fun Context.getAlarmSounds(type: Int): ArrayList<AlarmSound> {
     val alarms = ArrayList<AlarmSound>()
     val ringtonManager = RingtoneManager(this)
-    ringtonManager.setType(if (type == ALARM_SOUND_TYPE_NOTIFICATION) RingtoneManager.TYPE_NOTIFICATION
-    else RingtoneManager.TYPE_ALARM)
+    ringtonManager.setType(
+        if (type == ALARM_SOUND_TYPE_NOTIFICATION) RingtoneManager.TYPE_NOTIFICATION
+        else RingtoneManager.TYPE_ALARM
+    )
 
     val cursor = ringtonManager.cursor
     var curId = 0
@@ -29,4 +32,11 @@ fun Context.getAlarmSounds(type: Int): ArrayList<AlarmSound> {
     }
     return alarms
 }
+
+fun Context.getDefaultRington(): Uri =
+    RingtoneManager.getActualDefaultRingtoneUri(this, RingtoneManager.TYPE_ALARM)
+
+fun Context.getDefaultRingtonTitle(uri: Uri): String =
+    RingtoneManager.getRingtone(this,uri).getTitle(this)
+
 

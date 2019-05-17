@@ -1,5 +1,6 @@
 package com.asterisk.tuandao.alarmstudy.data.source.local
 
+import android.util.Log
 import com.asterisk.tuandao.alarmstudy.data.AlarmDataSource
 import com.asterisk.tuandao.alarmstudy.data.model.Alarm
 import com.asterisk.tuandao.alarmstudy.util.AppExecutors
@@ -21,12 +22,23 @@ class AlarmLocalDataSource @Inject constructor(
     override fun getAlarms(callback: AlarmDataSource.LoadAlarmCallback) {
         executor.diskIO.execute {
             val alarms = appDatabase.getAlarms() as ArrayList
+            Log.d(".AlarmLocalDataSource", "alarms $alarms")
             executor.mainThread.execute {
                 if (alarms.isEmpty()) {
                     callback.onFailure()
-                }else {
+                } else {
                     callback.onSuccess(alarms)
                 }
+            }
+        }
+    }
+
+    override fun getAlarm(alarmId: Int, callback: AlarmDataSource.GetAlarmCallback) {
+        executor.diskIO.execute {
+            val alarm = appDatabase.getAlarm(alarmId)
+            executor.mainThread.execute {
+                if (alarm!=null) callback.onSuccess(alarm)
+                else callback.onFailure()
             }
         }
     }

@@ -1,8 +1,13 @@
 package com.asterisk.tuandao.alarmstudy.ui.home
 
 import EXTRA_ALARM_ID
+import UPDATE_ALARM
+import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
+import android.support.v4.content.LocalBroadcastManager
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
@@ -28,6 +33,15 @@ class HomeActivity: AppCompatActivity(), HomeContract.View{
 
     private lateinit var mAdapter: HomeAdapter
 
+    private val mUpdateAlarmReceiver = object: BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            Log.d(TAG(),"action ${intent?.action}")
+            if (intent?.action == UPDATE_ALARM) {
+                presenter.start()
+            }
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
@@ -35,6 +49,8 @@ class HomeActivity: AppCompatActivity(), HomeContract.View{
         initToolbar()
         initAdapter()
         handleEvent()
+        Log.d(TAG(),"onCreate")
+        presenter.start()
     }
 
     private fun initComponent() {
@@ -47,6 +63,7 @@ class HomeActivity: AppCompatActivity(), HomeContract.View{
 
     private fun initToolbar() {
         setSupportActionBar(toolbarHome)
+        toolbarHome.title = ""
         supportActionBar?.setDisplayHomeAsUpEnabled(false)
     }
 
@@ -57,7 +74,8 @@ class HomeActivity: AppCompatActivity(), HomeContract.View{
     }
 
     private fun handleEvent() {
-
+        LocalBroadcastManager.getInstance(applicationContext)
+            .registerReceiver(mUpdateAlarmReceiver, IntentFilter(UPDATE_ALARM))
     }
 
     override fun showAlarms(sounds: ArrayList<Alarm>) {
@@ -70,9 +88,9 @@ class HomeActivity: AppCompatActivity(), HomeContract.View{
         }
     }
 
-    fun onListenerClickedItemt(position: Int) {
+    fun onListenerClickedItemt(alarmId: Int) {
         val intent = Intent(this, DetailActivity::class.java).apply {
-            putExtra(EXTRA_ALARM_ID, position)
+            putExtra(EXTRA_ALARM_ID, alarmId)
             startActivity(this)
         }
     }
@@ -84,16 +102,13 @@ class HomeActivity: AppCompatActivity(), HomeContract.View{
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when(item?.itemId) {
-            R.menu.menu_home -> presenter.addNewAlarm()
-            else -> {
-                Log.d(TAG(),"error")
-            }
+            R.id.action_add -> presenter.addNewAlarm()
         }
         return false
     }
 
-    override fun onResume() {
-        super.onResume()
-        presenter.start()
+    override fun onDestroy() {
+        super.onDestroy()
+        LocalBroadcastManager.getInstance(applicationContext).unregisterReceiver(mUpdateAlarmReceiver)
     }
 }

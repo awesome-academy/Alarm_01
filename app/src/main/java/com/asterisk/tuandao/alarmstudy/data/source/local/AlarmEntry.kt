@@ -12,6 +12,7 @@ object AlarmEntry {
     const val COLUMN_SELECTED_VIBRATE = "selected_vibrate"
     const val COLUMN_SELECTED_SOUND = "selected_sound"
     const val COLUMN_SOUND_URI = "sound_uri"
+    const val COLUMN_SNOOZE = "snooze"
     const val COLUMN_SNOOZE_TIME = "snooze_time"
     const val COLUMN_SELECTED_SNOOZE = "selected_snooze"
     const val COLUMN_LABEL = "label"

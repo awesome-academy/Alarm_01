@@ -15,12 +15,6 @@ import javax.inject.Singleton
 @Module(includes = [ApplicationModule::class])
 class DataModule {
 
-//    @Provides
-//    @Singleton
-//    fun provideRepository(alarmRepository: AlarmRepository): AlarmDataSource {
-//        return alarmRepository
-//    }
-
     @Provides
     @Singleton
     @Local

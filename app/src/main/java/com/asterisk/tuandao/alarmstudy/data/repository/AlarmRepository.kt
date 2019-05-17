@@ -27,7 +27,6 @@ class AlarmRepository @Inject constructor(
 
         alarmStorageDataSource.loadAlarmSounds(object : AlarmDataSource.LoadSoundCallback {
             override fun onSuccess(sounds: ArrayList<AlarmSound>) {
-                Log.d(TAG,"sounds $sounds")
                 //cache sounds
                 cachedAlarmSounds = sounds
                 callback.onSuccess(sounds)
@@ -46,7 +45,6 @@ class AlarmRepository @Inject constructor(
 
         alarmStorageDataSource.loadAlarmVibration(object : AlarmDataSource.LoadSoundCallback {
             override fun onSuccess(vibrations: ArrayList<AlarmSound>) {
-                Log.d(TAG,"sounds $vibrations")
                 //cache sounds
                 cachedVibration = vibrations
                 callback.onSuccess(vibrations)
@@ -67,6 +65,19 @@ class AlarmRepository @Inject constructor(
             override fun onSuccess(sounds: ArrayList<Alarm>) {
                 callback.onSuccess(sounds)
             }
+            override fun onFailure() {
+                callback.onFailure()
+            }
+
+        })
+    }
+
+    override fun getAlarm(alarmId: Int, callback: AlarmDataSource.GetAlarmCallback) {
+        alarmLocalDataSource.getAlarm(alarmId, object : AlarmDataSource.GetAlarmCallback {
+            override fun onSuccess(alarm: Alarm) {
+                callback.onSuccess(alarm)
+            }
+
             override fun onFailure() {
                 callback.onFailure()
             }

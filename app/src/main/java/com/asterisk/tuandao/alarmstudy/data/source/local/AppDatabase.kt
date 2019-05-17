@@ -32,6 +32,12 @@ class AppDatabase(
         return AlarmDatabaseUtils.toList(cursor)
     }
 
+    fun getAlarm(alarmId: Int): Alarm {
+        val db = this.readableDatabase
+        val cursor = db.rawQuery("$SELETECT_ALARM_QUERY=$alarmId",null)
+        return AlarmDatabaseUtils.toAlarm(cursor)
+    }
+
     fun saveAlarm(alarm: Alarm) {
         val db = this.writableDatabase
         val i = db.insert(AlarmEntry.TABLE_NAME, null, AlarmDatabaseUtils.getAlarmValues(alarm))
@@ -53,11 +59,14 @@ class AppDatabase(
                 + AlarmEntry.COLUMN_VIBRATE_URI + " TEXT,"
                 + AlarmEntry.COLUMN_SELECTED_VIBRATE + " INTEGER DEFAULT " + DEFAULT_VALUE + ","
                 + AlarmEntry.COLUMN_SNOOZE_TIME + " INTEGER, "
+                + AlarmEntry.COLUMN_SNOOZE + " INTEGER DEFAULT " + DEFAULT_VALUE +","
                 + AlarmEntry.COLUMN_SELECTED_SNOOZE + " INTEGER DEFAULT " + DEFAULT_VALUE + ","
                 + AlarmEntry.COLUMN_LABEL + " TEXT,"
                 + AlarmEntry.COLUMN_METHOD + " INTEGER DEFAULT " + DEFAULT_VALUE + ","
                 + AlarmEntry.COLUMN_LEVEL + " INTEGER DEFAULT " + DEFAULT_VALUE + ")")
         private const val DROP_ALARM_TABLE = "DROP TABLE IF EXISTS " + AlarmEntry.TABLE_NAME
         private const val SELECT_ALL_AlARMS_QUERY = "SELECT * FROM " + AlarmEntry.TABLE_NAME
+        private const val SELETECT_ALARM_QUERY = "SELECT * FROM ${AlarmEntry.TABLE_NAME} " +
+                "WHERE ${AlarmEntry.COLUMN_ID}"
     }
 }

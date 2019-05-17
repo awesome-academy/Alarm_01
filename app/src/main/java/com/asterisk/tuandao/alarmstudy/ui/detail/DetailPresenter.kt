@@ -15,7 +15,7 @@ class DetailPresenter @Inject constructor(
 
 
     override fun start() {
-
+        detailView.showDefaultSetting()
     }
 
     override fun getTimePicker() {
@@ -61,4 +61,5 @@ class DetailPresenter @Inject constructor(
     override fun getAlarmSetting(alarmId: Int) {
 
     }
+
 }

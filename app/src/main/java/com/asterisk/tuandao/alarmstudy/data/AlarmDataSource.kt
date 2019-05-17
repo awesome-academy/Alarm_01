@@ -19,15 +19,25 @@ interface AlarmDataSource {
         fun onFailure()
     }
 
+    interface GetAlarmCallback {
+
+        fun onSuccess (alarm: Alarm)
+
+        fun onFailure()
+    }
+
+
     interface Local {
+
         fun saveAlarm(alarm: Alarm)
+
         fun getAlarms(callback: LoadAlarmCallback)
+
+        fun getAlarm(alarmId: Int, callback: GetAlarmCallback)
     }
 
     interface Storage {
-
         fun loadAlarmSounds(callback: LoadSoundCallback)
-
         fun loadAlarmVibration(callback: LoadSoundCallback)
     }
 }

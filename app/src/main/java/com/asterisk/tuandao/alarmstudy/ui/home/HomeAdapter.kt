@@ -3,6 +3,7 @@ package com.asterisk.tuandao.alarmstudy.ui.home
 import android.content.Context
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -28,7 +29,7 @@ class HomeAdapter(
 
     override fun onBindViewHolder(holder: HomeHolder, position: Int) {
         val alarm = alarms[position]
-        holder.onBind(alarm, position, listener)
+        holder.onBind(alarm, listener)
     }
 
     fun swapAlarms(newAlarms: List<Alarm>) {
@@ -37,10 +38,10 @@ class HomeAdapter(
     }
 
     class HomeHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun onBind(alarm: Alarm,position: Int, listener: (Int) -> Unit) {
+        fun onBind(alarm: Alarm, listener: (Int) -> Unit) {
             with(itemView) {
                 setOnClickListener {
-                    listener(position)
+                    listener(alarm.id)
                 }
                 textAlarmTime.text = AlarmTimeUtils.getTimeString(alarm.hour, alarm.minute)
                 switchAlarm.isEnabled = alarm.isEnable == 1

@@ -3,6 +3,7 @@ package com.asterisk.tuandao.alarmstudy.ui.home
 import NUMBER_DAY_OF_WEEK
 import android.content.Context
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -31,8 +32,11 @@ class DayAdapter(private val context: Context, private val daysIsEnabled: List<I
         fun onBind(sDay: String, position: Int, daysIsEnabled: List<Int>) {
             with(itemView) {
                 textDay.text = sDay
-                if (AlarmTimeUtils.checkEnabbledDay(position, daysIsEnabled))
-                    textDay.setTextColor(resources.getColor(R.color.color_blue_text))
+                if (daysIsEnabled!=null) {
+                    if (AlarmTimeUtils.checkEnabledDay(position, daysIsEnabled)) {
+                        textDay.setTextColor(resources.getColor(R.color.color_blue_text))
+                    }
+                }
             }
         }
     }

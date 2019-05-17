@@ -27,6 +27,7 @@
                 android:layout_marginTop="@dimen/dp_8"
                 android:layout_marginLeft="@dimen/dp_8"
                 android:layout_marginRight="@dimen/dp_8"
+                android:textColor="@color/color_white"
                 app:backgroundTint="@color/color_silver"
                 app:layout_constraintTop_toBottomOf="@id/recyclerDay"/>
 
@@ -76,11 +77,12 @@
         <Switch
                 android:id="@+id/switchVibration"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 app:layout_constraintWidth_percent="0.2"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="@id/textVibrateTitle"
-                app:layout_constraintBottom_toBottomOf="@id/textVibrateTitle"
+                app:layout_constraintBottom_toBottomOf="@id/textVibrateContent"
+                app:layout_constraintDimensionRatio="2:1"
                 android:paddingRight="@dimen/dp_16"/>
 
         <TextView
@@ -191,6 +193,17 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 style="@style/TextSettingAlarmDetail"/>
 
+        <Switch
+                android:id="@+id/switchSnooze"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintWidth_percent="0.2"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="@id/textSnoozeTitle"
+                app:layout_constraintBottom_toBottomOf="@id/textSnoozeContent"
+                app:layout_constraintDimensionRatio="2:1"
+                android:paddingRight="@dimen/dp_16"/>
+
         <View
                 android:id="@+id/viewTransparentSnooze"
                 android:layout_width="0dp"
@@ -198,7 +211,7 @@
                 app:layout_constraintTop_toBottomOf="@id/viewLineMethod"
                 app:layout_constraintBottom_toBottomOf="@id/textSnoozeContent"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"/>
+                app:layout_constraintRight_toLeftOf="@id/switchSnooze"/>
 
     </android.support.constraint.ConstraintLayout>
 </ScrollView>
