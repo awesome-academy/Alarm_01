@@ -68,7 +68,7 @@
                 android:id="@+id/textAlarmHour"
                 app:layout_constraintEnd_toStartOf="@+id/guideHourHorizontal"
                 app:layout_constraintTop_toTopOf="parent"
-                android:text="@string/fake_hour"
+                tools:text="@string/fake_hour"
                 style="@style/TextTimePicker"
                 app:layout_constraintBottom_toBottomOf="parent"/>
 
@@ -76,7 +76,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/textColon"
-                android:text="@string/fake_colon"
+                tools:text="@string/fake_colon"
                 style="@style/TextTimePicker"
                 app:layout_constraintStart_toEndOf="@+id/textAlarmHour"
                 app:layout_constraintEnd_toStartOf="@+id/guideMinuteHorizontal"
@@ -87,7 +87,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/textAlarmMinute"
-                android:text="@string/fake_minute"
+                tools:text="@string/fake_minute"
                 style="@style/TextTimePicker"
                 app:layout_constraintStart_toStartOf="@+id/guideMinuteHorizontal"
                 app:layout_constraintTop_toTopOf="parent"
