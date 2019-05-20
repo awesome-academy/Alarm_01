@@ -1,6 +1,5 @@
 package com.asterisk.tuandao.alarmstudy.data.repository
 
-import android.util.Log
 import com.asterisk.tuandao.alarmstudy.data.AlarmDataSource
 import com.asterisk.tuandao.alarmstudy.data.model.Alarm
 import com.asterisk.tuandao.alarmstudy.data.model.AlarmSound
@@ -62,8 +61,8 @@ class AlarmRepository @Inject constructor(
 
     override fun getAlarms(callback: AlarmDataSource.LoadAlarmCallback) {
         alarmLocalDataSource.getAlarms(object : AlarmDataSource.LoadAlarmCallback{
-            override fun onSuccess(sounds: ArrayList<Alarm>) {
-                callback.onSuccess(sounds)
+            override fun onSuccess(alarms: ArrayList<Alarm>) {
+                callback.onSuccess(alarms)
             }
             override fun onFailure() {
                 callback.onFailure()
@@ -78,6 +77,18 @@ class AlarmRepository @Inject constructor(
                 callback.onSuccess(alarm)
             }
 
+            override fun onFailure() {
+                callback.onFailure()
+            }
+
+        })
+    }
+
+    override fun updateActiveAlarm(alarmId: Int, status: Boolean, callback: AlarmDataSource.updateAlarmCallback) {
+        alarmLocalDataSource.updateActiveAlarm(alarmId, status, object : AlarmDataSource.updateAlarmCallback {
+            override fun onSuccess(status: Boolean) {
+                callback.onSuccess(status)
+            }
             override fun onFailure() {
                 callback.onFailure()
             }

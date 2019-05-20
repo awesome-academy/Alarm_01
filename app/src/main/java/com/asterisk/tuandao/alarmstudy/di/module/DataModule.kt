@@ -6,8 +6,8 @@ import com.asterisk.tuandao.alarmstudy.data.source.local.AlarmLocalDataSource
 import com.asterisk.tuandao.alarmstudy.data.source.local.AlarmStorageDataSource
 import com.asterisk.tuandao.alarmstudy.data.source.local.AppDatabase
 import com.asterisk.tuandao.alarmstudy.di.*
-import com.asterisk.tuandao.alarmstudy.util.AlarmDatabaseUtils
-import com.asterisk.tuandao.alarmstudy.util.AppExecutors
+import com.asterisk.tuandao.alarmstudy.utils.AlarmDatabaseUtils
+import com.asterisk.tuandao.alarmstudy.utils.AppExecutors
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton

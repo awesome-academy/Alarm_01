@@ -14,7 +14,7 @@ interface AlarmDataSource {
 
     interface LoadAlarmCallback {
 
-        fun onSuccess (sounds: ArrayList<Alarm>)
+        fun onSuccess (alarms: ArrayList<Alarm>)
 
         fun onFailure()
     }
@@ -26,6 +26,12 @@ interface AlarmDataSource {
         fun onFailure()
     }
 
+    interface updateAlarmCallback {
+
+        fun onSuccess (status: Boolean)
+
+        fun onFailure()
+    }
 
     interface Local {
 
@@ -34,10 +40,15 @@ interface AlarmDataSource {
         fun getAlarms(callback: LoadAlarmCallback)
 
         fun getAlarm(alarmId: Int, callback: GetAlarmCallback)
+
+        fun updateActiveAlarm(alarmId: Int, status: Boolean, callback: updateAlarmCallback)
+
     }
 
     interface Storage {
+
         fun loadAlarmSounds(callback: LoadSoundCallback)
+
         fun loadAlarmVibration(callback: LoadSoundCallback)
     }
 }

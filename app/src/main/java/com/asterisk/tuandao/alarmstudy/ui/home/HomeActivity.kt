@@ -1,7 +1,8 @@
 package com.asterisk.tuandao.alarmstudy.ui.home
 
-import EXTRA_ALARM_ID
-import UPDATE_ALARM
+import Constants
+import Constants.EXTRA_ALARM_ID
+import Constants.UPDATE_ALARM
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -15,16 +16,18 @@ import android.view.Menu
 import android.view.MenuItem
 import com.asterisk.tuandao.alarmstudy.R
 import com.asterisk.tuandao.alarmstudy.base.MainApplication
+import com.asterisk.tuandao.alarmstudy.broadcast.AlarmServiceBroadcastReceiver
 import com.asterisk.tuandao.alarmstudy.data.model.Alarm
 import com.asterisk.tuandao.alarmstudy.di.component.DaggerHomeActivityComponent
 import com.asterisk.tuandao.alarmstudy.di.component.HomeActivityComponent
 import com.asterisk.tuandao.alarmstudy.ui.detail.DetailActivity
-import com.asterisk.tuandao.alarmstudy.util.TAG
+import com.asterisk.tuandao.alarmstudy.utils.AlarmTimeUtils
+import com.asterisk.tuandao.alarmstudy.utils.TAG
 import kotlinx.android.synthetic.main.activity_home.*
 import javax.inject.Inject
 
 
-class HomeActivity: AppCompatActivity(), HomeContract.View{
+class HomeActivity : AppCompatActivity(), HomeContract.View {
 
     @Inject
     override lateinit var presenter: HomeContract.Presenter
@@ -33,10 +36,10 @@ class HomeActivity: AppCompatActivity(), HomeContract.View{
 
     private lateinit var mAdapter: HomeAdapter
 
-    private val mUpdateAlarmReceiver = object: BroadcastReceiver() {
+    private val mUpdateAlarmReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
-            Log.d(TAG(),"action ${intent?.action}")
-            if (intent?.action == UPDATE_ALARM) {
+            Log.d(TAG(), "action ${intent?.action}")
+            if (intent?.action == Constants.UPDATE_ALARM) {
                 presenter.start()
             }
         }
@@ -49,7 +52,7 @@ class HomeActivity: AppCompatActivity(), HomeContract.View{
         initToolbar()
         initAdapter()
         handleEvent()
-        Log.d(TAG(),"onCreate")
+        Log.d(TAG(), "onCreate")
         presenter.start()
     }
 
@@ -69,7 +72,7 @@ class HomeActivity: AppCompatActivity(), HomeContract.View{
 
     private fun initAdapter() {
         recyclerAlarmInfo.layoutManager = LinearLayoutManager(this)
-        mAdapter = HomeAdapter(this, alarms, ::onListenerClickedItemt)
+        mAdapter = HomeAdapter(this, alarms, ::onListenerClickedItem, ::onListenerSwitch)
         recyclerAlarmInfo.adapter = mAdapter
     }
 
@@ -88,23 +91,43 @@ class HomeActivity: AppCompatActivity(), HomeContract.View{
         }
     }
 
-    fun onListenerClickedItemt(alarmId: Int) {
-        val intent = Intent(this, DetailActivity::class.java).apply {
-            putExtra(EXTRA_ALARM_ID, alarmId)
-            startActivity(this)
-        }
-    }
-
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_home, menu)
         return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when(item?.itemId) {
+        when (item?.itemId) {
             R.id.action_add -> presenter.addNewAlarm()
         }
         return false
+    }
+
+    override fun updateActiveAlarm(status: Boolean, alarm: Alarm) {
+        val intent = Intent(this, AlarmServiceBroadcastReceiver::class.java)
+        if (status) {
+            intent.action = Constants.ACTION_ENABLE_ALARM
+            sendBroadcast(intent)
+        } else {
+            val nextAlarm = AlarmTimeUtils.cacheNextAlarm
+            val cancelAlarm = AlarmTimeUtils.getNewAlarm(alarm)
+            if (AlarmTimeUtils.getCalendarAlarm(nextAlarm).timeInMillis
+                == AlarmTimeUtils.getCalendarAlarm(cancelAlarm).timeInMillis && nextAlarm?.id!=null) {
+                intent.action = Constants.ACTION_CANCEL_ALARM
+                sendBroadcast(intent)
+            }
+        }
+    }
+
+    private fun onListenerSwitch(alarm: Alarm, status: Boolean) {
+        presenter.activeAlarm(alarm, status)
+    }
+
+    private fun onListenerClickedItem(alarmId: Int) {
+        val intent = Intent(this, DetailActivity::class.java).apply {
+            putExtra(EXTRA_ALARM_ID, alarmId)
+            startActivity(this)
+        }
     }
 
     override fun onDestroy() {

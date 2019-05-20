@@ -1,4 +1,4 @@
-package com.asterisk.tuandao.alarmstudy.util
+package com.asterisk.tuandao.alarmstudy.utils
 
 class AppExecutors(
     val diskIO: DiskIOThreadExecutor = DiskIOThreadExecutor(),

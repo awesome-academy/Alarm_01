@@ -30,5 +30,4 @@ class DetailModule(val context: DetailContract.View) {
     fun provideTimePickerDialog(): AlarmTimePickerDialog {
         return AlarmTimePickerDialog()
     }
-
 }

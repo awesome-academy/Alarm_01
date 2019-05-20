@@ -1,15 +1,15 @@
 package com.asterisk.tuandao.alarmstudy.ui.dialog
 
-import DEFAULT_SOUND_INDEX
-import NEGATIVE_BUTTON
-import POSITIVE_BUTTON
+import Constants.DEFAULT_SOUND_INDEX
+import Constants.NEGATIVE_BUTTON
+import Constants.POSITIVE_BUTTON
 import android.app.AlertDialog
 import android.app.Dialog
 import android.os.Bundle
 import android.support.v4.app.DialogFragment
 import android.util.Log
 import com.asterisk.tuandao.alarmstudy.data.model.AlarmSound
-import com.asterisk.tuandao.alarmstudy.util.toArrayString
+import com.asterisk.tuandao.alarmstudy.utils.toArrayString
 
 class AlarmSoundPickerDialog : DialogFragment() {
 

@@ -1,12 +1,12 @@
 package com.asterisk.tuandao.alarmstudy.data.source.local
 
-import ALARM_SOUND_TYPE_ALARM
-import ALARM_SOUND_TYPE_NOTIFICATION
+
+
 import android.content.Context
 import com.asterisk.tuandao.alarmstudy.data.AlarmDataSource
 import com.asterisk.tuandao.alarmstudy.di.ApplicationContext
-import com.asterisk.tuandao.alarmstudy.util.AppExecutors
-import com.asterisk.tuandao.alarmstudy.util.getAlarmSounds
+import com.asterisk.tuandao.alarmstudy.utils.AppExecutors
+import com.asterisk.tuandao.alarmstudy.utils.getAlarmSounds
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -18,7 +18,7 @@ class AlarmStorageDataSource @Inject constructor(
 
     override fun loadAlarmSounds(callback: AlarmDataSource.LoadSoundCallback) {
         executor.diskIO.execute {
-            val alarms = context.getAlarmSounds(ALARM_SOUND_TYPE_ALARM)
+            val alarms = context.getAlarmSounds(Constants.ALARM_SOUND_TYPE_ALARM)
             executor.mainThread.execute {
                 if (alarms.isEmpty()) callback.onFailure()
                 else callback.onSuccess(alarms)
@@ -28,7 +28,7 @@ class AlarmStorageDataSource @Inject constructor(
 
     override fun loadAlarmVibration(callback: AlarmDataSource.LoadSoundCallback) {
         executor.diskIO.execute {
-            val alarms = context.getAlarmSounds(ALARM_SOUND_TYPE_NOTIFICATION)
+            val alarms = context.getAlarmSounds(Constants.ALARM_SOUND_TYPE_NOTIFICATION)
             executor.mainThread.execute {
                 if (alarms.isEmpty()) callback.onFailure()
                 else callback.onSuccess(alarms)

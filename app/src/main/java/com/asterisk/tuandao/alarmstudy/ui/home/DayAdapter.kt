@@ -1,14 +1,12 @@
 package com.asterisk.tuandao.alarmstudy.ui.home
 
-import NUMBER_DAY_OF_WEEK
 import android.content.Context
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.asterisk.tuandao.alarmstudy.R
-import com.asterisk.tuandao.alarmstudy.util.AlarmTimeUtils
+import com.asterisk.tuandao.alarmstudy.utils.AlarmTimeUtils
 import kotlinx.android.synthetic.main.item_day_of_week_home.view.*
 
 class DayAdapter(private val context: Context, private val daysIsEnabled: List<Int>) :
@@ -21,7 +19,7 @@ class DayAdapter(private val context: Context, private val daysIsEnabled: List<I
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int) =
         DayViewHolder(mLayoutInflater.inflate(R.layout.item_day_of_week_home, viewGroup, false))
 
-    override fun getItemCount() = NUMBER_DAY_OF_WEEK
+    override fun getItemCount() = Constants.NUMBER_DAY_OF_WEEK
 
     override fun onBindViewHolder(holder: DayViewHolder, position: Int) {
         val day = days[position]

@@ -1,4 +1,4 @@
-package com.asterisk.tuandao.alarmstudy.util
+package com.asterisk.tuandao.alarmstudy.utils
 
 import java.util.concurrent.Executor
 import java.util.concurrent.Executors

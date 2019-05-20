@@ -1,10 +1,15 @@
 package com.asterisk.tuandao.alarmstudy.data.model
 
+import java.io.Serializable
+
 class Alarm constructor(
     var id: Int,
     var hour: Int,
     var minute: Int,
-    var days: String?,
+    var dayOfMonth: Int?,
+    var month: Int?,
+    var year: Int?,
+    var daysOfWeek: String?,
     var isEnable: Int?,
     var isVibrated: Int?,
     var vibrationUri: String?,
@@ -22,5 +27,5 @@ class Alarm constructor(
         0, 0, null,
         null, null, null, null,
         null, null, null, null, null, null
-    ,null,null)
+    ,null,null, null, null, null)
 }

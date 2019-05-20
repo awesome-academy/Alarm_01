@@ -1,9 +1,11 @@
-package com.asterisk.tuandao.alarmstudy.util
+package com.asterisk.tuandao.alarmstudy.utils
 
-import ALARM_SOUND_TYPE_NOTIFICATION
+import Constants.ALARM_SOUND_TYPE_NOTIFICATION
 import android.content.Context
 import android.media.RingtoneManager
 import android.net.Uri
+import android.widget.Toast
+import com.asterisk.tuandao.alarmstudy.R
 import com.asterisk.tuandao.alarmstudy.data.model.AlarmSound
 
 
@@ -16,7 +18,6 @@ fun Context.getAlarmSounds(type: Int): ArrayList<AlarmSound> {
         if (type == ALARM_SOUND_TYPE_NOTIFICATION) RingtoneManager.TYPE_NOTIFICATION
         else RingtoneManager.TYPE_ALARM
     )
-
     val cursor = ringtonManager.cursor
     var curId = 0
     while (cursor.moveToNext()) {
@@ -38,5 +39,6 @@ fun Context.getDefaultRington(): Uri =
 
 fun Context.getDefaultRingtonTitle(uri: Uri): String =
     RingtoneManager.getRingtone(this,uri).getTitle(this)
+
 
 

@@ -1,11 +1,9 @@
-package com.asterisk.tuandao.alarmstudy.util
+package com.asterisk.tuandao.alarmstudy.utils
 
 import android.content.ContentValues
 import android.database.Cursor
-import android.util.Log
-import com.asterisk.tuandao.alarmstudy.data.source.local.AlarmEntry
 import com.asterisk.tuandao.alarmstudy.data.model.Alarm
-import com.asterisk.tuandao.alarmstudy.data.source.local.AlarmEntry.COLUMN_VIBRATE_URI
+import com.asterisk.tuandao.alarmstudy.data.source.local.AlarmEntry
 
 object AlarmDatabaseUtils {
 
@@ -19,7 +17,7 @@ object AlarmDatabaseUtils {
             val columnId = cursor.getColumnIndex(AlarmEntry.COLUMN_ID)
             val columnHour = cursor.getColumnIndex(AlarmEntry.COLUMN_HOUR)
             val columnMinute = cursor.getColumnIndex(AlarmEntry.COLUMN_MINUTE)
-            val columnDay = cursor.getColumnIndex(AlarmEntry.COLUMN_DAY)
+            val columnDay = cursor.getColumnIndex(AlarmEntry.COLUMN_DAY_OF_WEEK)
             val columnActive = cursor.getColumnIndex(AlarmEntry.COLUMN_ACTIVE)
             val columnLabel = cursor.getColumnIndex(AlarmEntry.COLUMN_LABEL)
 
@@ -34,7 +32,7 @@ object AlarmDatabaseUtils {
             alarm.id = id
             alarm.hour = hour
             alarm.minute = minute
-            alarm.days = day
+            alarm.daysOfWeek = day
             alarm.isEnable = isEnabled
             alarm.label = label
             alarms.add(alarm)
@@ -44,13 +42,13 @@ object AlarmDatabaseUtils {
         return alarms
     }
 
-    fun toAlarm(cursor: Cursor): Alarm{
+    fun toAlarm(cursor: Cursor): Alarm {
         val alarm = Alarm()
         if (cursor.moveToFirst()) {
             val columnId = cursor.getColumnIndex(AlarmEntry.COLUMN_ID)
             val columnHour = cursor.getColumnIndex(AlarmEntry.COLUMN_HOUR)
             val columnMinute = cursor.getColumnIndex(AlarmEntry.COLUMN_MINUTE)
-            val columnDay = cursor.getColumnIndex(AlarmEntry.COLUMN_DAY)
+            val columnDay = cursor.getColumnIndex(AlarmEntry.COLUMN_DAY_OF_WEEK)
             val columnActive = cursor.getColumnIndex(AlarmEntry.COLUMN_ACTIVE)
             val columnVibration = cursor.getColumnIndex(AlarmEntry.COLUMN_VIBRATE)
             val columnVibrationUri = cursor.getColumnIndex(AlarmEntry.COLUMN_VIBRATE_URI)
@@ -82,7 +80,7 @@ object AlarmDatabaseUtils {
             alarm.id = id
             alarm.hour = hour
             alarm.minute = minute
-            alarm.days = day
+            alarm.daysOfWeek = day
             alarm.isEnable = isEnabled
             alarm.label = label
             alarm.isVibrated = vibration
@@ -99,22 +97,26 @@ object AlarmDatabaseUtils {
         return alarm
     }
 
-    fun getAlarmValues(alarm: Alarm) :ContentValues{
-        val values = ContentValues()
-        values.put(AlarmEntry.COLUMN_HOUR, alarm.hour)
-        values.put(AlarmEntry.COLUMN_MINUTE, alarm.minute)
-        values.put(AlarmEntry.COLUMN_DAY, alarm.days)
-        values.put(AlarmEntry.COLUMN_ACTIVE, alarm.isEnable)
-        values.put(AlarmEntry.COLUMN_VIBRATE, alarm.isVibrated)
-        values.put(AlarmEntry.COLUMN_VIBRATE_URI, alarm.vibrationUri)
-        values.put(AlarmEntry.COLUMN_SELECTED_VIBRATE, alarm.selectedVibration)
-        values.put(AlarmEntry.COLUMN_SELECTED_SOUND, alarm.selectedAlarmSound)
-        values.put(AlarmEntry.COLUMN_SOUND_URI, alarm.soundUri)
-        values.put(AlarmEntry.COLUMN_SELECTED_SNOOZE, alarm.selectedSnooze)
-        values.put(AlarmEntry.COLUMN_LABEL, alarm.label)
-        values.put(AlarmEntry.COLUMN_METHOD, alarm.method)
-        values.put(AlarmEntry.COLUMN_LEVEL, alarm.level)
-        return values
+    fun getAlarmValues(alarm: Alarm) = ContentValues().apply {
+        put(AlarmEntry.COLUMN_HOUR, alarm.hour)
+        put(AlarmEntry.COLUMN_MINUTE, alarm.minute)
+        put(AlarmEntry.COLUMN_DAY_OF_WEEK, alarm.daysOfWeek)
+        put(AlarmEntry.COLUMN_ACTIVE, alarm.isEnable)
+        put(AlarmEntry.COLUMN_VIBRATE, alarm.isVibrated)
+        put(AlarmEntry.COLUMN_VIBRATE_URI, alarm.vibrationUri)
+        put(AlarmEntry.COLUMN_SELECTED_VIBRATE, alarm.selectedVibration)
+        put(AlarmEntry.COLUMN_SELECTED_SOUND, alarm.selectedAlarmSound)
+        put(AlarmEntry.COLUMN_SOUND_URI, alarm.soundUri)
+        put(AlarmEntry.COLUMN_SELECTED_SNOOZE, alarm.selectedSnooze)
+        put(AlarmEntry.COLUMN_LABEL, alarm.label)
+        put(AlarmEntry.COLUMN_METHOD, alarm.method)
+        put(AlarmEntry.COLUMN_LEVEL, alarm.level)
     }
 
+    fun updateStatus(status: Boolean): ContentValues{
+        val values = ContentValues()
+        var statusInt = if (status) 1 else 0
+        values.put(AlarmEntry.COLUMN_ACTIVE, statusInt)
+        return values
+    }
 }

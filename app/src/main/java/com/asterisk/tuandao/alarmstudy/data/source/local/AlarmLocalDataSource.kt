@@ -3,7 +3,7 @@ package com.asterisk.tuandao.alarmstudy.data.source.local
 import android.util.Log
 import com.asterisk.tuandao.alarmstudy.data.AlarmDataSource
 import com.asterisk.tuandao.alarmstudy.data.model.Alarm
-import com.asterisk.tuandao.alarmstudy.util.AppExecutors
+import com.asterisk.tuandao.alarmstudy.utils.AppExecutors
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -38,6 +38,16 @@ class AlarmLocalDataSource @Inject constructor(
             val alarm = appDatabase.getAlarm(alarmId)
             executor.mainThread.execute {
                 if (alarm!=null) callback.onSuccess(alarm)
+                else callback.onFailure()
+            }
+        }
+    }
+
+    override fun updateActiveAlarm(alarmId: Int, status: Boolean, callback: AlarmDataSource.updateAlarmCallback) {
+        executor.diskIO.execute {
+            val statusUpdate = appDatabase.updateStatus(alarmId, status)
+            executor.mainThread.execute {
+                if (statusUpdate) callback.onSuccess(status)
                 else callback.onFailure()
             }
         }

@@ -14,7 +14,7 @@ import kotlinx.android.synthetic.main.item_day_of_week.view.*
 
 class DayAdapterDetail(private val context: Context,
                        private val days: Array<String>,
-                       val clickedDay: (Int) -> Unit) :
+                       private val clickedDay: (Int, Boolean) -> Unit) :
     RecyclerView.Adapter<DayAdapterDetail.DayDetailViewHolder>() {
 
     private val mLayoutInflater = LayoutInflater.from(context)
@@ -34,7 +34,7 @@ class DayAdapterDetail(private val context: Context,
 
     class DayDetailViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var stateDay = false
-        fun onBind(sDay: String, position: Int, clickedDay: (Int) -> Unit) {
+        fun onBind(sDay: String, position: Int, clickedDay: (Int, Boolean) -> Unit) {
             with(itemView) {
                 textDayOfWeek.apply {
                     text = sDay
@@ -46,7 +46,7 @@ class DayAdapterDetail(private val context: Context,
                            stateDay = false
                            textDayOfWeek.setTextColor(resources.getColor(R.color.color_white))
                        }
-                        clickedDay(position)
+                        clickedDay(position,stateDay)
                     }
                 }
             }

@@ -1,7 +1,7 @@
 package com.asterisk.tuandao.alarmstudy.ui.detail
 
-import EXTRA_ALARM_ID
-import UPDATE_ALARM
+
+import Constants
 import android.app.TimePickerDialog
 import android.content.Intent
 import android.os.Bundle
@@ -12,19 +12,21 @@ import android.util.Log
 import android.widget.TimePicker
 import com.asterisk.tuandao.alarmstudy.R
 import com.asterisk.tuandao.alarmstudy.base.MainApplication
+import com.asterisk.tuandao.alarmstudy.broadcast.AlarmServiceBroadcastReceiver
 import com.asterisk.tuandao.alarmstudy.data.model.Alarm
 import com.asterisk.tuandao.alarmstudy.data.model.AlarmSound
 import com.asterisk.tuandao.alarmstudy.di.component.DaggerDetailActivityComponent
 import com.asterisk.tuandao.alarmstudy.di.component.DetailActivityComponent
 import com.asterisk.tuandao.alarmstudy.ui.dialog.*
-import com.asterisk.tuandao.alarmstudy.util.TAG
-import com.asterisk.tuandao.alarmstudy.util.getDefaultRington
-import com.asterisk.tuandao.alarmstudy.util.getDefaultRingtonTitle
+import com.asterisk.tuandao.alarmstudy.utils.getDefaultRington
+import com.asterisk.tuandao.alarmstudy.utils.getDefaultRingtonTitle
+import com.asterisk.tuandao.alarmstudy.utils.removeElement
 import kotlinx.android.synthetic.main.activity_detail.*
 import kotlinx.android.synthetic.main.setting_feature_alarm.*
 import kotlinx.android.synthetic.main.setting_feature_alarm.view.*
 import java.util.*
 import javax.inject.Inject
+import kotlin.collections.ArrayList
 
 class DetailActivity : AppCompatActivity(), DetailContract.View, TimePickerDialog.OnTimeSetListener{
 
@@ -40,13 +42,13 @@ class DetailActivity : AppCompatActivity(), DetailContract.View, TimePickerDialo
     private lateinit var mDetailActivityComponent: DetailActivityComponent
     private lateinit var mAdapter: DayAdapterDetail
     private var cacheAlarm = Alarm()
-    private var cacheSelectedDay: String? = null
+    private var cacheSelectedDay = ArrayList<Int>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail)
 
-        val alarmId = intent.getIntExtra(EXTRA_ALARM_ID,0)
+        val alarmId = intent.getIntExtra(Constants.EXTRA_ALARM_ID,0)
         initComponent()
         initAdapter()
         initDefault()
@@ -105,13 +107,11 @@ class DetailActivity : AppCompatActivity(), DetailContract.View, TimePickerDialo
         }
         //switch vibration
         switchVibration.setOnCheckedChangeListener { buttonView, isChecked ->
-            Log.d(TAG,"switchVibration ${isChecked}" )
             if (isChecked) cacheAlarm.isEnable = SWITCH_IS_CHECKED_STATE
             else cacheAlarm.isEnable = SWITCH_IS_NOT_CHECKED_STATE
         }
         //switch snooze
         switchVibration.setOnCheckedChangeListener { buttonView, isChecked ->
-            Log.d(TAG,"switchVibration ${isChecked}" )
             if (isChecked) cacheAlarm.isSnoozed = SWITCH_IS_CHECKED_STATE
             else cacheAlarm.isSnoozed = SWITCH_IS_NOT_CHECKED_STATE
         }
@@ -119,9 +119,13 @@ class DetailActivity : AppCompatActivity(), DetailContract.View, TimePickerDialo
         buttonSave.setOnClickListener {
             val label = editAlarmName.text.toString()
             if (label!=null) cacheAlarm.label = label
-            cacheAlarm.days = cacheSelectedDay
-            Log.d(TAG, "cacheSelectedDay $cacheSelectedDay")
+            cacheSelectedDay.forEach {
+                cacheAlarm.daysOfWeek += it.toString()
+            }
+            Log.d("cacheAlarm.daysOfWeek","${cacheAlarm.daysOfWeek}")
+            cacheAlarm.isEnable = Constants.ALARM_IS_ENABLED
             presenter.addNewAlarm(cacheAlarm)
+            callAlarmService()
             sendNewAlarm()
             finish()
         }
@@ -132,8 +136,14 @@ class DetailActivity : AppCompatActivity(), DetailContract.View, TimePickerDialo
     }
 
     private fun sendNewAlarm() {
-        val intent = Intent(UPDATE_ALARM)
+        val intent = Intent(Constants.UPDATE_ALARM)
         LocalBroadcastManager.getInstance(applicationContext).sendBroadcast(intent)
+    }
+
+    private fun callAlarmService() {
+        val intent = Intent(this, AlarmServiceBroadcastReceiver::class.java)
+        intent.action = Constants.ACTION_ENABLE_ALARM
+        sendBroadcast(intent)
     }
 
     override fun showTimePicker() {
@@ -144,14 +154,12 @@ class DetailActivity : AppCompatActivity(), DetailContract.View, TimePickerDialo
         mAlarmSoundPickerDialog = AlarmSoundPickerDialog.newInstance(alarms) {
             cacheAlarm.soundUri = it.uri
             cacheAlarm.selectedAlarmSound = it.id
-            Log.d(TAG,"showAlarmSound $it")
         }
         mAlarmSoundPickerDialog.show(supportFragmentManager, SOUND_PICKER_DIALOG_TAG)
     }
 
     override fun showAlarmSnooze() {
         mAlarmSnoozeDialog = AlarmSnoozeDialog.newInstance {
-            Log.d(TAG,"showAlarmSnooze $it")
             cacheAlarm.selectedSnooze = it
         }
         mAlarmSnoozeDialog.show(supportFragmentManager, SNOOZE_PICKER_DIALOG_TAG)
@@ -159,7 +167,6 @@ class DetailActivity : AppCompatActivity(), DetailContract.View, TimePickerDialo
 
     override fun showAlarmVibration(alarms: ArrayList<AlarmSound>) {
         mAlarmVibrationDialog = AlarmVibrationPickerDialog.newInstance(alarms) {
-            Log.d(TAG,"showAlarmVibration $it")
             cacheAlarm.selectedVibration = it.id
             cacheAlarm.vibrationUri = it.uri
         }
@@ -168,7 +175,6 @@ class DetailActivity : AppCompatActivity(), DetailContract.View, TimePickerDialo
 
     override fun showAlarmMethod() {
         mAlarmMethodDialog = AlarmMethodDialog.newInstance{
-            Log.d(TAG,"showAlarmMethod $it")
             cacheAlarm.method = it
         }
         mAlarmMethodDialog.show(supportFragmentManager,METHOD_PICKER_DIALOG)
@@ -181,7 +187,6 @@ class DetailActivity : AppCompatActivity(), DetailContract.View, TimePickerDialo
     override fun showDefaultSetting() {
         val uriDefaulSound = this.getDefaultRington()
         val defaultSoundTitle = this.getDefaultRingtonTitle(uriDefaulSound)
-        Log.d(TAG(), "defaultSoundTitle $defaultSoundTitle")
         //vibration content
         textVibrateContent.text = DEFAULT_ENABLE
         // snooze
@@ -191,14 +196,14 @@ class DetailActivity : AppCompatActivity(), DetailContract.View, TimePickerDialo
     }
 
     override fun onTimeSet(view: TimePicker?, hourOfDay: Int, minute: Int) {
-        Log.d(TAG,"onTimeSet")
         cacheAlarm.hour = hourOfDay
         cacheAlarm.minute = minute
     }
 
-    private fun onListenerClickedDay(day: Int) {
+    private fun onListenerClickedDay(day: Int, stateDay: Boolean) {
         Log.d(TAG,"day $day")
-        cacheSelectedDay += "$day"
+        if (stateDay) cacheSelectedDay.add(day)
+        else cacheSelectedDay.removeElement(day)
     }
 
     override fun onResume() {
