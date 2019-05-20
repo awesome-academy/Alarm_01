@@ -55,57 +55,16 @@
             app:layout_constraintTop_toBottomOf="@id/layoutSettingAlarm"
             style="@style/ButtonSettingStyle"/>
 
-    <android.support.constraint.ConstraintLayout
-            android:id="@+id/constraintAlarmTime"
-            android:layout_width="match_parent"
+    <TimePicker
+            android:id="@+id/timePicker"
+            android:layout_width="0dp"
             android:layout_height="0dp"
             app:layout_constraintHeight_percent="0.4"
-            app:layout_constraintBottom_toTopOf="@id/layoutSettingAlarm">
-
-        <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/textAlarmHour"
-                app:layout_constraintEnd_toStartOf="@+id/guideHourHorizontal"
-                app:layout_constraintTop_toTopOf="parent"
-                android:text="06"
-                style="@style/TextTimePicker"
-                app:layout_constraintBottom_toBottomOf="parent"/>
-
-        <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/textColon"
-                android:text=":"
-                style="@style/TextTimePicker"
-                app:layout_constraintStart_toEndOf="@+id/textAlarmHour"
-                app:layout_constraintEnd_toStartOf="@+id/guideMinuteHorizontal"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"/>
-
-        <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/textAlarmMinute"
-                android:text="00"
-                style="@style/TextTimePicker"
-                app:layout_constraintStart_toStartOf="@+id/guideMinuteHorizontal"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"/>
-
-        <android.support.constraint.Guideline
-                android:orientation="vertical"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/guideHourHorizontal"
-                app:layout_constraintGuide_percent="0.4"/>
-
-        <android.support.constraint.Guideline
-                android:orientation="vertical"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/guideMinuteHorizontal"
-                app:layout_constraintGuide_percent="0.6"/>
-    </android.support.constraint.ConstraintLayout>
+            android:timePickerMode="spinner"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/layoutSettingAlarm"
+            android:theme="@style/MyBase.TimePicker"/>
 
 </android.support.constraint.ConstraintLayout>
