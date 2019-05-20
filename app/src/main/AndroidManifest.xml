@@ -11,18 +11,16 @@
             android:name=".base.MainApplication"
             android:theme="@style/AppTheme">
         <activity android:name=".ui.detail.DetailActivity"
-                  android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+                  android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".ui.detail.DetailActivity">
+        <activity
+                android:name=".ui.home.HomeActivity"
+                android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
-        </activity>
-        <activity
-                android:name=".ui.home.HomeActivity"
-                android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         </activity>
     </application>
 </manifest>

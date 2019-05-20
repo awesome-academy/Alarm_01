@@ -2,7 +2,6 @@ package com.asterisk.tuandao.alarmstudy.di.module
 
 import android.content.Context
 import com.asterisk.tuandao.alarmstudy.data.AlarmDataSource
-import com.asterisk.tuandao.alarmstudy.data.repository.AlarmRepository
 import com.asterisk.tuandao.alarmstudy.data.source.local.AlarmLocalDataSource
 import com.asterisk.tuandao.alarmstudy.data.source.local.AlarmStorageDataSource
 import com.asterisk.tuandao.alarmstudy.data.source.local.AppDatabase
@@ -15,6 +14,7 @@ import javax.inject.Singleton
 
 @Module(includes = [ApplicationModule::class])
 class DataModule {
+
     @Provides
     @Singleton
     @Local
@@ -25,7 +25,7 @@ class DataModule {
     @Provides
     @Singleton
     @Storage
-    fun provideStorageDataSource(alarmStorageDataSource: AlarmStorageDataSource): AlarmDataSource.Local {
+    fun provideStorageDataSource(alarmStorageDataSource: AlarmStorageDataSource): AlarmDataSource.Storage {
         return alarmStorageDataSource
     }
 
@@ -41,10 +41,16 @@ class DataModule {
 
     @Provides
     @Singleton
-    fun provideAppDatabase(@ApplicationContext context: Context, @DatabaseName DATABASE_NAME: String,
+    fun provideAppDatabase(
+        @ApplicationContext context: Context,
+        @DatabaseName DATABASE_NAME: String,
         @DatabaseVersion DATABASE_VERSION: Int
     ): AppDatabase {
-        return AppDatabase(context, DATABASE_NAME, DATABASE_VERSION)
+        return AppDatabase(
+            context,
+            DATABASE_NAME,
+            DATABASE_VERSION
+        )
     }
 
     @Provides

@@ -26,14 +26,17 @@ class AlarmSoundPickerDialog : DialogFragment() {
         ) { dialog, which ->
             //user checked itemt
             selectedItem = which
+            Log.d(TAG, "which $which")
         }
         mAlarmSoundPickerDialog.setPositiveButton(POSITIVE_BUTTON) { dialog, which ->
             // user clicked ok
         })
 
+
         mAlarmSoundPickerDialog.setNegativeButton(NEGATIVE_BUTTON, { dialog, which ->
 
         })
+
         return mAlarmSoundPickerDialog
     }
 
@@ -45,6 +48,7 @@ class AlarmSoundPickerDialog : DialogFragment() {
 
         fun setListenerAlarmSoundPicker(listener: (Int) -> Unit) {
             callback = listener
+            Log.d("hehehe", "blbalba " + callback)
         }
     }
 }
