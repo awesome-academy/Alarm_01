@@ -27,7 +27,7 @@
     <Button
             android:id="@+id/buttonCancel"
             android:text="@string/action_cancel"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/dp_0"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp_8"
             android:layout_marginLeft="@dimen/dp_8"
@@ -43,7 +43,7 @@
     <Button
             android:id="@+id/buttonSave"
             android:text="@string/action_save"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/dp_0"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp_8"
             android:layout_marginEnd="@dimen/dp_8"
@@ -68,7 +68,7 @@
                 android:id="@+id/textAlarmHour"
                 app:layout_constraintEnd_toStartOf="@+id/guideHourHorizontal"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:text="@string/fake_hour"
+                android:text="06"
                 style="@style/TextTimePicker"
                 app:layout_constraintBottom_toBottomOf="parent"/>
 
@@ -76,7 +76,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/textColon"
-                tools:text="@string/fake_colon"
+                android:text=":"
                 style="@style/TextTimePicker"
                 app:layout_constraintStart_toEndOf="@+id/textAlarmHour"
                 app:layout_constraintEnd_toStartOf="@+id/guideMinuteHorizontal"
@@ -87,7 +87,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/textAlarmMinute"
-                tools:text="@string/fake_minute"
+                android:text="00"
                 style="@style/TextTimePicker"
                 app:layout_constraintStart_toStartOf="@+id/guideMinuteHorizontal"
                 app:layout_constraintTop_toTopOf="parent"

@@ -2,7 +2,6 @@ package com.asterisk.tuandao.alarmstudy.ui.dialog
 
 import android.app.AlertDialog
 import android.app.Dialog
-import android.content.DialogInterface
 import android.os.Bundle
 import android.support.v4.app.DialogFragment
 import android.util.Log
@@ -15,27 +14,26 @@ class AlarmSoundPickerDialog : DialogFragment() {
     private lateinit var mListenerAlarmSoundPicker: (Int) -> Unit
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-
         return builderSingleChoiceDialog().create()
     }
 
-    private fun builderSingleChoiceDialog() :AlertDialog.Builder{
+    private fun builderSingleChoiceDialog(): AlertDialog.Builder {
+        var selectedItem: Int? = null
         mAlarmSoundPickerDialog = AlertDialog.Builder(activity)
-        mAlarmSoundPickerDialog.setSingleChoiceItems(resources.getStringArray(R.array.sounds),
-            DEFAULT_SOUND_INDEX, {dialog, which ->
-                //user checked itemt
-                callback(which)
-            })
-
-        mAlarmSoundPickerDialog.setPositiveButton(POSITIVE_BUTTON , { dialog, which ->
+        mAlarmSoundPickerDialog.setSingleChoiceItems(
+            resources.getStringArray(R.array.sounds),
+            DEFAULT_SOUND_INDEX
+        ) { dialog, which ->
+            //user checked itemt
+            selectedItem = which
+        }
+        mAlarmSoundPickerDialog.setPositiveButton(POSITIVE_BUTTON) { dialog, which ->
             // user clicked ok
         })
 
-
-        mAlarmSoundPickerDialog.setNegativeButton(NEGATIVE_BUTTON, {dialog, which ->
+        mAlarmSoundPickerDialog.setNegativeButton(NEGATIVE_BUTTON, { dialog, which ->
 
         })
-
         return mAlarmSoundPickerDialog
     }
 

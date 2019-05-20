@@ -1,4 +1,4 @@
-package com.asterisk.tuandao.alarmstudy.data.source
+package com.asterisk.tuandao.alarmstudy.data.source.local
 
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
@@ -12,7 +12,7 @@ class AppDatabase(
     context: Context,
     DATABASE_NAME: String,
     DATABASE_VERSION: Int
-) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION){
+) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
 
     override fun onCreate(db: SQLiteDatabase?) {
         db?.execSQL(CREATE_TABLE_ALARM)
