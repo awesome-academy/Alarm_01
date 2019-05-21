@@ -23,7 +23,7 @@ class Alarm constructor(
     var method: Int?,
     var level: Int?
 ) {
-    constructor() : this(0,
+    constructor() : this(-1,
         0, 0, null,
         null, null, null, null,
         null, null, null, null, null, null

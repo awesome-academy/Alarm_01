@@ -9,11 +9,12 @@ interface HomeContract {
 
     interface View : BaseView<Presenter> {
 
-        fun showAlarms(sounds: ArrayList<Alarm>)
+        fun showAlarms(alarms: ArrayList<Alarm>)
 
         fun showAlarmSetting()
 
         fun updateActiveAlarm(status: Boolean, alarm: Alarm)
+
     }
 
     interface Presenter : BasePresenter {
@@ -21,5 +22,6 @@ interface HomeContract {
         fun addNewAlarm()
 
         fun activeAlarm(alarm: Alarm, status: Boolean)
+
     }
 }

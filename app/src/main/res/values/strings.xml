@@ -20,4 +20,12 @@
     <string name="fake_colon">:</string>
     <string name="fake_minute">00</string>
     <string name="action_add">Add</string>
+    <string name="action_dismiss">dismiss</string>
+    <string name="text_permission_error">Permission is not granted</string>
+    <string name="message_alert_permission">This permission is needed because of this and that</string>
+    <string name="message_alert_title_permission">Permission needed</string>
+    <string name="message_positive_button">ok</string>
+    <string name="message_cancel_alert_button">cancel</string>
+    <string name="message_granted_permission">Permission GRANTED</string>
+    <string name="message_denied_permission">Permission DENIED</string>
 </resources>

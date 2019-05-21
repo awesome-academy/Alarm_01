@@ -1,5 +1,6 @@
 package com.asterisk.tuandao.alarmstudy.data.repository
 
+import android.util.Log
 import com.asterisk.tuandao.alarmstudy.data.AlarmDataSource
 import com.asterisk.tuandao.alarmstudy.data.model.Alarm
 import com.asterisk.tuandao.alarmstudy.data.model.AlarmSound
@@ -57,6 +58,7 @@ class AlarmRepository @Inject constructor(
 
     override fun saveAlarm(alarm: Alarm) {
         alarmLocalDataSource.saveAlarm(alarm)
+        Log.d("AlarmRepository","alarm ${alarm.id}, hour ${alarm.hour}, sound ${alarm.soundUri}")
     }
 
     override fun getAlarms(callback: AlarmDataSource.LoadAlarmCallback) {

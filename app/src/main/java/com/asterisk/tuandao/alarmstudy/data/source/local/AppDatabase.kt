@@ -3,7 +3,6 @@ package com.asterisk.tuandao.alarmstudy.data.source.local
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
-import android.util.Log
 import com.asterisk.tuandao.alarmstudy.data.model.Alarm
 import com.asterisk.tuandao.alarmstudy.utils.AlarmDatabaseUtils
 import javax.inject.Singleton
@@ -16,7 +15,6 @@ class AppDatabase(
 ) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION){
 
     override fun onCreate(db: SQLiteDatabase?) {
-        Log.d(".AppDatabase","CREATE_TABLE_ALARM: $CREATE_TABLE_ALARM")
         db?.execSQL(CREATE_TABLE_ALARM)
     }
 
@@ -40,8 +38,6 @@ class AppDatabase(
     fun saveAlarm(alarm: Alarm) {
         val db = this.writableDatabase
         val i = db.insert(AlarmEntry.TABLE_NAME, null, AlarmDatabaseUtils.getAlarmValues(alarm))
-        Log.d(".AppDatabase", "saveAlarm $i")
-        db.close()
     }
 
     fun updateStatus(alarmId: Int,status: Boolean): Boolean{
@@ -54,14 +50,14 @@ class AppDatabase(
     companion object {
         private const val DEFAULT_VALUE = 0
         private const val CREATE_TABLE_ALARM = """CREATE TABLE ${AlarmEntry.TABLE_NAME} (
-                ${AlarmEntry.COLUMN_ID} INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+                ${AlarmEntry.COLUMN_ID} INTEGER PRIMARY KEY AUTOINCREMENT,
                 ${AlarmEntry.COLUMN_HOUR} TEXT NOT NULL,
                 ${AlarmEntry.COLUMN_MINUTE} TEXT NOT NULL,
                 ${AlarmEntry.COLUMN_MONTH} TEXT,
                 ${AlarmEntry.COLUMN_YEAR} TEXT,
                 ${AlarmEntry.COLUMN_DAY_OF_WEEK} TEXT,
                 ${AlarmEntry.COLUMN_DAY_OF_MONTH} TEXT,
-                ${AlarmEntry.COLUMN_SOUND_URI} TEXT,
+                ${AlarmEntry.COLUMN_SOUND_URI} TEXT NOT NULL,
                 ${AlarmEntry.COLUMN_SELECTED_SOUND} TEXT,
                 ${AlarmEntry.COLUMN_ACTIVE} INTEGER DEFAULT $DEFAULT_VALUE,
                 ${AlarmEntry.COLUMN_VIBRATE} INTEGER DEFAULT $DEFAULT_VALUE,

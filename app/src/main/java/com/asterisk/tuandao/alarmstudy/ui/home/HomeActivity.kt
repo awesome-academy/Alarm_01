@@ -52,7 +52,6 @@ class HomeActivity : AppCompatActivity(), HomeContract.View {
         initToolbar()
         initAdapter()
         handleEvent()
-        Log.d(TAG(), "onCreate")
         presenter.start()
     }
 
@@ -81,8 +80,8 @@ class HomeActivity : AppCompatActivity(), HomeContract.View {
             .registerReceiver(mUpdateAlarmReceiver, IntentFilter(UPDATE_ALARM))
     }
 
-    override fun showAlarms(sounds: ArrayList<Alarm>) {
-        mAdapter.swapAlarms(sounds)
+    override fun showAlarms(alarms: ArrayList<Alarm>) {
+        mAdapter.swapAlarms(alarms)
     }
 
     override fun showAlarmSetting() {

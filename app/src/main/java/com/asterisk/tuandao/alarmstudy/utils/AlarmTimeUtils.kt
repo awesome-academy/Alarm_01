@@ -11,14 +11,13 @@ import com.asterisk.tuandao.alarmstudy.data.AlarmDataSource
 import com.asterisk.tuandao.alarmstudy.data.model.Alarm
 import com.asterisk.tuandao.alarmstudy.data.repository.AlarmRepository
 import java.util.*
-import kotlin.Comparator
 import kotlin.collections.ArrayList
 
 
 object AlarmTimeUtils {
     var cacheNextAlarm = Alarm()
 
-    fun getTimeString(hour: Int, minute: Int): String{
+    fun getTimeString(hour: Int, minute: Int): String {
         var hourString = "$hour"
         var minuteString = "$minute"
         if (hour < Constants.NUMBER_MAX) hourString = "0$hour"
@@ -28,7 +27,7 @@ object AlarmTimeUtils {
 
     fun toDaysList(days: String?): List<Int> {
         val dayList = ArrayList<Int>()
-        if (days!=null) {
+        if (days != null) {
             val s = days?.split("null")[1].trim().split("")
             s.forEach {
                 it.toIntOrNull()?.let {
@@ -39,10 +38,10 @@ object AlarmTimeUtils {
         return dayList
     }
 
-    fun checkEnabledDay(dayIndex: Int,dayIsEnabled: List<Int>): Boolean{
+    fun checkEnabledDay(dayIndex: Int, dayIsEnabled: List<Int>): Boolean {
         var check = false
         for (day in dayIsEnabled) {
-            if (day == dayIndex){
+            if (day == dayIndex) {
                 check = true
                 break
             }
@@ -51,19 +50,20 @@ object AlarmTimeUtils {
     }
 
     fun scheduleAlarm(repository: AlarmRepository, applicationContext: Context) {
-        repository.getAlarms(object : AlarmDataSource.LoadAlarmCallback{
+        repository.getAlarms(object : AlarmDataSource.LoadAlarmCallback {
             override fun onSuccess(alarms: ArrayList<Alarm>) {
                 val nextAlarm = getNextAlarm(alarms)
                 establishAlarmManager(nextAlarm, applicationContext)
             }
+
             override fun onFailure() {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
             }
 
         })
     }
 
-    fun getNextAlarm(alarms: ArrayList<Alarm>): Alarm{
+    fun getNextAlarm(alarms: ArrayList<Alarm>): Alarm {
         val alarmQueue = initAlarmQueue()
         alarms.forEach {
             if (it.isEnable == Constants.ALARM_IS_ENABLED) {
@@ -83,23 +83,25 @@ object AlarmTimeUtils {
         return alarm
     }
 
-    fun initAlarmQueue() = TreeSet(object :Comparator<Alarm> {
-            override fun compare(previousAlarm: Alarm, nextAlarm: Alarm): Int {
-                val diff = getCalendarAlarm(previousAlarm).timeInMillis - getCalendarAlarm(nextAlarm).timeInMillis
-                if (diff > 0) return 1
-                if (diff < 0) return -1
-                return  0
-            }
-        })
+    fun initAlarmQueue() = TreeSet(object : Comparator<Alarm> {
+        override fun compare(previousAlarm: Alarm, nextAlarm: Alarm): Int {
+            val diff = getCalendarAlarm(previousAlarm).timeInMillis - getCalendarAlarm(nextAlarm).timeInMillis
+            if (diff > 0) return 1
+            if (diff < 0) return -1
+            return 0
+        }
+    })
+
     //condition diff = 0
-    fun getNewAlarm(alarm: Alarm) :Alarm{
+    fun getNewAlarm(alarm: Alarm): Alarm {
         val alarmTime = Calendar.getInstance()
         alarmTime.set(Calendar.HOUR_OF_DAY, alarm.hour)
         alarmTime.set(Calendar.MINUTE, alarm.minute)
         if (alarmTime.before(Calendar.getInstance())) {
-            alarmTime.add(Calendar.DAY_OF_MONTH,1)
+            alarmTime.add(Calendar.DAY_OF_MONTH, 1)
         }
         val cloneAlarm = Alarm()
+        cloneAlarm.id = alarm.id
         cloneAlarm.hour = alarmTime.get(Calendar.HOUR_OF_DAY)
         cloneAlarm.minute = alarmTime.get(Calendar.MINUTE)
         cloneAlarm.month = alarmTime.get(Calendar.MONTH)
@@ -107,8 +109,9 @@ object AlarmTimeUtils {
         cloneAlarm.year = alarmTime.get(Calendar.YEAR)
         return cloneAlarm
     }
+
     //condition diff!=0
-    fun getNewAlarm(alarm: Alarm, day: Int): Alarm{
+    fun getNewAlarm(alarm: Alarm, day: Int): Alarm {
         val newAlarmTime = Calendar.getInstance()
         val newCurrentTime = Calendar.getInstance()
         newAlarmTime.set(Calendar.HOUR_OF_DAY, alarm.hour)
@@ -118,25 +121,24 @@ object AlarmTimeUtils {
             .negativeMod(Constants.NUMBER_DAY_OF_WEEK)
         val diff = currentDayOfWeek - day
         var diffDayOfMonth = 0
-        if (diff<0) {
+        if (diff < 0) {
             diffDayOfMonth = newCurrentTime.get(Calendar.DAY_OF_MONTH) + Math.abs(diff)
         }
-        if (diff>0){
-            diffDayOfMonth = newCurrentTime.get(Calendar.DAY_OF_MONTH)
-            + Constants.NUMBER_DAY_OF_WEEK - Math.abs(diff)
+        if (diff > 0) {
+            diffDayOfMonth = newCurrentTime.get(Calendar.DAY_OF_MONTH) + Constants.NUMBER_DAY_OF_WEEK - Math.abs(diff)
         }
         if (diff == 0) {
             if (newAlarmTime.before(newCurrentTime)) {
-                newAlarmTime.add(Calendar.DAY_OF_MONTH,1)
+                newAlarmTime.add(Calendar.DAY_OF_MONTH, 1)
                 diffDayOfMonth = newAlarmTime.get(Calendar.DAY_OF_MONTH)
-            }else {
+            } else {
                 diffDayOfMonth = newAlarmTime.get(Calendar.DAY_OF_MONTH)
             }
         }
-
         newAlarmTime.set(Calendar.DAY_OF_MONTH, diffDayOfMonth)
         //create a new alarm
         val cloneAlarm = Alarm()
+        cloneAlarm.id = alarm.id
         cloneAlarm.hour = newAlarmTime.get(Calendar.HOUR_OF_DAY)
         cloneAlarm.minute = newAlarmTime.get(Calendar.MINUTE)
         cloneAlarm.month = newAlarmTime.get(Calendar.MONTH)
@@ -145,10 +147,9 @@ object AlarmTimeUtils {
         return cloneAlarm
     }
 
-    fun getCalendarAlarm(alarm: Alarm): Calendar{
+    fun getCalendarAlarm(alarm: Alarm): Calendar {
         val newCalendarAlarm = Calendar.getInstance()
-        newCalendarAlarm.set(alarm.year!!, alarm.month!!, alarm.dayOfMonth!!
-        ,alarm.hour, alarm.minute)
+        newCalendarAlarm.set(alarm.year!!, alarm.month!!, alarm.dayOfMonth!!, alarm.hour, alarm.minute)
         return newCalendarAlarm
     }
 
@@ -156,8 +157,8 @@ object AlarmTimeUtils {
         val myIntent = Intent(context, AlarmServiceBroadcastReceiver::class.java)
         myIntent.action = Constants.ACTION_TRIGGER_ALARM
         myIntent.putExtra(Constants.TRIGGERED_ALARM_ID, alarm.id)
-        val pendingIntent = PendingIntent.getBroadcast(context, 0,
-            myIntent, PendingIntent.FLAG_CANCEL_CURRENT)
+        val pendingIntent = PendingIntent.getBroadcast(
+            context, 0, myIntent, PendingIntent.FLAG_CANCEL_CURRENT)
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         alarmManager.set(AlarmManager.RTC_WAKEUP, getCalendarAlarm(alarm).timeInMillis, pendingIntent)
     }

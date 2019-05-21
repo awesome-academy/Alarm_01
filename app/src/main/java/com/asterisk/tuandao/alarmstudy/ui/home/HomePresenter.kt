@@ -11,15 +11,7 @@ class HomePresenter @Inject constructor(
     private val mainView: HomeContract.View
 ) : HomeContract.Presenter {
     override fun start() {
-        alarmRepository.getAlarms(object : AlarmDataSource.LoadAlarmCallback{
-            override fun onSuccess(alarms: ArrayList<Alarm>) {
-                mainView.showAlarms(alarms)
-            }
-
-            override fun onFailure() {
-            }
-
-        })
+        getAlarms()
     }
 
     override fun addNewAlarm() {
@@ -34,6 +26,18 @@ class HomePresenter @Inject constructor(
 
             override fun onFailure() {
                 Log.d("HomePresenter","onFailure()")
+            }
+
+        })
+    }
+
+    private fun getAlarms() {
+        alarmRepository.getAlarms(object : AlarmDataSource.LoadAlarmCallback{
+            override fun onSuccess(alarms: ArrayList<Alarm>) {
+                mainView.showAlarms(alarms)
+            }
+
+            override fun onFailure() {
             }
 
         })

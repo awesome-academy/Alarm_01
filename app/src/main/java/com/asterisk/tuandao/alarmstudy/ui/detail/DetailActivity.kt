@@ -1,15 +1,22 @@
 package com.asterisk.tuandao.alarmstudy.ui.detail
 
-
 import Constants
+import Constants.PERMISSION_READ_STORAGE
+import android.Manifest
+import android.app.AlertDialog
 import android.app.TimePickerDialog
+import android.content.DialogInterface
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
+import android.support.v4.app.ActivityCompat
+import android.support.v4.content.ContextCompat
 import android.support.v4.content.LocalBroadcastManager
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
 import android.widget.TimePicker
+import android.widget.Toast
 import com.asterisk.tuandao.alarmstudy.R
 import com.asterisk.tuandao.alarmstudy.base.MainApplication
 import com.asterisk.tuandao.alarmstudy.broadcast.AlarmServiceBroadcastReceiver
@@ -18,8 +25,6 @@ import com.asterisk.tuandao.alarmstudy.data.model.AlarmSound
 import com.asterisk.tuandao.alarmstudy.di.component.DaggerDetailActivityComponent
 import com.asterisk.tuandao.alarmstudy.di.component.DetailActivityComponent
 import com.asterisk.tuandao.alarmstudy.ui.dialog.*
-import com.asterisk.tuandao.alarmstudy.utils.getDefaultRington
-import com.asterisk.tuandao.alarmstudy.utils.getDefaultRingtonTitle
 import com.asterisk.tuandao.alarmstudy.utils.removeElement
 import kotlinx.android.synthetic.main.activity_detail.*
 import kotlinx.android.synthetic.main.setting_feature_alarm.*
@@ -28,7 +33,8 @@ import java.util.*
 import javax.inject.Inject
 import kotlin.collections.ArrayList
 
-class DetailActivity : AppCompatActivity(), DetailContract.View, TimePickerDialog.OnTimeSetListener{
+
+class DetailActivity : AppCompatActivity(), DetailContract.View, TimePickerDialog.OnTimeSetListener {
 
     @Inject
     override lateinit var presenter: DetailContract.Presenter
@@ -46,15 +52,13 @@ class DetailActivity : AppCompatActivity(), DetailContract.View, TimePickerDialo
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_detail)
+        setContentView(com.asterisk.tuandao.alarmstudy.R.layout.activity_detail)
 
-        val alarmId = intent.getIntExtra(Constants.EXTRA_ALARM_ID,0)
         initComponent()
         initAdapter()
         initDefault()
         handleEvent()
-        if (alarmId!=0) presenter.getAlarmSetting(alarmId)
-        else presenter.start()
+        initData()
     }
 
     private fun initComponent() {
@@ -66,26 +70,39 @@ class DetailActivity : AppCompatActivity(), DetailContract.View, TimePickerDialo
     }
 
     private fun initAdapter() {
-        mAdapter = DayAdapterDetail(this, resources.getStringArray(R.array.days), ::onListenerClickedDay)
+        mAdapter = DayAdapterDetail(this,
+            resources.getStringArray(com.asterisk.tuandao.alarmstudy.R.array.days), ::onListenerClickedDay)
         layoutSettingAlarm.recyclerDay.layoutManager =
             LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         layoutSettingAlarm.recyclerDay.adapter = mAdapter
     }
 
     private fun initDefault() {
-        val uriDefaulSound = this.getDefaultRington()
+//        val uriDefaulSound = this.getDefaultRington()
+//        Log.d("uriDefaulSound", "$uriDefaulSound")
         val calendar = Calendar.getInstance()
         val hour = calendar.get(Calendar.HOUR_OF_DAY)
         val minute = calendar.get(Calendar.MINUTE)
         cacheAlarm.hour = hour
         cacheAlarm.minute = minute
-        cacheAlarm.soundUri = uriDefaulSound.toString()
+//        cacheAlarm.soundUri = uriDefaulSound.toString()
+    }
+
+    private fun initData() {
+        val alarmId = intent.getIntExtra(Constants.EXTRA_ALARM_ID, Constants.INVALID_ID)
+        if (alarmId > 0) presenter.getAlarmSetting(alarmId)
+        else presenter.start()
     }
 
     private fun handleEvent() {
         //alarm sound
         viewTransparentSound.setOnClickListener {
-            presenter.getAlarmSound()
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
+                == PackageManager.PERMISSION_GRANTED) {
+                presenter.getAlarmSound()
+            } else {
+                requestStoragePermission()
+            }
         }
         //alarm method
         viewTransparentMethod.setOnClickListener {
@@ -118,12 +135,12 @@ class DetailActivity : AppCompatActivity(), DetailContract.View, TimePickerDialo
         //button save
         buttonSave.setOnClickListener {
             val label = editAlarmName.text.toString()
-            if (label!=null) cacheAlarm.label = label
+            if (label != null) cacheAlarm.label = label
             cacheSelectedDay.forEach {
                 cacheAlarm.daysOfWeek += it.toString()
             }
-            Log.d("cacheAlarm.daysOfWeek","${cacheAlarm.daysOfWeek}")
             cacheAlarm.isEnable = Constants.ALARM_IS_ENABLED
+            Log.d("DetailActivity", "cacheAlarm ${cacheAlarm.soundUri}")
             presenter.addNewAlarm(cacheAlarm)
             callAlarmService()
             sendNewAlarm()
@@ -146,6 +163,24 @@ class DetailActivity : AppCompatActivity(), DetailContract.View, TimePickerDialo
         sendBroadcast(intent)
     }
 
+    private fun requestStoragePermission() {
+        if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
+            AlertDialog.Builder(this)
+                .setTitle(getString(R.string.message_alert_title_permission))
+                .setMessage(getString(R.string.message_alert_permission))
+                .setPositiveButton(
+                    getString(R.string.message_positive_button),
+                    DialogInterface.OnClickListener { dialog, which ->
+                        ActivityCompat.requestPermissions(this@DetailActivity,
+                            arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), PERMISSION_READ_STORAGE) })
+                .setNegativeButton(getString(R.string.message_cancel_alert_button),
+                    DialogInterface.OnClickListener { dialog, which -> dialog.dismiss() }).create().show()
+        } else {
+            ActivityCompat.requestPermissions(this,
+                arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), PERMISSION_READ_STORAGE)
+        }
+    }
+
     override fun showTimePicker() {
         mTimePickerDialog.show(supportFragmentManager, TIME_PICKER_DIALOG_TAG)
     }
@@ -153,6 +188,7 @@ class DetailActivity : AppCompatActivity(), DetailContract.View, TimePickerDialo
     override fun showAlarmSound(alarms: ArrayList<AlarmSound>) {
         mAlarmSoundPickerDialog = AlarmSoundPickerDialog.newInstance(alarms) {
             cacheAlarm.soundUri = it.uri
+            Log.d("DetailActivity", "showAlarmSound ${cacheAlarm.soundUri}")
             cacheAlarm.selectedAlarmSound = it.id
         }
         mAlarmSoundPickerDialog.show(supportFragmentManager, SOUND_PICKER_DIALOG_TAG)
@@ -174,10 +210,10 @@ class DetailActivity : AppCompatActivity(), DetailContract.View, TimePickerDialo
     }
 
     override fun showAlarmMethod() {
-        mAlarmMethodDialog = AlarmMethodDialog.newInstance{
+        mAlarmMethodDialog = AlarmMethodDialog.newInstance {
             cacheAlarm.method = it
         }
-        mAlarmMethodDialog.show(supportFragmentManager,METHOD_PICKER_DIALOG)
+        mAlarmMethodDialog.show(supportFragmentManager, METHOD_PICKER_DIALOG)
     }
 
     override fun showAlarmSetting() {
@@ -185,14 +221,15 @@ class DetailActivity : AppCompatActivity(), DetailContract.View, TimePickerDialo
     }
 
     override fun showDefaultSetting() {
-        val uriDefaulSound = this.getDefaultRington()
-        val defaultSoundTitle = this.getDefaultRingtonTitle(uriDefaulSound)
+//        val uriDefaulSound = this.getDefaultRington()
+//        val defaultSoundTitle = this.getDefaultRingtonTitle(uriDefaulSound)
+//        Log.d("DetailActivity", "defaultSoundTitle $defaultSoundTitle")
         //vibration content
         textVibrateContent.text = DEFAULT_ENABLE
         // snooze
         textSnoozeContent.text = DEFAULT_ENABLE
         //sound
-        textAlarmSoundDetail.text = defaultSoundTitle
+//        textAlarmSoundDetail.text = defaultSoundTitle
     }
 
     override fun onTimeSet(view: TimePicker?, hourOfDay: Int, minute: Int) {
@@ -201,13 +238,23 @@ class DetailActivity : AppCompatActivity(), DetailContract.View, TimePickerDialo
     }
 
     private fun onListenerClickedDay(day: Int, stateDay: Boolean) {
-        Log.d(TAG,"day $day")
+        Log.d(TAG, "day $day")
         if (stateDay) cacheSelectedDay.add(day)
         else cacheSelectedDay.removeElement(day)
     }
 
     override fun onResume() {
         super.onResume()
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        if (requestCode == PERMISSION_READ_STORAGE) {
+            if (grantResults.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(this, getString(R.string.message_granted_permission), Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, getString(R.string.message_denied_permission), Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
     companion object {

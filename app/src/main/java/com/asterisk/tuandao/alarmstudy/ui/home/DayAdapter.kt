@@ -14,8 +14,6 @@ class DayAdapter(private val context: Context, private val daysIsEnabled: List<I
     private val mLayoutInflater = LayoutInflater.from(context)
     private var days = context.resources.getStringArray(R.array.days_home)
 
-
-
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int) =
         DayViewHolder(mLayoutInflater.inflate(R.layout.item_day_of_week_home, viewGroup, false))
 

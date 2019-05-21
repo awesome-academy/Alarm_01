@@ -58,8 +58,4 @@ class DetailPresenter @Inject constructor(
         alarmRepository.saveAlarm(alarm)
     }
 
-    override fun getAlarmSetting(alarmId: Int) {
-
-    }
-
 }

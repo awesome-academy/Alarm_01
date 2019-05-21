@@ -23,6 +23,9 @@ class AlarmServiceBroadcastReceiver : BroadcastReceiver() {
             serviceIntent.putExtra(Constants.TRIGGERED_ALARM_ID, alarmId)
             serviceIntent.action = Constants.ACTION_TRIGGER_ALARM
         }
+        if (Constants.ACTION_DISMISS_ALARM.equals(intent?.action)) {
+            serviceIntent.action = Constants.ACTION_DISMISS_ALARM
+        }
         context?.startService(serviceIntent)
     }
 }

@@ -37,7 +37,10 @@ class AlarmLocalDataSource @Inject constructor(
         executor.diskIO.execute {
             val alarm = appDatabase.getAlarm(alarmId)
             executor.mainThread.execute {
-                if (alarm!=null) callback.onSuccess(alarm)
+                if (alarm!=null) {
+                    Log.d("AlarmLocalDataSource","getAlarm ${alarm.id}, hour ${alarm.hour}, uri ${alarm.soundUri}")
+                    callback.onSuccess(alarm)
+                }
                 else callback.onFailure()
             }
         }
