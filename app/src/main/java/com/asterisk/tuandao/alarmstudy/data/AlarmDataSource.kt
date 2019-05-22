@@ -43,6 +43,7 @@ interface AlarmDataSource {
 
         fun updateActiveAlarm(alarmId: Int, status: Boolean, callback: updateAlarmCallback)
 
+        fun deleteAlarm(alarmId: Int, updateAlarmCallback: updateAlarmCallback)
     }
 
     interface Storage {

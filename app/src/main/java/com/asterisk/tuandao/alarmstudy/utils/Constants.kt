@@ -18,6 +18,7 @@ object Constants{
     const val TRIGGERED_ALARM_ID = "triggered_alarm_id"
     const val ACTION_DISMISS_ALARM = "dismiss_alarm"
     const val INVALID_ID = -1
+    const val PREFIX_MINUTE = "minutes"
     // permissions
     const val PERMISSION_READ_STORAGE = 1
     const val PERMISSION_WRITE_STORAGE = 2

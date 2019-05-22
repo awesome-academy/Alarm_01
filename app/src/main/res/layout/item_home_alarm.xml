@@ -6,7 +6,7 @@
                                              android:layout_width="match_parent"
                                              android:layout_height="@dimen/dp_120"
                                              android:layout_marginTop="@dimen/dp_8"
-                                             android:layout_marginBottom="@dimen/dp_16"
+                                             android:layout_marginBottom="@dimen/dp_8"
                                              android:background="@drawable/background_item_info">
 
     <TextView
@@ -22,6 +22,15 @@
             app:layout_constraintVertical_bias="0.5"
             tools:text="@string/fake_time"/>
 
+    <TextView
+            android:id="@+id/textLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/color_white"
+            app:layout_constraintBottom_toTopOf="@+id/textAlarmTime"
+            app:layout_constraintStart_toStartOf="@+id/textAlarmTime"
+            tools:text="@string/fake_text_next_alarm"/>
+
     <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerDayHome"
             android:layout_width="wrap_content"
@@ -35,9 +44,18 @@
             android:id="@+id/switchAlarm"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:theme="@style/SwitchCompatTheme"
             app:layout_constraintWidth_percent="0.2"
             app:layout_constraintTop_toTopOf="@id/textAlarmTime"
             app:layout_constraintBottom_toBottomOf="@id/textAlarmTime"
             app:layout_constraintRight_toRightOf="parent"/>
+
+    <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ic_icons8_trash_can"
+            android:id="@+id/imageActionDelete"
+            app:layout_constraintStart_toStartOf="@+id/textAlarmTime"
+            app:layout_constraintTop_toBottomOf="@+id/textAlarmTime"/>
 
 </android.support.constraint.ConstraintLayout>

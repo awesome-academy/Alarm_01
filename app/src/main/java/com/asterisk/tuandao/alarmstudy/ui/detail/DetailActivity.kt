@@ -5,7 +5,6 @@ import Constants.PERMISSION_READ_STORAGE
 import android.Manifest
 import android.app.AlertDialog
 import android.app.TimePickerDialog
-import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
@@ -14,6 +13,7 @@ import android.support.v4.content.ContextCompat
 import android.support.v4.content.LocalBroadcastManager
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
+import android.text.Editable
 import android.util.Log
 import android.widget.TimePicker
 import android.widget.Toast
@@ -56,7 +56,6 @@ class DetailActivity : AppCompatActivity(), DetailContract.View, TimePickerDialo
 
         initComponent()
         initAdapter()
-        initDefault()
         handleEvent()
         initData()
     }
@@ -77,20 +76,10 @@ class DetailActivity : AppCompatActivity(), DetailContract.View, TimePickerDialo
         layoutSettingAlarm.recyclerDay.adapter = mAdapter
     }
 
-    private fun initDefault() {
-//        val uriDefaulSound = this.getDefaultRington()
-//        Log.d("uriDefaulSound", "$uriDefaulSound")
-        val calendar = Calendar.getInstance()
-        val hour = calendar.get(Calendar.HOUR_OF_DAY)
-        val minute = calendar.get(Calendar.MINUTE)
-        cacheAlarm.hour = hour
-        cacheAlarm.minute = minute
-//        cacheAlarm.soundUri = uriDefaulSound.toString()
-    }
-
     private fun initData() {
         val alarmId = intent.getIntExtra(Constants.EXTRA_ALARM_ID, Constants.INVALID_ID)
-        if (alarmId > 0) presenter.getAlarmSetting(alarmId)
+        Log.d("DetailActivity","alarmId $alarmId")
+        if (alarmId > 0) presenter.getEditAlarm(alarmId)
         else presenter.start()
     }
 
@@ -122,15 +111,35 @@ class DetailActivity : AppCompatActivity(), DetailContract.View, TimePickerDialo
             cacheAlarm.hour = hourOfDay
             cacheAlarm.minute = minute
         }
-        //switch vibration
-        switchVibration.setOnCheckedChangeListener { buttonView, isChecked ->
-            if (isChecked) cacheAlarm.isEnable = SWITCH_IS_CHECKED_STATE
-            else cacheAlarm.isEnable = SWITCH_IS_NOT_CHECKED_STATE
+        //switch snooze
+        switchSnooze.setOnCheckedChangeListener { buttonView, isChecked ->
+            if (isChecked) {
+                cacheAlarm.isSnoozed = SWITCH_IS_NOT_CHECKED_STATE
+                viewTransparentSnooze.isClickable = true
+                viewTransparentSnooze.setBackgroundColor(resources.getColor(R.color.hide_transparent_view))
+                textSnoozeContent.text = DEFAULT_ENABLED
+            }
+            else {
+                cacheAlarm.isSnoozed = SWITCH_IS_CHECKED_STATE
+                viewTransparentSnooze.isClickable = false
+                viewTransparentSnooze.setBackgroundColor(resources.getColor(R.color.un_hide_transparent_view))
+                textSnoozeContent.text = DEFAULT_DISABLED
+            }
         }
         //switch snooze
         switchVibration.setOnCheckedChangeListener { buttonView, isChecked ->
-            if (isChecked) cacheAlarm.isSnoozed = SWITCH_IS_CHECKED_STATE
-            else cacheAlarm.isSnoozed = SWITCH_IS_NOT_CHECKED_STATE
+            if (isChecked) {
+                cacheAlarm.isVibrated = SWITCH_IS_NOT_CHECKED_STATE
+                viewTransparentVibration.isClickable = true
+                viewTransparentVibration.setBackgroundColor(resources.getColor(R.color.hide_transparent_view))
+                textVibrateContent.text = DEFAULT_ENABLED
+            }
+            else {
+                cacheAlarm.isVibrated = SWITCH_IS_CHECKED_STATE
+                viewTransparentVibration.isClickable = false
+                viewTransparentVibration.setBackgroundColor(resources.getColor(R.color.un_hide_transparent_view))
+                textVibrateContent.text = DEFAULT_DISABLED
+            }
         }
         //button save
         buttonSave.setOnClickListener {
@@ -140,9 +149,9 @@ class DetailActivity : AppCompatActivity(), DetailContract.View, TimePickerDialo
                 cacheAlarm.daysOfWeek += it.toString()
             }
             cacheAlarm.isEnable = Constants.ALARM_IS_ENABLED
-            Log.d("DetailActivity", "cacheAlarm ${cacheAlarm.soundUri}")
+
             presenter.addNewAlarm(cacheAlarm)
-            callAlarmService()
+//            callAlarmService()
             sendNewAlarm()
             finish()
         }
@@ -169,12 +178,14 @@ class DetailActivity : AppCompatActivity(), DetailContract.View, TimePickerDialo
                 .setTitle(getString(R.string.message_alert_title_permission))
                 .setMessage(getString(R.string.message_alert_permission))
                 .setPositiveButton(
-                    getString(R.string.message_positive_button),
-                    DialogInterface.OnClickListener { dialog, which ->
-                        ActivityCompat.requestPermissions(this@DetailActivity,
-                            arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), PERMISSION_READ_STORAGE) })
-                .setNegativeButton(getString(R.string.message_cancel_alert_button),
-                    DialogInterface.OnClickListener { dialog, which -> dialog.dismiss() }).create().show()
+                    getString(R.string.message_positive_button)
+                ) { dialog, which ->
+                    ActivityCompat.requestPermissions(this@DetailActivity,
+                        arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), PERMISSION_READ_STORAGE)
+                }
+                .setNegativeButton(getString(R.string.message_cancel_alert_button)
+                ) { dialog, which -> dialog.dismiss() }.create().show()
+
         } else {
             ActivityCompat.requestPermissions(this,
                 arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), PERMISSION_READ_STORAGE)
@@ -188,8 +199,11 @@ class DetailActivity : AppCompatActivity(), DetailContract.View, TimePickerDialo
     override fun showAlarmSound(alarms: ArrayList<AlarmSound>) {
         mAlarmSoundPickerDialog = AlarmSoundPickerDialog.newInstance(alarms) {
             cacheAlarm.soundUri = it.uri
-            Log.d("DetailActivity", "showAlarmSound ${cacheAlarm.soundUri}")
             cacheAlarm.selectedAlarmSound = it.id
+            textAlarmSoundDetail.text = it.title
+        }
+        alarms.forEach {
+            Log.d("showAlarmSound Sound","id: ${it.id},title: ${it.title},uri: ${it.uri}")
         }
         mAlarmSoundPickerDialog.show(supportFragmentManager, SOUND_PICKER_DIALOG_TAG)
     }
@@ -197,14 +211,19 @@ class DetailActivity : AppCompatActivity(), DetailContract.View, TimePickerDialo
     override fun showAlarmSnooze() {
         mAlarmSnoozeDialog = AlarmSnoozeDialog.newInstance {
             cacheAlarm.selectedSnooze = it
+            selectedSnooze(it)
         }
         mAlarmSnoozeDialog.show(supportFragmentManager, SNOOZE_PICKER_DIALOG_TAG)
     }
 
-    override fun showAlarmVibration(alarms: ArrayList<AlarmSound>) {
-        mAlarmVibrationDialog = AlarmVibrationPickerDialog.newInstance(alarms) {
+    override fun showAlarmVibration(vibrations: ArrayList<AlarmSound>) {
+        mAlarmVibrationDialog = AlarmVibrationPickerDialog.newInstance(vibrations) {
             cacheAlarm.selectedVibration = it.id
             cacheAlarm.vibrationUri = it.uri
+            textVibrateContent.text = it.title
+        }
+        vibrations.forEach {
+            Log.d("showAlarmSound","id: ${it.id},title: ${it.title},uri: ${it.uri}")
         }
         mAlarmVibrationDialog.show(supportFragmentManager, VIBRATION_PICKER_DIALOG)
     }
@@ -212,8 +231,21 @@ class DetailActivity : AppCompatActivity(), DetailContract.View, TimePickerDialo
     override fun showAlarmMethod() {
         mAlarmMethodDialog = AlarmMethodDialog.newInstance {
             cacheAlarm.method = it
+            selectedMethod(it)
         }
         mAlarmMethodDialog.show(supportFragmentManager, METHOD_PICKER_DIALOG)
+    }
+
+    override fun showEditSetting(alarm: Alarm) {
+        if (alarm.label!=null){
+            editAlarmName.text = Editable.Factory.getInstance().newEditable(alarm.label)
+        }
+        if (alarm.soundTitle!=null) textAlarmSoundDetail.text = alarm.soundTitle
+        if (textVibrateContent!=null) textVibrateContent.text = alarm.vibrationTitle
+        if (alarm.isVibrated == SWITCH_IS_CHECKED_STATE) switchVibration.isEnabled = true
+        selectedMethod(alarm.method!!)
+        if (alarm.isSnoozed == SWITCH_IS_CHECKED_STATE) switchVibration.isEnabled = true
+        if (alarm.snoozeTime!=null) textSnoozeContent.text = "${alarm.snoozeTime} ${Constants.PREFIX_MINUTE}"
     }
 
     override fun showAlarmSetting() {
@@ -221,15 +253,19 @@ class DetailActivity : AppCompatActivity(), DetailContract.View, TimePickerDialo
     }
 
     override fun showDefaultSetting() {
-//        val uriDefaulSound = this.getDefaultRington()
-//        val defaultSoundTitle = this.getDefaultRingtonTitle(uriDefaulSound)
-//        Log.d("DetailActivity", "defaultSoundTitle $defaultSoundTitle")
-        //vibration content
-        textVibrateContent.text = DEFAULT_ENABLE
-        // snooze
-        textSnoozeContent.text = DEFAULT_ENABLE
-        //sound
-//        textAlarmSoundDetail.text = defaultSoundTitle
+        val calendar = Calendar.getInstance()
+        val hour = calendar.get(Calendar.HOUR_OF_DAY)
+        val minute = calendar.get(Calendar.MINUTE)
+        cacheAlarm.hour = hour
+        cacheAlarm.minute = minute
+        cacheAlarm.soundTitle = DEFAULT_SOUND_TITLE
+        cacheAlarm.soundUri = DEFAULT_SOUND_URI
+        cacheAlarm.selectedAlarmSound = DEFAULT_SELECTED_SOUND
+        textSnoozeContent.text = DEFAULT_DISABLED
+//        switchSnooze.isEnabled = false
+        textVibrateContent.text = DEFAULT_DISABLED
+//        switchVibration.isEnabled = false
+        textAlarmSoundDetail.text = DEFAULT_SOUND_TITLE
     }
 
     override fun onTimeSet(view: TimePicker?, hourOfDay: Int, minute: Int) {
@@ -241,6 +277,23 @@ class DetailActivity : AppCompatActivity(), DetailContract.View, TimePickerDialo
         Log.d(TAG, "day $day")
         if (stateDay) cacheSelectedDay.add(day)
         else cacheSelectedDay.removeElement(day)
+    }
+
+    private fun selectedMethod(index: Int){
+        when(index) {
+            NORMAL_METHOD -> textMethodContent.text = NORMAL_METHOD_TITLE
+            VOCABULARY_METHOD -> textMethodContent.text = VOCABULARY_METHOD_TITLE
+            TOIEC_METHOD -> textMethodContent.text = TOIEC_METHOD_TITLE
+        }
+    }
+
+    private fun selectedSnooze(index: Int){
+        when(index) {
+            SNOOZE_FIVE -> textSnoozeContent.text = SNOOZE_TIME_FIVE
+            SNOOZE_TEN -> textSnoozeContent.text = SNOOZE_TIME_TEN
+            SNOOZE_FIFTHTEEN -> textSnoozeContent.text = SNOOZE_TIME_FIFTHTEEN
+            SNOOZE_THIRTY -> textSnoozeContent.text = SNOOZE_TIME_THIRTY
+        }
     }
 
     override fun onResume() {
@@ -267,6 +320,29 @@ class DetailActivity : AppCompatActivity(), DetailContract.View, TimePickerDialo
         const val SWITCH_IS_CHECKED_STATE = 1
         const val DEFAULT_HOUR = 6
         const val DEFAULT_MINUTE = 0
-        const val DEFAULT_ENABLE = "Off"
+        const val DEFAULT_DISABLED = "Off"
+        const val DEFAULT_ENABLED = "On"
+        const val NORMAL_METHOD = 0
+        const val NORMAL_METHOD_TITLE = "normal_method_title"
+        const val VOCABULARY_METHOD = 1
+        const val VOCABULARY_METHOD_TITLE = "vocabulary_method_title"
+        const val TOIEC_METHOD = 2
+        const val TOIEC_METHOD_TITLE = "vocabulary_method_title"
+        const val MATH_METHOD = 3
+        const val MATH_METHOD_TITLE = "math_method_title"
+        const val SNOOZE_FIVE = 0
+        const val SNOOZE_TIME_FIVE = "5 minutes"
+        const val SNOOZE_TEN = 1
+        const val SNOOZE_TIME_TEN = "10 minutes"
+        const val SNOOZE_FIFTHTEEN = 2
+        const val SNOOZE_TIME_FIFTHTEEN = "15 minutes"
+        const val SNOOZE_THIRTY = 3
+        const val SNOOZE_TIME_THIRTY = "30 minutes"
+        const val DEFAULT_SELECTED_SOUND = 0
+        const val DEFAULT_SOUND_TITLE = "Argon"
+        const val DEFAULT_SOUND_URI = "content://media/internal/audio/media/12"
+        const val DEFAULT_SELECTED_VIBRATION = 0
+        const val DEFAULT_VIBRATION_TITLE = "Adara"
+        const val DEFAULT_VIBRATION_URI = "content://media/internal/audio/media/12"
     }
 }

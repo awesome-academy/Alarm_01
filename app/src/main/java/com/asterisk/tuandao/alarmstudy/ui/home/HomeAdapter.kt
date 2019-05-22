@@ -10,14 +10,16 @@ import android.view.ViewGroup
 import com.asterisk.tuandao.alarmstudy.R
 import com.asterisk.tuandao.alarmstudy.data.model.Alarm
 import com.asterisk.tuandao.alarmstudy.utils.AlarmTimeUtils
+import com.asterisk.tuandao.alarmstudy.utils.ItemTouchHelperAdapter
 import kotlinx.android.synthetic.main.item_home_alarm.view.*
 
 class HomeAdapter(
     private val context: Context,
     private var alarms: List<Alarm>,
     private val listenerItem: (Int) -> Unit,
-    private val listenerSwitch: (Alarm, Boolean)  -> Unit
-) : RecyclerView.Adapter<HomeAdapter.HomeHolder>() {
+    private val listenerSwitch: (Alarm, Boolean)  -> Unit,
+    private val listenerDelete: (Int,Int) -> Unit
+) : RecyclerView.Adapter<HomeAdapter.HomeHolder>(), ItemTouchHelperAdapter {
 
     private val mLayoutInflater = LayoutInflater.from(context)
 
@@ -29,7 +31,7 @@ class HomeAdapter(
 
     override fun onBindViewHolder(holder: HomeHolder, position: Int) {
         val alarm = alarms[position]
-        holder.onBind(alarm, listenerItem, listenerSwitch)
+        holder.onBind(alarm,position ,listenerItem, listenerSwitch, listenerDelete)
     }
 
     fun swapAlarms(newAlarms: List<Alarm>) {
@@ -37,22 +39,56 @@ class HomeAdapter(
         notifyDataSetChanged()
     }
 
+    fun swapDeleteAlarm(position: Int) {
+        (alarms as ArrayList).removeAt(position)
+        notifyItemChanged(position)
+    }
+
     class HomeHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun onBind(alarm: Alarm, listenerItem: (Int) -> Unit, listenerSwitch: (Alarm, Boolean)  -> Unit) {
+        fun onBind(
+            alarm: Alarm,
+            position: Int,
+            listenerItem: (Int) -> Unit,
+            listenerSwitch: (Alarm, Boolean) -> Unit,
+            listenerDelete: (Int,Int) -> Unit
+            ) {
             with(itemView) {
                 setOnClickListener {
                     listenerItem(alarm.id)
                 }
                 textAlarmTime.text = AlarmTimeUtils.getTimeString(alarm.hour, alarm.minute)
-//                switchAlarm.isEnabled = alarm.isEnable == 1
-                switchAlarm.setOnCheckedChangeListener { buttonView, isChecked ->
-                    listenerSwitch(alarm, isChecked)
-                    Log.d("HomeAdapter", "switchAlarm $isChecked")
+                when(alarm.isEnable) {
+                    SWITCH_IS_CHECKED_STATE -> switchAlarm.isChecked = true
+                    else -> switchAlarm.isChecked = false
                 }
+                switchAlarm.setOnCheckedChangeListener { buttonView, isChecked ->
+                    listenerSwitch(alarm,isChecked)
+                }
+                imageActionDelete.setOnClickListener {
+                    listenerDelete(alarm.id,position)
+                }
+
+                if (alarm.label!=null) textLabel.text = alarm.label
                 recyclerDayHome.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL,
                     false)
                 recyclerDayHome.adapter = DayAdapter(context, AlarmTimeUtils.toDaysList(alarm.daysOfWeek))
             }
         }
+    }
+
+    override fun onItemDismiss(position: Int) {
+        Log.d("onItemDismiss","position $position")
+        (alarms as ArrayList).removeAt(position)
+        notifyItemRemoved(position)
+        alarms.forEach {
+            Log.d("alarm for each ","${it.id}")
+        }
+        Log.d("alarms position","${alarms[position].id}")
+//        listenerDelete()
+    }
+
+    companion object {
+        const val SWITCH_IS_NOT_CHECKED_STATE = 0
+        const val SWITCH_IS_CHECKED_STATE = 1
     }
 }

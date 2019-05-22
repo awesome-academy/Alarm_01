@@ -5,6 +5,10 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import com.asterisk.tuandao.alarmstudy.service.AlarmService
+import android.support.v4.content.ContextCompat.startForegroundService
+import android.os.Build
+
+
 
 class AlarmServiceBroadcastReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context?, intent: Intent?) {
@@ -26,6 +30,10 @@ class AlarmServiceBroadcastReceiver : BroadcastReceiver() {
         if (Constants.ACTION_DISMISS_ALARM.equals(intent?.action)) {
             serviceIntent.action = Constants.ACTION_DISMISS_ALARM
         }
-        context?.startService(serviceIntent)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            context?.startForegroundService(serviceIntent)
+        } else {
+            context?.startService(serviceIntent)
+        }
     }
 }

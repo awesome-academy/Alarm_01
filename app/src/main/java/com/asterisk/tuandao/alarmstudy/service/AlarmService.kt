@@ -1,6 +1,7 @@
 package com.asterisk.tuandao.alarmstudy.service
 
 import Constants
+import android.app.Notification
 import android.app.Service
 import android.content.Intent
 import android.os.IBinder
@@ -29,6 +30,7 @@ class AlarmService : Service(), MediaPlayerController{
 
     override fun onCreate() {
         super.onCreate()
+//        startForeground(1, Notification())
         initComponent()
     }
 

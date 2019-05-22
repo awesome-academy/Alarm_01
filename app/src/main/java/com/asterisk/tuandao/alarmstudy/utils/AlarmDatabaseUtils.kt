@@ -53,7 +53,9 @@ object AlarmDatabaseUtils {
         val columnVibration = cursor.getColumnIndex(AlarmEntry.COLUMN_VIBRATE)
         val columnVibrationUri = cursor.getColumnIndex(AlarmEntry.COLUMN_VIBRATE_URI)
         val columnSelectedVibration = cursor.getColumnIndex(AlarmEntry.COLUMN_SELECTED_VIBRATE)
+        val columnVibrationTitle = cursor.getColumnIndex(AlarmEntry.COLUMN_VIBRATION_TITLE)
         val columnSelectedSound = cursor.getColumnIndex(AlarmEntry.COLUMN_SELECTED_SOUND)
+        val columnSoundTitle = cursor.getColumnIndex(AlarmEntry.COLUMN_SOUND_TITLE)
         val columnSoundUri = cursor.getColumnIndex(AlarmEntry.COLUMN_SOUND_URI)
         val columnSnooze = cursor.getColumnIndex(AlarmEntry.COLUMN_SNOOZE)
         val columnSnoozeTime = cursor.getColumnIndex(AlarmEntry.COLUMN_SNOOZE_TIME)
@@ -69,7 +71,9 @@ object AlarmDatabaseUtils {
         val vibration = cursor.getInt(columnVibration)
         val vibrationUri = cursor.getString(columnVibrationUri)
         val selectedVibration = cursor.getInt(columnSelectedVibration)
+        val vibrationTitle = cursor.getString(columnVibrationTitle)
         val selectedSound = cursor.getInt(columnSelectedSound)
+        val soundTitle = cursor.getString(columnSoundTitle)
         val soundUri = cursor.getString(columnSoundUri)
         val snooze = cursor.getInt(columnSnooze)
         val snoozeTime = cursor.getInt(columnSnoozeTime)
@@ -84,8 +88,10 @@ object AlarmDatabaseUtils {
         alarm.label = label
         alarm.isVibrated = vibration
         alarm.vibrationUri = vibrationUri
+        alarm.vibrationTitle = vibrationTitle
         alarm.selectedVibration = selectedVibration
         alarm.selectedAlarmSound = selectedSound
+        alarm.soundTitle = soundTitle
         alarm.soundUri = soundUri
         alarm.isSnoozed = snooze
         alarm.snoozeTime = snoozeTime
@@ -109,6 +115,8 @@ object AlarmDatabaseUtils {
         put(AlarmEntry.COLUMN_LABEL, alarm.label)
         put(AlarmEntry.COLUMN_METHOD, alarm.method)
         put(AlarmEntry.COLUMN_LEVEL, alarm.level)
+        put(AlarmEntry.COLUMN_SOUND_TITLE,alarm.soundTitle)
+        put(AlarmEntry.COLUMN_VIBRATION_TITLE,alarm.vibrationTitle)
     }
 
     fun updateStatus(status: Boolean): ContentValues {
