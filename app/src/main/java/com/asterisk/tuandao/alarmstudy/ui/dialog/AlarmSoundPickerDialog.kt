@@ -8,6 +8,7 @@ import android.app.Dialog
 import android.os.Bundle
 import android.support.v4.app.DialogFragment
 import android.util.Log
+import com.asterisk.tuandao.alarmstudy.R
 import com.asterisk.tuandao.alarmstudy.data.model.AlarmSound
 import com.asterisk.tuandao.alarmstudy.utils.toArrayString
 
@@ -22,7 +23,7 @@ class AlarmSoundPickerDialog : DialogFragment() {
 
     private fun builderSingleChoiceDialog() :AlertDialog.Builder{
         var selectedItem = DEFAULT_SOUND_INDEX
-        mAlarmSoundPickerDialog = AlertDialog.Builder(activity)
+        mAlarmSoundPickerDialog = AlertDialog.Builder(activity, R.style.CustomAlertDialogTheme)
         mAlarmSoundPickerDialog.setSingleChoiceItems(
             alarmSounds.toArrayString(),
             DEFAULT_SOUND_INDEX

@@ -1,10 +1,16 @@
 package com.asterisk.tuandao.alarmstudy.service
 
 import Constants
+import android.app.Notification
+import android.app.PendingIntent
 import android.app.Service
 import android.content.Intent
+import android.graphics.BitmapFactory
+import android.os.Build
 import android.os.IBinder
+import android.support.v4.content.ContextCompat.startActivity
 import android.util.Log
+import com.asterisk.tuandao.alarmstudy.R
 import com.asterisk.tuandao.alarmstudy.base.MainApplication
 import com.asterisk.tuandao.alarmstudy.data.AlarmDataSource
 import com.asterisk.tuandao.alarmstudy.data.model.Alarm
@@ -13,8 +19,9 @@ import com.asterisk.tuandao.alarmstudy.di.component.AlarmServiceComponent
 import com.asterisk.tuandao.alarmstudy.di.component.DaggerAlarmServiceComponent
 import com.asterisk.tuandao.alarmstudy.ui.normal.NormalActivity
 import com.asterisk.tuandao.alarmstudy.utils.AlarmTimeUtils
-import dagger.Module
+import java.util.*
 import javax.inject.Inject
+import kotlin.concurrent.schedule
 
 class AlarmService : Service(), MediaPlayerController{
 
@@ -23,6 +30,8 @@ class AlarmService : Service(), MediaPlayerController{
     @Inject
     lateinit var mMediaPlayerManager: MediaPlayerController
     private lateinit var mAlarmServiceComponent: AlarmServiceComponent
+
+    private lateinit var mNotification: Notification
     override fun onBind(intent: Intent?): IBinder? {
         return null
     }
@@ -43,7 +52,11 @@ class AlarmService : Service(), MediaPlayerController{
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         val action = intent?.action
         when (action) {
-            Constants.ACTION_SCHEDULE_ALARM -> AlarmTimeUtils.scheduleAlarm(repository, applicationContext)
+            Constants.ACTION_SCHEDULE_ALARM -> {
+                Timer().schedule(Constants.DELAY_TIME) {
+                    AlarmTimeUtils.scheduleAlarm(repository, applicationContext)
+                }
+            }
             Constants.ACTION_CANCEL_ALARM -> AlarmTimeUtils.cancelAlarm(applicationContext)
             Constants.ACTION_TRIGGER_ALARM -> {
                 val alarmId = intent.getIntExtra(Constants.TRIGGERED_ALARM_ID,Constants.INVALID_ID)
@@ -87,7 +100,4 @@ class AlarmService : Service(), MediaPlayerController{
         mMediaPlayerManager.destroyPlayer()
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-    }
 }

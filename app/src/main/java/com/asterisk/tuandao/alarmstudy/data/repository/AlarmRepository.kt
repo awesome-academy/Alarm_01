@@ -58,7 +58,6 @@ class AlarmRepository @Inject constructor(
 
     override fun saveAlarm(alarm: Alarm) {
         alarmLocalDataSource.saveAlarm(alarm)
-        Log.d("AlarmRepository","alarm ${alarm.id}, hour ${alarm.hour}, sound ${alarm.soundUri}")
     }
 
     override fun getAlarms(callback: AlarmDataSource.LoadAlarmCallback) {
@@ -93,6 +92,18 @@ class AlarmRepository @Inject constructor(
             }
             override fun onFailure() {
                 callback.onFailure()
+            }
+
+        })
+    }
+
+    override fun deleteAlarm(alarmId: Int, callback: AlarmDataSource.updateAlarmCallback) {
+        alarmLocalDataSource.deleteAlarm(alarmId, object : AlarmDataSource.updateAlarmCallback{
+            override fun onSuccess(status: Boolean) {
+                callback.onSuccess(true)
+            }
+
+            override fun onFailure() {
             }
 
         })

@@ -8,4 +8,6 @@
     <color name="color_white">#FFFFFF</color>
     <color name="color_blue_text">#218CC5</color>
     <color name="color_silver">#969FAA</color>
+    <color name="un_hide_transparent_view">#20000000</color>
+    <color name="hide_transparent_view">#00000000</color>
 </resources>

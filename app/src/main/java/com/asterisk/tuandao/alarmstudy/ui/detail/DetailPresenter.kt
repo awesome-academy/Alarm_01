@@ -58,4 +58,15 @@ class DetailPresenter @Inject constructor(
         alarmRepository.saveAlarm(alarm)
     }
 
+    override fun getEditAlarm(alarmId: Int) {
+        alarmRepository.getAlarm(alarmId, object : AlarmDataSource.GetAlarmCallback{
+            override fun onSuccess(alarm: Alarm) {
+                  detailView.showEditSetting(alarm)
+            }
+
+            override fun onFailure() {
+            }
+
+        })
+    }
 }

@@ -15,6 +15,8 @@ interface HomeContract {
 
         fun updateActiveAlarm(status: Boolean, alarm: Alarm)
 
+        fun updateDeleteAlarm()
+
     }
 
     interface Presenter : BasePresenter {
@@ -22,6 +24,8 @@ interface HomeContract {
         fun addNewAlarm()
 
         fun activeAlarm(alarm: Alarm, status: Boolean)
+
+        fun deleteAlarm(alarmId: Int)
 
     }
 }

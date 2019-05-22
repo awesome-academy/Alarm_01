@@ -13,9 +13,11 @@ class Alarm constructor(
     var isEnable: Int?,
     var isVibrated: Int?,
     var vibrationUri: String?,
+    var vibrationTitle: String?,
     var selectedVibration: Int?,
     var selectedAlarmSound: Int?,
     var soundUri: String?,
+    var soundTitle: String?,
     var isSnoozed: Int?,
     var selectedSnooze: Int?,
     var snoozeTime: Int?,
@@ -27,5 +29,5 @@ class Alarm constructor(
         0, 0, null,
         null, null, null, null,
         null, null, null, null, null, null
-    ,null,null, null, null, null)
+    ,null,null, null, null, null,null,null)
 }

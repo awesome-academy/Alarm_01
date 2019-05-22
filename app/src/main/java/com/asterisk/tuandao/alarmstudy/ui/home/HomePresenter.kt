@@ -31,6 +31,18 @@ class HomePresenter @Inject constructor(
         })
     }
 
+    override fun deleteAlarm(alarmId: Int) {
+        alarmRepository.deleteAlarm(alarmId, object :AlarmDataSource.updateAlarmCallback{
+            override fun onSuccess(status: Boolean) {
+                mainView.updateDeleteAlarm()
+            }
+
+            override fun onFailure() {
+            }
+
+        })
+    }
+
     private fun getAlarms() {
         alarmRepository.getAlarms(object : AlarmDataSource.LoadAlarmCallback{
             override fun onSuccess(alarms: ArrayList<Alarm>) {
@@ -38,6 +50,7 @@ class HomePresenter @Inject constructor(
             }
 
             override fun onFailure() {
+
             }
 
         })

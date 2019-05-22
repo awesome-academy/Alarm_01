@@ -45,5 +45,13 @@
         <item name="android:textSize">@dimen/sp_30</item>
     </style>
 
+    <style name="SwitchCompatTheme" >
+        <item name="colorControlActivated">@color/color_blue_text</item>
+    </style>
+
+    <style name="CustomAlertDialogTheme" parent="Theme.AppCompat.Dialog.Alert">
+        <item name="android:windowBackground">@color/color_black</item>
+        <item name="android:textColor">@color/color_white</item>
+    </style>
 
 </resources>

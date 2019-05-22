@@ -11,9 +11,12 @@ import android.os.Bundle
 import android.support.v4.content.LocalBroadcastManager
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.helper.ItemTouchHelper
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import com.asterisk.tuandao.alarmstudy.R
 import com.asterisk.tuandao.alarmstudy.base.MainApplication
 import com.asterisk.tuandao.alarmstudy.broadcast.AlarmServiceBroadcastReceiver
@@ -26,13 +29,13 @@ import com.asterisk.tuandao.alarmstudy.utils.TAG
 import kotlinx.android.synthetic.main.activity_home.*
 import javax.inject.Inject
 
-
 class HomeActivity : AppCompatActivity(), HomeContract.View {
 
     @Inject
     override lateinit var presenter: HomeContract.Presenter
     private lateinit var mHomeActivityComponent: HomeActivityComponent
     private val alarms: MutableList<Alarm> = ArrayList()
+    private lateinit var mTouchHelper: ItemTouchHelper
 
     private lateinit var mAdapter: HomeAdapter
 
@@ -48,11 +51,11 @@ class HomeActivity : AppCompatActivity(), HomeContract.View {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
-        initComponent()
         initToolbar()
+        initComponent()
         initAdapter()
         handleEvent()
-        presenter.start()
+        initData()
     }
 
     private fun initComponent() {
@@ -63,15 +66,17 @@ class HomeActivity : AppCompatActivity(), HomeContract.View {
         mHomeActivityComponent.inject(this)
     }
 
+    private fun initData() {
+        presenter.start()
+    }
+
     private fun initToolbar() {
-        setSupportActionBar(toolbarHome)
-        toolbarHome.title = ""
-        supportActionBar?.setDisplayHomeAsUpEnabled(false)
+        setSupportActionBar(toolbar)
     }
 
     private fun initAdapter() {
-        recyclerAlarmInfo.layoutManager = LinearLayoutManager(this)
-        mAdapter = HomeAdapter(this, alarms, ::onListenerClickedItem, ::onListenerSwitch)
+        recyclerAlarmInfo.layoutManager = LinearLayoutManager(this) as RecyclerView.LayoutManager?
+        mAdapter = HomeAdapter(this, alarms, ::onListenerClickedItem, ::onListenerSwitch, ::onDeleteItem)
         recyclerAlarmInfo.adapter = mAdapter
     }
 
@@ -99,7 +104,7 @@ class HomeActivity : AppCompatActivity(), HomeContract.View {
         when (item?.itemId) {
             R.id.action_add -> presenter.addNewAlarm()
         }
-        return false
+        return true
     }
 
     override fun updateActiveAlarm(status: Boolean, alarm: Alarm) {
@@ -118,6 +123,10 @@ class HomeActivity : AppCompatActivity(), HomeContract.View {
         }
     }
 
+    override fun updateDeleteAlarm() {
+//        presenter.start()
+    }
+
     private fun onListenerSwitch(alarm: Alarm, status: Boolean) {
         presenter.activeAlarm(alarm, status)
     }
@@ -125,8 +134,15 @@ class HomeActivity : AppCompatActivity(), HomeContract.View {
     private fun onListenerClickedItem(alarmId: Int) {
         val intent = Intent(this, DetailActivity::class.java).apply {
             putExtra(EXTRA_ALARM_ID, alarmId)
+            Log.d("HomeActivity","alarmId $alarmId")
             startActivity(this)
         }
+    }
+
+    private fun onDeleteItem(alarmId: Int,position: Int) {
+        presenter.deleteAlarm(alarmId)
+        mAdapter.swapDeleteAlarm(position)
+        Toast.makeText(this,"alarm deleted ",Toast.LENGTH_SHORT).show()
     }
 
     override fun onDestroy() {

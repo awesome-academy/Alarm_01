@@ -1,8 +1,10 @@
 package com.asterisk.tuandao.alarmstudy.utils
 
 import Constants.ALARM_SOUND_TYPE_NOTIFICATION
+import android.app.Activity
 import android.content.Context
 import android.media.RingtoneManager
+import android.view.WindowManager
 import com.asterisk.tuandao.alarmstudy.data.model.AlarmSound
 
 fun Context.TAG(): String = this::class.java.simpleName
@@ -27,6 +29,13 @@ fun Context.getAlarmSounds(type: Int): ArrayList<AlarmSound> {
         alarms.add(alarmSound)
     }
     return alarms
+}
+fun Activity.showOverLockscreen() {
+    window.addFlags(
+        WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON or
+                WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD or
+                WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED or
+                WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON)
 }
 
 

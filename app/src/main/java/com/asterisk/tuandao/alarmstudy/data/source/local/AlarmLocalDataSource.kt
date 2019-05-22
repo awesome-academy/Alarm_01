@@ -23,6 +23,9 @@ class AlarmLocalDataSource @Inject constructor(
         executor.diskIO.execute {
             val alarms = appDatabase.getAlarms() as ArrayList
             Log.d(".AlarmLocalDataSource", "alarms $alarms")
+            alarms.forEach {
+                Log.d(".AlarmLocalDataSource", "alarms ${it.id}")
+            }
             executor.mainThread.execute {
                 if (alarms.isEmpty()) {
                     callback.onFailure()
@@ -56,4 +59,12 @@ class AlarmLocalDataSource @Inject constructor(
         }
     }
 
+    override fun deleteAlarm(alarmId: Int, callback: AlarmDataSource.updateAlarmCallback) {
+        executor.diskIO.execute {
+            val delete = appDatabase.deleteAlarm(alarmId)
+            executor.mainThread.execute {
+                if (delete!=-1) callback.onSuccess(true)
+            }
+        }
+    }
 }

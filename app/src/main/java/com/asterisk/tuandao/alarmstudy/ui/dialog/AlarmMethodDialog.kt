@@ -18,7 +18,7 @@ class AlarmMethodDialog : DialogFragment(){
 
     private fun builderSingleChoiceDialog() : AlertDialog.Builder{
         var selectedItem = Constants.DEFAULT_SOUND_INDEX
-        mAlarmMethodDialog = AlertDialog.Builder(activity)
+        mAlarmMethodDialog = AlertDialog.Builder(activity,R.style.CustomAlertDialogTheme)
         mAlarmMethodDialog.setSingleChoiceItems(
             resources.getStringArray(R.array.methods),
             Constants.DEFAULT_SOUND_INDEX

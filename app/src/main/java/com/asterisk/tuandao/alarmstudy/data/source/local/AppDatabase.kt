@@ -47,6 +47,11 @@ class AppDatabase(
             "${AlarmEntry.COLUMN_ID}=${alarmId}",null) > 0
     }
 
+    fun deleteAlarm(alarmId: Int): Int{
+        val db = this.writableDatabase
+        return db.delete(AlarmEntry.TABLE_NAME, "${AlarmEntry.COLUMN_ID}=?", arrayOf("$alarmId"))
+    }
+
     companion object {
         private const val DEFAULT_VALUE = 0
         private const val CREATE_TABLE_ALARM = """CREATE TABLE ${AlarmEntry.TABLE_NAME} (
@@ -58,10 +63,12 @@ class AppDatabase(
                 ${AlarmEntry.COLUMN_DAY_OF_WEEK} TEXT,
                 ${AlarmEntry.COLUMN_DAY_OF_MONTH} TEXT,
                 ${AlarmEntry.COLUMN_SOUND_URI} TEXT NOT NULL,
-                ${AlarmEntry.COLUMN_SELECTED_SOUND} TEXT,
+                ${AlarmEntry.COLUMN_SELECTED_SOUND} INTEGER DEFAULT $DEFAULT_VALUE,
+                ${AlarmEntry.COLUMN_SOUND_TITLE} TEXT NOT NULL,
                 ${AlarmEntry.COLUMN_ACTIVE} INTEGER DEFAULT $DEFAULT_VALUE,
                 ${AlarmEntry.COLUMN_VIBRATE} INTEGER DEFAULT $DEFAULT_VALUE,
                 ${AlarmEntry.COLUMN_VIBRATE_URI} TEXT,
+                ${AlarmEntry.COLUMN_VIBRATION_TITLE} TEXT,
                 ${AlarmEntry.COLUMN_SELECTED_VIBRATE} INTEGER DEFAULT $DEFAULT_VALUE,
                 ${AlarmEntry.COLUMN_SNOOZE} INTEGER DEFAULT $DEFAULT_VALUE,
                 ${AlarmEntry.COLUMN_SNOOZE_TIME} INTEGER,

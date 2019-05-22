@@ -7,6 +7,7 @@ import android.app.AlertDialog
 import android.app.Dialog
 import android.os.Bundle
 import android.support.v4.app.DialogFragment
+import com.asterisk.tuandao.alarmstudy.R
 import com.asterisk.tuandao.alarmstudy.data.model.AlarmSound
 import com.asterisk.tuandao.alarmstudy.utils.toArrayString
 
@@ -21,7 +22,7 @@ class AlarmVibrationPickerDialog : DialogFragment(){
     private fun builderSingleChoiceDialog() : AlertDialog.Builder{
         var selectedItem = DEFAULT_SOUND_INDEX
 
-        mAlarmVibrationPickerDialog = AlertDialog.Builder(activity)
+        mAlarmVibrationPickerDialog = AlertDialog.Builder(activity, R.style.CustomAlertDialogTheme)
         mAlarmVibrationPickerDialog.setSingleChoiceItems(
             alarmSounds.toArrayString(),
             DEFAULT_SOUND_INDEX

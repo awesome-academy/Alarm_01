@@ -20,7 +20,7 @@ class AlarmSnoozeDialog : DialogFragment() {
 
     private fun builderSingleChoiceDialog() : AlertDialog.Builder{
         var selectedItem = DEFAULT_SOUND_INDEX
-        mAlarmSnoozeDialog = AlertDialog.Builder(activity)
+        mAlarmSnoozeDialog = AlertDialog.Builder(activity,R.style.CustomAlertDialogTheme)
         mAlarmSnoozeDialog.setSingleChoiceItems(resources.getStringArray(R.array.intervals),
             DEFAULT_SOUND_INDEX
         ) { dialog, which ->

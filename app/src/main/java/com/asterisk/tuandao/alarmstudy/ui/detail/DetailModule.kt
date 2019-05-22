@@ -1,6 +1,5 @@
 package com.asterisk.tuandao.alarmstudy.ui.detail
 
-import android.support.v4.app.DialogFragment
 import com.asterisk.tuandao.alarmstudy.di.DetailActivityContext
 import com.asterisk.tuandao.alarmstudy.di.DetailActivityScope
 import com.asterisk.tuandao.alarmstudy.ui.dialog.AlarmTimePickerDialog

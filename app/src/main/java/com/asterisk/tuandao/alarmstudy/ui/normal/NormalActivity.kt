@@ -12,6 +12,7 @@ import com.asterisk.tuandao.alarmstudy.data.model.Alarm
 import com.asterisk.tuandao.alarmstudy.di.component.DaggerNormalActivityComponent
 import com.asterisk.tuandao.alarmstudy.di.component.NormalActivityComponent
 import com.asterisk.tuandao.alarmstudy.utils.AlarmTimeUtils
+import com.asterisk.tuandao.alarmstudy.utils.showOverLockscreen
 import kotlinx.android.synthetic.main.activity_normal.*
 import javax.inject.Inject
 
@@ -24,7 +25,7 @@ class NormalActivity : AppCompatActivity(), NormalContract.View{
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_normal)
-
+        showOverLockscreen()
         val id = intent.getIntExtra(Constants.TRIGGERED_ALARM_ID,-1)
         initComponent()
         handleEvent()
